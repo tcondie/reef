@@ -19,6 +19,7 @@
 package org.apache.reef.runtime.common.driver.api;
 
 import org.apache.reef.driver.evaluator.EvaluatorProcess;
+import org.apache.reef.io.Tuple;
 import org.apache.reef.runtime.common.files.FileResource;
 import org.apache.reef.runtime.common.files.FileResourceImpl;
 import org.apache.reef.runtime.common.files.FileType;
@@ -26,7 +27,9 @@ import org.apache.reef.tang.Configuration;
 import org.apache.reef.util.BuilderUtils;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -41,6 +44,7 @@ public final class ResourceLaunchEventImpl implements ResourceLaunchEvent {
   private final EvaluatorProcess process;
   private final Set<FileResource> fileSet;
   private final String runtimeName;
+  private final Map<String, String> envMap;
 
   private ResourceLaunchEventImpl(final Builder builder) {
     this.identifier = BuilderUtils.notNull(builder.identifier);
@@ -49,6 +53,7 @@ public final class ResourceLaunchEventImpl implements ResourceLaunchEvent {
     this.process = BuilderUtils.notNull(builder.process);
     this.fileSet = BuilderUtils.notNull(builder.fileSet);
     this.runtimeName = BuilderUtils.notNull(builder.runtimeName);
+    this.envMap = BuilderUtils.notNull(builder.envMap);
   }
 
   @Override
@@ -81,6 +86,11 @@ public final class ResourceLaunchEventImpl implements ResourceLaunchEvent {
     return runtimeName;
   }
 
+  @Override
+  public Map<String, String> getEnvMap() {
+    return this.envMap;
+  }
+
   public static Builder newBuilder() {
     return new Builder();
   }
@@ -95,6 +105,7 @@ public final class ResourceLaunchEventImpl implements ResourceLaunchEvent {
     private EvaluatorProcess process;
     private Set<FileResource> fileSet = new HashSet<>();
     private String runtimeName;
+    private Map<String, String> envMap = new HashMap<>();
 
     /**
      * @see ResourceLaunchEvent#getIdentifier()
@@ -178,6 +189,26 @@ public final class ResourceLaunchEventImpl implements ResourceLaunchEvent {
             .setPath(file.getPath())
             .setType(FileType.LIB)
             .build());
+      }
+      return this;
+    }
+
+    /**
+     * @param envVar environment variable and value to add
+     * @return this
+     */
+    public Builder addEnvVar(final Tuple<String, String> envVar) {
+      this.envMap.put(envVar.getKey(), envVar.getValue());
+      return this;
+    }
+
+    /**
+     * @param envVars iterable of environment variables and values to add
+     * @return this
+     */
+    public Builder addEnvVars(final Iterable<Tuple<String, String>> envVars) {
+      for (final Tuple<String, String> envVar : envVars) {
+        addEnvVar(envVar);
       }
       return this;
     }

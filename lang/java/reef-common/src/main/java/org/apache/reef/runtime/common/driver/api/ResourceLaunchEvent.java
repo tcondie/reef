@@ -25,6 +25,7 @@ import org.apache.reef.runtime.common.files.FileResource;
 import org.apache.reef.tang.Configuration;
 import org.apache.reef.tang.annotations.DefaultImplementation;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -65,4 +66,9 @@ public interface ResourceLaunchEvent {
    * @return name of the runtime to launch the Evaluator on
    */
   String getRuntimeName();
+
+  /**
+   * @return Map of environment variables and values
+   */
+  Map<String, String> getEnvMap();
 }

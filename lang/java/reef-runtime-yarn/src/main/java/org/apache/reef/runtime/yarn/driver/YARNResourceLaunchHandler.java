@@ -82,6 +82,7 @@ public final class YARNResourceLaunchHandler implements ResourceLaunchHandler {
       LOG.log(Level.FINEST, "Setting up container launch container for id={0}", container.getId());
       final Map<String, LocalResource> localResources =
           this.evaluatorSetupHelper.getResources(resourceLaunchEvent);
+      final Map<String, String> envMap = resourceLaunchEvent.getEnvMap();
 
       final List<String> command = getLaunchCommand(resourceLaunchEvent, container.getResource().getMemory());
       if (LOG.isLoggable(Level.INFO)) {
@@ -92,7 +93,7 @@ public final class YARNResourceLaunchHandler implements ResourceLaunchHandler {
 
       final byte[] securityTokensBuffer = this.tokenProvider.getTokens();
       final ContainerLaunchContext ctx = YarnTypes.getContainerLaunchContext(
-          command, localResources, securityTokensBuffer, YarnUtilities.getApplicationId());
+          command, localResources, envMap, securityTokensBuffer, YarnUtilities.getApplicationId());
       this.yarnContainerManager.get().submit(container, ctx);
 
       LOG.log(Level.FINEST, "TIME: End ResourceLaunch {0}", containerId);

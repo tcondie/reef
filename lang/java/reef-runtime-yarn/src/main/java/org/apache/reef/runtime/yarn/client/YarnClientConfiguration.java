@@ -29,6 +29,7 @@ import org.apache.reef.runtime.common.client.api.JobSubmissionHandler;
 import org.apache.reef.runtime.common.files.RuntimeClasspathProvider;
 import org.apache.reef.runtime.common.parameters.JVMHeapSlack;
 import org.apache.reef.runtime.yarn.YarnClasspathProvider;
+import org.apache.reef.runtime.yarn.client.parameters.JobEnvironmentVars;
 import org.apache.reef.runtime.yarn.client.parameters.JobPriority;
 import org.apache.reef.runtime.yarn.client.parameters.JobQueue;
 import org.apache.reef.runtime.yarn.client.unmanaged.YarnProxyUser;
@@ -50,6 +51,7 @@ public class YarnClientConfiguration extends ConfigurationModuleBuilder {
 
   public static final OptionalParameter<String> YARN_QUEUE_NAME = new OptionalParameter<>();
   public static final OptionalParameter<Integer> YARN_PRIORITY = new OptionalParameter<>();
+  public static final OptionalParameter<String> YARN_ENV_VARS = new OptionalParameter<>();
   public static final OptionalParameter<Double> JVM_HEAP_SLACK = new OptionalParameter<>();
   public static final OptionalParameter<Boolean> UNMANAGED_DRIVER = new OptionalParameter<>();
 
@@ -70,6 +72,7 @@ public class YarnClientConfiguration extends ConfigurationModuleBuilder {
           .bindNamedParameter(JobPriority.class, YARN_PRIORITY)
           .bindNamedParameter(JVMHeapSlack.class, JVM_HEAP_SLACK)
           .bindNamedParameter(DriverIsUnmanaged.class, UNMANAGED_DRIVER)
+          .bindSetEntry(JobEnvironmentVars.class, YARN_ENV_VARS)
           // Bind external constructors. Taken from  YarnExternalConstructors.registerClientConstructors
           .bindConstructor(org.apache.hadoop.yarn.conf.YarnConfiguration.class, YarnConfigurationConstructor.class)
           .bindSetEntry(DriverConfigurationProviders.class, DRIVER_CONFIGURATION_PROVIDERS)

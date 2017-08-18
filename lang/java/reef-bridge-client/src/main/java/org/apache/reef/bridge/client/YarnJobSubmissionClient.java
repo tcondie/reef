@@ -37,6 +37,7 @@ import org.apache.reef.runtime.common.launch.parameters.DriverLaunchCommandPrefi
 import org.apache.reef.runtime.yarn.YarnClasspathProvider;
 import org.apache.reef.runtime.yarn.client.SecurityTokenProvider;
 import org.apache.reef.runtime.yarn.client.YarnSubmissionHelper;
+import org.apache.reef.runtime.yarn.client.parameters.JobEnvironmentVars;
 import org.apache.reef.runtime.yarn.client.unmanaged.YarnProxyUser;
 import org.apache.reef.runtime.yarn.client.uploader.JobFolder;
 import org.apache.reef.runtime.yarn.client.uploader.JobUploader;
@@ -54,8 +55,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -76,10 +76,12 @@ public final class YarnJobSubmissionClient {
   private final YarnProxyUser yarnProxyUser;
   private final SecurityTokenProvider tokenProvider;
   private final YarnSubmissionParametersFileGenerator jobSubmissionParametersGenerator;
+  private final Map<String, String> envMap;
 
   @Inject
   YarnJobSubmissionClient(@Parameter(DriverIsUnmanaged.class) final boolean isUnmanaged,
                           @Parameter(DriverLaunchCommandPrefix.class) final List<String> commandPrefixList,
+                          @Parameter(JobEnvironmentVars.class) final Set<String> envVars,
                           final JobUploader uploader,
                           final YarnConfiguration yarnConfiguration,
                           final REEFFileNames fileNames,
@@ -97,6 +99,15 @@ public final class YarnJobSubmissionClient {
     this.yarnProxyUser = yarnProxyUser;
     this.tokenProvider = tokenProvider;
     this.jobSubmissionParametersGenerator = jobSubmissionParametersGenerator;
+    this.envMap = new HashMap<>();
+    for (final String envVar : envVars) {
+      final String[] var = envVar.split(":");
+      if (var.length == 2) {
+        this.envMap.put(var[0], var[1]);
+      } else {
+        LOG.log(Level.WARNING, "Poorly formated environment variable {0}", new Object[] {envVar});
+      }
+    }
   }
 
   /**
@@ -120,7 +131,7 @@ public final class YarnJobSubmissionClient {
     // ------------------------------------------------------------------------
     // Get an application ID
     try (final YarnSubmissionHelper submissionHelper = new YarnSubmissionHelper(
-        this.yarnConfiguration, this.fileNames, this.classpath, this.yarnProxyUser,
+        this.yarnConfiguration, this.fileNames, this.classpath, this.envMap, this.yarnProxyUser,
         this.tokenProvider, this.isUnmanaged, this.commandPrefixList)) {
 
       // ------------------------------------------------------------------------

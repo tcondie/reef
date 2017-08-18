@@ -63,16 +63,19 @@ public final class YarnSubmissionHelper implements AutoCloseable {
   private String driverStderrFilePath;
   private Class launcherClazz = REEFLauncher.class;
   private List<String> configurationFilePaths;
+  private Map<String, String> envMap;
 
   public YarnSubmissionHelper(final YarnConfiguration yarnConfiguration,
                               final REEFFileNames fileNames,
                               final ClasspathProvider classpath,
+                              final Map<String, String> envMap,
                               final YarnProxyUser yarnProxyUser,
                               final SecurityTokenProvider tokenProvider,
                               final boolean isUnmanaged,
                               final List<String> commandPrefixList) throws IOException, YarnException {
 
     this.classpath = classpath;
+    this.envMap = envMap;
     this.yarnProxyUser = yarnProxyUser;
     this.isUnmanaged = isUnmanaged;
 
@@ -103,10 +106,11 @@ public final class YarnSubmissionHelper implements AutoCloseable {
   public YarnSubmissionHelper(final YarnConfiguration yarnConfiguration,
                               final REEFFileNames fileNames,
                               final ClasspathProvider classpath,
+                              final Map<String, String> envMap,
                               final YarnProxyUser yarnProxyUser,
                               final SecurityTokenProvider tokenProvider,
                               final boolean isUnmanaged) throws IOException, YarnException {
-    this(yarnConfiguration, fileNames, classpath, yarnProxyUser, tokenProvider, isUnmanaged, null);
+    this(yarnConfiguration, fileNames, classpath, envMap, yarnProxyUser, tokenProvider, isUnmanaged, null);
   }
 
   /**
@@ -278,7 +282,7 @@ public final class YarnSubmissionHelper implements AutoCloseable {
     }
 
     final ContainerLaunchContext containerLaunchContext = YarnTypes.getContainerLaunchContext(
-        launchCommand, this.resources, tokenProvider.getTokens());
+        launchCommand, this.resources, this.envMap, tokenProvider.getTokens());
     this.applicationSubmissionContext.setAMContainerSpec(containerLaunchContext);
 
     LOG.log(Level.INFO, "Submitting REEF Application to YARN. ID: {0}", this.applicationId);

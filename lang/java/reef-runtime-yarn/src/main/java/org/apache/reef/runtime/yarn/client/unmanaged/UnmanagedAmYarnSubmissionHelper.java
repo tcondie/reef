@@ -65,7 +65,8 @@ final class UnmanagedAmYarnSubmissionHelper implements AutoCloseable {
     LOG.log(Level.FINE, "Requesting UNMANAGED Application ID from YARN.");
 
     final ContainerLaunchContext launchContext = YarnTypes.getContainerLaunchContext(
-        Collections.<String>emptyList(), Collections.<String, LocalResource>emptyMap(), tokenProvider.getTokens());
+        Collections.<String>emptyList(), Collections.<String, LocalResource>emptyMap(),
+            Collections.<String, String>emptyMap(), tokenProvider.getTokens());
 
     final YarnClientApplication yarnClientApplication = this.yarnClient.createApplication();
 

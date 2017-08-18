@@ -26,7 +26,6 @@ import org.apache.hadoop.yarn.util.Records;
 import org.apache.reef.annotations.audience.Private;
 
 import java.nio.ByteBuffer;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -50,8 +49,9 @@ public final class YarnTypes {
   public static ContainerLaunchContext getContainerLaunchContext(
       final List<String> commands,
       final Map<String, LocalResource> localResources,
+      final Map<String, String> envMap,
       final byte[] securityTokenBuffer) {
-    return getContainerLaunchContext(commands, localResources, securityTokenBuffer, null);
+    return getContainerLaunchContext(commands, localResources, envMap, securityTokenBuffer, null);
   }
 
   /**
@@ -62,12 +62,12 @@ public final class YarnTypes {
   public static ContainerLaunchContext getContainerLaunchContext(
       final List<String> commands,
       final Map<String, LocalResource> localResources,
+      final Map<String, String> envMap,
       final byte[] securityTokenBuffer,
       final ApplicationId applicationId) {
     final ContainerLaunchContext context = Records.newRecord(ContainerLaunchContext.class);
     context.setLocalResources(localResources);
     context.setCommands(commands);
-    final Map<String, String> envMap = new HashMap<>();
     if (applicationId != null) {
       envMap.put(YarnUtilities.REEF_YARN_APPLICATION_ID_ENV_VAR, applicationId.toString());
     }
