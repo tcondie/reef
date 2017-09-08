@@ -74,7 +74,7 @@ final class YarnContainerManager implements AMRMClientAsync.CallbackHandler, NMC
   /** Default port number to provide in the Application Master registration. */
   private static final int AM_REGISTRATION_PORT = -1;
 
-  private static final String fsDefaultEnv = "FS_DEFAULT";
+  private static final String FS_DEFAULT_ENV = "FS_DEFAULT";
 
   private final URI cURI;
 
@@ -136,8 +136,8 @@ final class YarnContainerManager implements AMRMClientAsync.CallbackHandler, NMC
     this.progressProvider = progressProvider;
 
     try {
-      this.cURI = System.getenv(fsDefaultEnv) != null ?
-        new URI(System.getenv(fsDefaultEnv)) : FileSystem.getDefaultUri(yarnConf);
+      this.cURI = System.getenv(FS_DEFAULT_ENV) != null ?
+        new URI(System.getenv(FS_DEFAULT_ENV)) : FileSystem.getDefaultUri(yarnConf);
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);
     }
