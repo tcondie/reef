@@ -53,6 +53,8 @@ import org.apache.reef.wake.remote.impl.ObjectSerializableCodec;
 
 import javax.inject.Inject;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.security.PrivilegedExceptionAction;
 import java.util.*;
@@ -71,6 +73,10 @@ final class YarnContainerManager implements AMRMClientAsync.CallbackHandler, NMC
 
   /** Default port number to provide in the Application Master registration. */
   private static final int AM_REGISTRATION_PORT = -1;
+
+  private static final String fsDefaultEnv = "FS_DEFAULT";
+
+  private final URI cURI;
 
   private final Queue<AMRMClient.ContainerRequest> requestsBeforeSentToRM = new ConcurrentLinkedQueue<>();
   private final Queue<AMRMClient.ContainerRequest> requestsAfterSentToRM = new ConcurrentLinkedQueue<>();
@@ -128,6 +134,13 @@ final class YarnContainerManager implements AMRMClientAsync.CallbackHandler, NMC
     this.jobSubmissionDirectory = jobSubmissionDirectory;
     this.reefFileNames = reefFileNames;
     this.progressProvider = progressProvider;
+
+    try {
+      this.cURI = System.getenv(fsDefaultEnv) != null ?
+        new URI(System.getenv(fsDefaultEnv)) : FileSystem.getDefaultUri(yarnConf);
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
 
     LOG.log(Level.INFO, "Instantiated YarnContainerManager: {0} {1}, trackingUrl: {3}, jobSubmissionDirectory: {4}.",
         new Object[] {this.registration, this.yarnProxyUser, this.trackingUrl, this.jobSubmissionDirectory});
@@ -342,7 +355,7 @@ final class YarnContainerManager implements AMRMClientAsync.CallbackHandler, NMC
 
       LOG.log(Level.FINE, "YARN registration: AM registered: {0}", this.registration);
 
-      final FileSystem fs = FileSystem.get(this.yarnConf);
+      final FileSystem fs = FileSystem.get(cURI, this.yarnConf);
       final Path outputFileName = new Path(this.jobSubmissionDirectory, this.reefFileNames.getDriverHttpEndpoint());
 
       try (final FSDataOutputStream out = fs.create(outputFileName)) {
