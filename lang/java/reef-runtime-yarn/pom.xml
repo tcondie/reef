@@ -34,6 +34,25 @@ under the License.
     <name>REEF Runtime for YARN</name>
     <artifactId>reef-runtime-yarn</artifactId>
 
+    <repositories>
+        <repository>
+            <id>msdata-visualstudio.com-bigdata</id>
+            <url>https://msdata.pkgs.visualstudio.com/_packaging/BigData/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>msdata-visualstudio.com-bigdata</id>
+            <url>https://msdata.pkgs.visualstudio.com/_packaging/BigData/maven/v1</url>
+        </repository>
+    </distributionManagement>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>

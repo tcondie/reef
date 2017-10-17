@@ -29,12 +29,6 @@ under the License.
     <description>Retainable Evaluator Execution Framework</description>
     <url>http://reef.apache.org</url>
 
-    <parent>
-        <groupId>org.apache</groupId>
-        <artifactId>apache</artifactId>
-        <version>16</version>
-    </parent>
-
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -68,6 +62,26 @@ under the License.
         <fast-classpath-scanner.version>2.4.5</fast-classpath-scanner.version>
         <rootPath>${user.dir}</rootPath>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>msdata-visualstudio.com-bigdata</id>
+            <url>https://msdata.pkgs.visualstudio.com/_packaging/BigData/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>msdata-visualstudio.com-bigdata</id>
+            <url>https://msdata.pkgs.visualstudio.com/_packaging/BigData/maven/v1</url>
+        </repository>
+    </distributionManagement>
 
     <scm>
         <connection>scm:git:git@github.com:apache/reef</connection>

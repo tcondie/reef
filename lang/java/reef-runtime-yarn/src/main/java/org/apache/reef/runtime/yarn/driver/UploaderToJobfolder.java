@@ -34,6 +34,8 @@ import org.apache.reef.tang.annotations.Parameter;
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,6 +44,8 @@ import java.util.logging.Logger;
  */
 final class UploaderToJobFolder {
   private static final Logger LOG = Logger.getLogger(UploaderToJobFolder.class.getName());
+
+  private static final String FS_DEFAULT_ENV = "FS_DEFAULT";
 
   /**
    * The path on (H)DFS which is used as the job's folder.
@@ -56,7 +60,13 @@ final class UploaderToJobFolder {
   UploaderToJobFolder(@Parameter(JobSubmissionDirectory.class) final String jobSubmissionDirectory,
                       final YarnConfiguration yarnConfiguration) throws IOException {
     this.jobSubmissionDirectory = jobSubmissionDirectory;
-    this.fileSystem = FileSystem.get(yarnConfiguration);
+    try {
+      URI uri = System.getenv(FS_DEFAULT_ENV) != null ?
+          new URI(System.getenv(FS_DEFAULT_ENV)) : FileSystem.getDefaultUri(yarnConfiguration);
+      this.fileSystem = FileSystem.get(uri, yarnConfiguration);
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**

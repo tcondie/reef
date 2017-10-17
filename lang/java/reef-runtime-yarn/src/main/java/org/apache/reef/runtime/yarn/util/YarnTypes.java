@@ -72,6 +72,14 @@ public final class YarnTypes {
       envMap.put(YarnUtilities.REEF_YARN_APPLICATION_ID_ENV_VAR, applicationId.toString());
     }
 
+    String sparkYarnMode = "SPARK_YARN_MODE";
+    String containerAdlToken = "CONTAINER_ADL_TOKEN";
+    String sessionDefinition = "SESSION_DEFINITION";
+
+    envMap.put(sparkYarnMode, System.getenv(sparkYarnMode));
+    envMap.put(containerAdlToken, System.getenv(containerAdlToken));
+    envMap.put(sessionDefinition, System.getenv(sessionDefinition));
+
     context.setEnvironment(envMap);
     if (securityTokenBuffer != null) {
       context.setTokens(ByteBuffer.wrap(securityTokenBuffer));

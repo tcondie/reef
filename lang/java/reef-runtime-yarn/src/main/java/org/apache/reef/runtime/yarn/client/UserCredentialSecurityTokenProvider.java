@@ -48,6 +48,11 @@ public final class UserCredentialSecurityTokenProvider implements SecurityTokenP
       final UserGroupInformation ugi = UserGroupInformation.getCurrentUser();
       final Credentials credentials = ugi.getCredentials();
 
+      for (Token t : credentials.getAllTokens()) {
+        LOG.log(Level.SEVERE, ">>>>> Got Tokens from UGI " + t.getKind()
+            .toString());
+      }
+
       LOG.log(Level.FINEST, "Got {0} tokens for user {1}", new Object[] {credentials.numberOfTokens(), ugi});
 
       if (credentials.numberOfTokens() > 0) {
