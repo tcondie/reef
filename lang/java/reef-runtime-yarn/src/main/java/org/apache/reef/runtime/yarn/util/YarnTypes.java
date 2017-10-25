@@ -74,11 +74,14 @@ public final class YarnTypes {
 
     String sparkYarnMode = "SPARK_YARN_MODE";
     String containerAdlToken = "CONTAINER_ADL_TOKEN";
-    String sessionDefinition = "SESSION_DEFINITION";
+    String sessionId = "SESSION_ID";
+    String orchestratorType = "ORCHESTRATOR_TYPE";
 
-    envMap.put(sparkYarnMode, System.getenv(sparkYarnMode));
-    envMap.put(containerAdlToken, System.getenv(containerAdlToken));
-    envMap.put(sessionDefinition, System.getenv(sessionDefinition));
+    for (String key : new String[] {sparkYarnMode, containerAdlToken, sessionId, orchestratorType}) {
+      if (System.getenv(key) != null) {
+        envMap.put(key, System.getenv(key));
+      }
+    }
 
     context.setEnvironment(envMap);
     if (securityTokenBuffer != null) {
