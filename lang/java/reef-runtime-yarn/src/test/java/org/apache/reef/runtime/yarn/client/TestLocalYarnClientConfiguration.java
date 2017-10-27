@@ -52,6 +52,7 @@ public class TestLocalYarnClientConfiguration {
         .set(DriverConfiguration.ON_EVALUATOR_ALLOCATED, TestDriver.EvaluatorAllocatedHandler.class)
         .set(DriverConfiguration.DRIVER_JOB_SUBMISSION_DIRECTORY, "/tmp")
         .build();
+
     final LauncherStatus status = DriverLauncher.getLauncher(runtimeConf).run(driverConf, 0);
     LOG.log(Level.INFO, "Launch status: " + status.toString());
   }
