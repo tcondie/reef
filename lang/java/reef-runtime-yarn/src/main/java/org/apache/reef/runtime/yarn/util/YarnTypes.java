@@ -18,19 +18,14 @@
  */
 package org.apache.reef.runtime.yarn.util;
 
-import net.iharder.base64.Base64;
 import org.apache.hadoop.util.VersionInfo;
 import org.apache.hadoop.yarn.api.records.ApplicationId;
 import org.apache.hadoop.yarn.api.records.ContainerLaunchContext;
 import org.apache.hadoop.yarn.api.records.LocalResource;
-import org.apache.hadoop.yarn.api.records.LocalResourceType;
-import org.apache.hadoop.yarn.api.records.LocalResourceVisibility;
-import org.apache.hadoop.yarn.api.records.URL;
 import org.apache.hadoop.yarn.util.Records;
 import org.apache.reef.annotations.audience.Private;
 
 import java.net.InetAddress;
-import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
@@ -72,26 +67,6 @@ public final class YarnTypes {
       final byte[] securityTokenBuffer,
       final ApplicationId applicationId) {
     final ContainerLaunchContext context = Records.newRecord(ContainerLaunchContext.class);
-
-    // Add local resources based on what is required for all itemgroups. We need to
-    // build the functionality into reef to allow injection of both resources and environment variables.
-    String artifacts = "ARTIFACTS";
-    if (System.getenv(artifacts) != null) {
-      for (String artifactBase64 : System.getenv(artifacts).split(",")) {
-        String[] executionDefinition = new String(Base64.decode(artifactBase64)).split("|");
-        String artifact = executionDefinition[0];
-        LocalResourceType type = executionDefinition[1] == "Archive"? LocalResourceType.ARCHIVE : LocalResourceType.FILE;
-        try {
-          java.net.URL url = new java.net.URL(artifact);
-          LocalResource.newInstance(
-              URL.newInstance(url.getProtocol(), url.getHost(), url.getPort(), url.getFile()), type,
-              LocalResourceVisibility.APPLICATION, -1, -1);
-        } catch(MalformedURLException e) {
-          throw new RuntimeException("Unable to parse local resources from ARTIFACTS environment variable", e);
-        }
-      }
-    }
-
     context.setLocalResources(localResources);
     context.setCommands(commands);
     final Map<String, String> envMap = new HashMap<>();

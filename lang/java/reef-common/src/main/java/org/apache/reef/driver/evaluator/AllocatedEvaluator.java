@@ -25,9 +25,11 @@ import org.apache.reef.driver.ContextAndTaskSubmittable;
 import org.apache.reef.driver.ContextSubmittable;
 import org.apache.reef.driver.TaskSubmittable;
 import org.apache.reef.io.naming.Identifiable;
+import org.apache.reef.runtime.common.files.FileType;
 import org.apache.reef.tang.Configuration;
 
 import java.io.File;
+import java.net.URL;
 
 /**
  * Represents an Evaluator that is allocated, but is not running yet.
@@ -51,6 +53,14 @@ public interface AllocatedEvaluator
    * @param file the file to be copied
    */
   void addLibrary(final File file);
+
+  /**
+   * Puts the given file into the working directory of the evaluator under the provided name localName.
+   * @param file the location of the file
+   * @param type the type of the file
+   * @param localName the name that the file will be localized as
+   */
+  void addRemoteFile(final URL file, FileType type, String localName);
 
   /**
    * @return the evaluator descriptor of this evaluator.

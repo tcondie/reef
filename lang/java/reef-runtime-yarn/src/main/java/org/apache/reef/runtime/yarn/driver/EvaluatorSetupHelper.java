@@ -20,11 +20,16 @@ package org.apache.reef.runtime.yarn.driver;
 
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.yarn.api.records.LocalResource;
+import org.apache.hadoop.yarn.api.records.LocalResourceType;
+import org.apache.hadoop.yarn.api.records.LocalResourceVisibility;
+import org.apache.hadoop.yarn.api.records.URL;
 import org.apache.reef.annotations.audience.DriverSide;
 import org.apache.reef.io.TempFileCreator;
 import org.apache.reef.runtime.common.driver.api.ResourceLaunchEvent;
+import org.apache.reef.runtime.common.files.FileType;
 import org.apache.reef.runtime.common.files.JobJarMaker;
 import org.apache.reef.runtime.common.files.REEFFileNames;
+import org.apache.reef.runtime.common.files.RemoteResource;
 import org.apache.reef.runtime.common.parameters.DeleteTempFiles;
 import org.apache.reef.tang.Configuration;
 import org.apache.reef.tang.Tang;
@@ -127,6 +132,17 @@ final class EvaluatorSetupHelper {
       LOG.log(Level.FINE, "The evaluator staging folder will be kept at [{0}], the JAR at [{1}]",
           new Object[]{localFile.getAbsolutePath(), localStagingFolder.getAbsolutePath()});
     }
+
+    for (RemoteResource resource : resourceLaunchEvent.getRemoteResourceSet()) {
+      java.net.URL javaUrl = resource.getResourceLocation();
+      LOG.log(Level.INFO, "Found resource:" + javaUrl.toString() + ". Converting the Hadoop URL");
+      URL url = URL.newInstance(javaUrl.getProtocol(), javaUrl.getHost(), javaUrl.getPort(), javaUrl.getPath());
+      LOG.log(Level.INFO, "Hadoop URL produced:" + url.toString());
+      result.put(resource.getName(), LocalResource.newInstance(url,
+          resource.getType() == FileType.ARCHIVE ? LocalResourceType.ARCHIVE : LocalResourceType.FILE,
+          LocalResourceVisibility.APPLICATION, -1, -1));
+    }
+
     return result;
   }
 

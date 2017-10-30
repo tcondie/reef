@@ -24,6 +24,7 @@ import org.apache.reef.driver.context.ContextConfiguration;
 import org.apache.reef.driver.evaluator.*;
 import org.apache.reef.runtime.common.driver.api.ResourceLaunchEventImpl;
 import org.apache.reef.runtime.common.evaluator.EvaluatorConfiguration;
+import org.apache.reef.runtime.common.files.FileType;
 import org.apache.reef.tang.Configuration;
 import org.apache.reef.tang.ConfigurationBuilder;
 import org.apache.reef.tang.ConfigurationProvider;
@@ -35,11 +36,15 @@ import org.apache.reef.util.logging.LoggingScope;
 import org.apache.reef.util.logging.LoggingScopeFactory;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static org.apache.reef.runtime.common.files.FileType.ARCHIVE;
 
 /**
  * Driver-Side representation of an allocated evaluator.
@@ -66,6 +71,16 @@ public final class AllocatedEvaluatorImpl implements AllocatedEvaluator {
    * The set of libraries.
    */
   private final Collection<File> libraries = new HashSet<>();
+
+  /**
+   * The set of remote archives to localize.
+   */
+  private final HashMap<String, URL> remoteArchives = new HashMap<>();
+
+  /**
+   * The set of remote files to localize.
+   */
+  private final HashMap<String, URL> remoteFiles = new HashMap<>();
 
   AllocatedEvaluatorImpl(final EvaluatorManager evaluatorManager,
                          final String remoteID,
@@ -218,6 +233,17 @@ public final class AllocatedEvaluatorImpl implements AllocatedEvaluator {
     this.libraries.add(file);
   }
 
+  @Override
+  public void addRemoteFile(final URL url, final FileType type, final String localName) {
+    switch (type) {
+    case ARCHIVE:
+      this.remoteArchives.put(localName, url);
+      break;
+    default:
+      this.remoteFiles.put(localName, url);
+    }
+  }
+
   private void launch(final Configuration contextConfiguration,
                       final Optional<Configuration> serviceConfiguration,
                       final Optional<Configuration> taskConfiguration) {
@@ -260,6 +286,7 @@ public final class AllocatedEvaluatorImpl implements AllocatedEvaluator {
             .setEvaluatorConf(evaluatorConfiguration)
             .addFiles(this.files)
             .addLibraries(this.libraries)
+            .addRemoteResources(this.remoteArchives, this.remoteFiles)
             .setRuntimeName(this.getEvaluatorDescriptor().getRuntimeName());
 
     rbuilder.setProcess(this.evaluatorManager.getEvaluatorDescriptor().getProcess());

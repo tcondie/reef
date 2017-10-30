@@ -22,11 +22,15 @@ import org.apache.reef.driver.evaluator.EvaluatorProcess;
 import org.apache.reef.runtime.common.files.FileResource;
 import org.apache.reef.runtime.common.files.FileResourceImpl;
 import org.apache.reef.runtime.common.files.FileType;
+import org.apache.reef.runtime.common.files.RemoteResource;
+import org.apache.reef.runtime.common.files.RemoteResourceImpl;
 import org.apache.reef.tang.Configuration;
 import org.apache.reef.util.BuilderUtils;
 
 import java.io.File;
+import java.net.URL;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -40,6 +44,7 @@ public final class ResourceLaunchEventImpl implements ResourceLaunchEvent {
   private final Configuration evaluatorConf;
   private final EvaluatorProcess process;
   private final Set<FileResource> fileSet;
+  private final Set<RemoteResource> remoteResourceSet;
   private final String runtimeName;
 
   private ResourceLaunchEventImpl(final Builder builder) {
@@ -48,6 +53,7 @@ public final class ResourceLaunchEventImpl implements ResourceLaunchEvent {
     this.evaluatorConf = BuilderUtils.notNull(builder.evaluatorConf);
     this.process = BuilderUtils.notNull(builder.process);
     this.fileSet = BuilderUtils.notNull(builder.fileSet);
+    this.remoteResourceSet = BuilderUtils.notNull(builder.remoteResourceSet);
     this.runtimeName = BuilderUtils.notNull(builder.runtimeName);
   }
 
@@ -77,6 +83,11 @@ public final class ResourceLaunchEventImpl implements ResourceLaunchEvent {
   }
 
   @Override
+  public Set<RemoteResource> getRemoteResourceSet() {
+    return remoteResourceSet;
+  }
+
+  @Override
   public String getRuntimeName() {
     return runtimeName;
   }
@@ -94,6 +105,7 @@ public final class ResourceLaunchEventImpl implements ResourceLaunchEvent {
     private Configuration evaluatorConf;
     private EvaluatorProcess process;
     private Set<FileResource> fileSet = new HashSet<>();
+    private Set<RemoteResource> remoteResourceSet = new HashSet<>();
     private String runtimeName;
 
     /**
@@ -178,6 +190,44 @@ public final class ResourceLaunchEventImpl implements ResourceLaunchEvent {
             .setPath(file.getPath())
             .setType(FileType.LIB)
             .build());
+      }
+      return this;
+    }
+
+    /**
+     * Utility method that adds a resources to the remoteResourceSet.
+     *
+     * @param remoteResourceLocation the location of the resource in the remote store.
+     * @param type the file type.
+     * @param resourceName the name of the resource to add.
+     * @return this
+     * @see ResourceLaunchEvent#getFileSet()
+     */
+    private Builder addRemoteResource(final URL remoteResourceLocation, final FileType type, final String
+        resourceName) {
+      this.remoteResourceSet.add(RemoteResourceImpl.newBuilder()
+          .setName(resourceName)
+          .setType(type)
+          .setResourceLocation(remoteResourceLocation)
+          .build());
+      return this;
+    }
+
+    /**
+     * Utility method that adds resources to the remoteResourceSet.
+     *
+     * @param archives the archives to add.
+     * @param files the files to add.
+     * @return this
+     * @see ResourceLaunchEvent#getFileSet()
+     */
+    public Builder addRemoteResources(final Map<String, URL> archives, final Map<String, URL> files) {
+      for (Map.Entry<String, URL> entry : archives.entrySet()) {
+        addRemoteResource(entry.getValue(), FileType.ARCHIVE, entry.getKey());
+      }
+
+      for (Map.Entry<String, URL> entry : files.entrySet()) {
+        addRemoteResource(entry.getValue(), FileType.PLAIN, entry.getKey());
       }
       return this;
     }
