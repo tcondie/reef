@@ -16,7 +16,17 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+package org.apache.reef.bridge.client;
+
+import org.apache.reef.bridge.proto.ClientProtocol;
+import org.apache.reef.tang.Configuration;
+
 /**
- * gRPC specific parameters.
+ * Driver bridge configuration provider.
  */
-package org.apache.reef.bridge.client.grpc.parameters;
+public interface IDriverBridgeConfigurationProvider {
+
+  Configuration getConfiguration(final ClientProtocol.DriverClientConfiguration driverConfiguration);
+
+}

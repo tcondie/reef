@@ -16,7 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+package org.apache.reef.bridge.client.launch;
+
+import org.apache.reef.bridge.client.IDriverServiceLauncher;
+import org.apache.reef.bridge.proto.ClientProtocol;
+
 /**
- * REEF event stubs.
+ * Yarn driver service launcher.
  */
-package org.apache.reef.bridge.client.events;
+public final class YarnDriverServiceLauncher implements IDriverServiceLauncher {
+
+  @Override
+  public void launch(final ClientProtocol.DriverClientConfiguration driverClientConfiguration) {
+
+  }
+}

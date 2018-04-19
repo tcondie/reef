@@ -17,26 +17,25 @@
  * under the License.
  */
 
-package org.apache.reef.bridge.client.grpc;
+package org.apache.reef.bridge.client;
 
-import org.apache.reef.bridge.client.IDriverClientService;
-import org.apache.reef.bridge.client.IDriverServiceClient;
-import org.apache.reef.bridge.client.grpc.parameters.DriverServicePort;
 import org.apache.reef.tang.formats.ConfigurationModule;
 import org.apache.reef.tang.formats.ConfigurationModuleBuilder;
-import org.apache.reef.tang.formats.RequiredParameter;
+import org.apache.reef.tang.formats.OptionalImpl;
 
 /**
- * Configuration module for Grpc runtime.
+ * Driver service bootstrap configuration.
  */
-public final class DriverClientGrpcConfiguration extends ConfigurationModuleBuilder {
+final class DriverServiceBootstrapConfiguration extends ConfigurationModuleBuilder {
 
-  public static final RequiredParameter<Integer> DRIVER_SERVICE_PORT = new RequiredParameter<>();
+  static final OptionalImpl<IDriverServiceConfigurationProvider> DRIVER_SERVICE_CONFIGURATION_PROVIDER =
+      new OptionalImpl<>();
 
-  public static final ConfigurationModule CONF = new DriverClientGrpcConfiguration()
-      .bindImplementation(IDriverClientService.class, DriverClientService.class)
-      .bindImplementation(IDriverServiceClient.class, DriverServiceClient.class)
-      .bindNamedParameter(DriverServicePort.class, DRIVER_SERVICE_PORT)
+  static final OptionalImpl<IDriverRuntimeConfigurationProvider> DRIVER_RUNTIME_CONFIGURATION_PROVIDER =
+      new OptionalImpl<>();
+
+  static final ConfigurationModule CONF = new DriverServiceBootstrapConfiguration()
+      .bindImplementation(IDriverServiceConfigurationProvider.class, DRIVER_SERVICE_CONFIGURATION_PROVIDER)
+      .bindImplementation(IDriverRuntimeConfigurationProvider.class, DRIVER_RUNTIME_CONFIGURATION_PROVIDER)
       .build();
-
 }

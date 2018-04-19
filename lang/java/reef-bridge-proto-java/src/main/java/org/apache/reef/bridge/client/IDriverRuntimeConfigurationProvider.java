@@ -16,7 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+package org.apache.reef.bridge.client;
+
+import org.apache.reef.bridge.client.runtime.LocalDriverRuntimeConfigurationProvider;
+import org.apache.reef.tang.annotations.DefaultImplementation;
+
 /**
- * The Java-side of the CLR/Java bridge interop via gRPC/Protocol Buffers.
+ * Configuration provider for the runtime.
  */
-package org.apache.reef.bridge.service;
+@DefaultImplementation(LocalDriverRuntimeConfigurationProvider.class)
+public interface IDriverRuntimeConfigurationProvider extends IDriverBridgeConfigurationProvider {
+}

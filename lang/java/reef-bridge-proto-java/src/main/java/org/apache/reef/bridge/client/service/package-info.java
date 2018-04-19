@@ -16,15 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-package org.apache.reef.bridge.service;
-
 /**
- * An exception thrown by the driver client.
+ * Client bridge.
  */
-public final class DriverClientException extends Exception {
-
-  public DriverClientException(final String message) {
-    super(message);
-  }
-}
+package org.apache.reef.bridge.client.service;

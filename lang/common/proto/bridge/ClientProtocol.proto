@@ -19,8 +19,6 @@
 
 syntax = "proto3";
 
-// option java_generic_services = true;
-// option java_multiple_files = true;
 option java_package = "org.apache.reef.bridge.proto";
 option java_outer_classname = "ClientProtocol";
 option csharp_namespace = "Org.Apache.REEF.Bridge.Proto";
@@ -36,7 +34,9 @@ message LocalRuntimeParameters {
 
 message YarnRuntimeParameters {
   string queue = 1;
-  string job_submission_directory_prefix = 2;
+  string job_submission_directory = 2;
+  string filesystem_url = 3;
+  bytes security_token = 4;
 }
 
 message AzureBatchRuntimeParameters {

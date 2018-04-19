@@ -17,6 +17,6 @@
  * under the License.
  */
 /**
- * Driver bridge service parameters.
+ * Client bridge runtime specific launchers.
  */
-package org.apache.reef.bridge.service.parameters;
+package org.apache.reef.bridge.client.launch;

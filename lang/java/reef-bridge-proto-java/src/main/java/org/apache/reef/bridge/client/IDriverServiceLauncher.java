@@ -17,20 +17,14 @@
  * under the License.
  */
 
-package org.apache.reef.bridge.service;
+package org.apache.reef.bridge.client;
 
-import org.apache.reef.annotations.audience.Private;
+import org.apache.reef.bridge.proto.ClientProtocol;
 
 /**
- * Runtime names supported by the bridge.
+ * Driver service launcher.
  */
-@Private
-public final class RuntimeNames {
-  public static final String LOCAL = "local";
+public interface IDriverServiceLauncher {
 
-  public static final String YARN = "yarn";
-
-  public static final String AZBATCH = "azbatch";
-
-  private RuntimeNames() {}
+  void launch(final ClientProtocol.DriverClientConfiguration driverClientConfiguration);
 }

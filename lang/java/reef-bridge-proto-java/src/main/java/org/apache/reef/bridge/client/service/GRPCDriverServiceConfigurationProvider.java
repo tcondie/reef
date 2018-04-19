@@ -1,0 +1,155 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+package org.apache.reef.bridge.client.service;
+
+import org.apache.reef.bridge.client.IDriverServiceConfigurationProvider;
+import org.apache.reef.bridge.driver.service.DriverServiceConfiguration;
+import org.apache.reef.bridge.driver.service.DriverServiceHandlers;
+import org.apache.reef.bridge.driver.service.grpc.GRPCDriverService;
+import org.apache.reef.bridge.proto.ClientProtocol;
+import org.apache.reef.client.DriverConfiguration;
+import org.apache.reef.tang.Configuration;
+import org.apache.reef.tang.formats.ConfigurationModule;
+import org.apache.reef.util.EnvironmentUtils;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * GRPC driver service configuration provider.
+ */
+public class GRPCDriverServiceConfigurationProvider implements IDriverServiceConfigurationProvider {
+
+  @Override
+  public Configuration getConfiguration(
+      final ClientProtocol.DriverClientConfiguration driverConfiguration) {
+    // Set required parameters
+    ConfigurationModule driverServiceConfigurationModule = DriverServiceConfiguration.CONF
+        .set(DriverServiceConfiguration.DRIVER_SERVICE_IMPL, GRPCDriverService.class)
+        .set(DriverServiceConfiguration.DRIVER_CLIENT_COMMAND,
+            driverConfiguration.getDriverClientLaunchCommand())
+        .set(DriverConfiguration.DRIVER_IDENTIFIER, driverConfiguration.getJobid());
+
+    // Set file dependencies
+    final List<String> localLibraries = new ArrayList<>();
+    localLibraries.add(EnvironmentUtils.getClassLocation(GRPCDriverService.class));
+    if (driverConfiguration.getLocalLibrariesCount() > 0) {
+      localLibraries.addAll(driverConfiguration.getLocalLibrariesList());
+    }
+    driverServiceConfigurationModule = driverServiceConfigurationModule
+        .setMultiple(DriverConfiguration.LOCAL_LIBRARIES, localLibraries);
+    if (driverConfiguration.getGlobalLibrariesCount() > 0) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .setMultiple(DriverConfiguration.GLOBAL_LIBRARIES,
+              driverConfiguration.getGlobalLibrariesList());
+    }
+    if (driverConfiguration.getLocalFilesCount() > 0) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .setMultiple(DriverConfiguration.LOCAL_FILES,
+              driverConfiguration.getLocalFilesList());
+    }
+    if (driverConfiguration.getGlobalFilesCount() > 0) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .setMultiple(DriverConfiguration.GLOBAL_FILES,
+              driverConfiguration.getGlobalFilesList());
+    }
+    // Setup driver resources
+    if (driverConfiguration.getCpuCores() > 0) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.DRIVER_CPU_CORES, driverConfiguration.getCpuCores());
+    }
+    if (driverConfiguration.getMemoryMb() > 0) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.DRIVER_MEMORY, driverConfiguration.getMemoryMb());
+    }
+
+    // Setup handlers
+    final Set<ClientProtocol.DriverClientConfiguration.Handlers> handlerLabelSet = new HashSet<>();
+    handlerLabelSet.addAll(driverConfiguration.getHandlerList());
+    if (!handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.START)) {
+      throw new IllegalArgumentException("Start handler required");
+    } else {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.ON_DRIVER_STARTED, DriverServiceHandlers.StartHandler.class)
+          .set(DriverConfiguration.ON_DRIVER_STOP, DriverServiceHandlers.StopHandler.class);
+    }
+    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.EVALUATOR_ALLOCATED)) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.ON_EVALUATOR_ALLOCATED, DriverServiceHandlers.AllocatedEvaluatorHandler.class);
+    }
+    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.EVALUATOR_COMPLETED)) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.ON_EVALUATOR_COMPLETED, DriverServiceHandlers.CompletedEvaluatorHandler.class);
+    }
+    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.EVALUATOR_FAILED)) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.ON_EVALUATOR_FAILED, DriverServiceHandlers.FailedEvaluatorHandler.class);
+    }
+    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.CONTEXT_ACTIVE)) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.ON_CONTEXT_ACTIVE, DriverServiceHandlers.ActiveContextHandler.class);
+    }
+    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.CONTEXT_CLOSED)) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.ON_CONTEXT_CLOSED, DriverServiceHandlers.ClosedContextHandler.class);
+    }
+    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.CONTEXT_FAILED)) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.ON_CONTEXT_FAILED, DriverServiceHandlers.ContextFailedHandler.class);
+    }
+    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.CONTEXT_MESSAGE)) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.ON_CONTEXT_MESSAGE, DriverServiceHandlers.ContextMessageHandler.class);
+    }
+    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.TASK_RUNNING)) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.ON_TASK_RUNNING, DriverServiceHandlers.RunningTaskHandler.class);
+    }
+    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.TASK_COMPLETED)) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.ON_TASK_COMPLETED, DriverServiceHandlers.CompletedTaskHandler.class);
+    }
+    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.TASK_FAILED)) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.ON_TASK_FAILED, DriverServiceHandlers.FailedTaskHandler.class);
+    }
+    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.TASK_MESSAGE)) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.ON_TASK_MESSAGE, DriverServiceHandlers.TaskMessageHandler.class);
+    }
+    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.CLIENT_MESSAGE)) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.ON_CLIENT_MESSAGE, DriverServiceHandlers.ClientMessageHandler.class);
+    }
+    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.CLIENT_CLOSE)) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.ON_CLIENT_CLOSED, DriverServiceHandlers.ClientCloseHandler.class);
+    }
+    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.CLIENT_CLOSE_WITH_MESSAGE)) {
+      driverServiceConfigurationModule = driverServiceConfigurationModule
+          .set(DriverConfiguration.ON_CLIENT_CLOSED_MESSAGE,
+              DriverServiceHandlers.ClientCloseWithMessageHandler.class);
+    }
+
+    return driverServiceConfigurationModule.build();
+  }
+}

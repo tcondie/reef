@@ -17,15 +17,18 @@
  * under the License.
  */
 
-package org.apache.reef.bridge.service.parameters;
+package org.apache.reef.bridge.client.launch;
 
-import org.apache.reef.tang.annotations.Name;
-import org.apache.reef.tang.annotations.NamedParameter;
+import org.apache.reef.bridge.client.IDriverServiceLauncher;
+import org.apache.reef.bridge.proto.ClientProtocol;
 
 /**
- * What command to use when starting bridge process.
+ * Local driver service launcher.
  */
-@NamedParameter(doc = "The command to launch bridge driver process",
-    short_name = "command")
-public final class DriverClientCommand implements Name<String> {
+public final class LocalDriverServiceLauncher implements IDriverServiceLauncher {
+
+  @Override
+  public void launch(final ClientProtocol.DriverClientConfiguration driverClientConfiguration) {
+
+  }
 }
