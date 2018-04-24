@@ -19,10 +19,7 @@
 package org.apache.reef.bridge.driver.service.grpc;
 
 import com.google.protobuf.ByteString;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.Server;
-import io.grpc.ServerBuilder;
+import io.grpc.*;
 import io.grpc.stub.StreamObserver;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -55,6 +52,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,7 +68,7 @@ public final class GRPCDriverService implements IDriverService {
 
   private Process driverProcess;
 
-  private DriverClientGrpc.DriverClientBlockingStub clientStub;
+  private DriverClientGrpc.DriverClientFutureStub clientStub;
 
   private final Clock clock;
 
@@ -205,18 +203,21 @@ public final class GRPCDriverService implements IDriverService {
   public IdleMessage getIdleStatus() {
     final String componentName = "Java Bridge DriverService";
     if (this.clientStub != null) {
-      final IdleStatus idleStatus = this.clientStub.idlenessCheckHandler(VOID);
-      LOG.log(Level.INFO, "IDLE STATUS IS IDLE: " + idleStatus.getIsIdle());
-      return new IdleMessage(
-          componentName,
-          idleStatus.getReason(),
-          idleStatus.getIsIdle());
-    } else {
-      return new IdleMessage(
-          componentName,
-          "stub not initialized",
-          true);
+      try {
+        final IdleStatus idleStatus = this.clientStub.idlenessCheckHandler(VOID).get();
+        LOG.log(Level.INFO, "is idle: " + idleStatus.getIsIdle());
+        return new IdleMessage(
+            componentName,
+            idleStatus.getReason(),
+            idleStatus.getIsIdle());
+      } catch (ExecutionException | InterruptedException e) {
+        stop(e);
+      }
     }
+    return new IdleMessage(
+        componentName,
+        "stub not initialized",
+        true);
   }
 
   @Override
@@ -345,11 +346,19 @@ public final class GRPCDriverService implements IDriverService {
   @Override
   public void runningTaskHandler(final RunningTask task) {
     synchronized (this) {
+      final ActiveContext context = task.getActiveContext();
+      if (!this.activeContextMap.containsKey(context.getId())) {
+        this.activeContextMap.put(context.getId(), context);
+      }
       this.runningTaskMap.put(task.getId(), task);
       this.clientStub.runningTaskHandler(
           TaskInfo.newBuilder()
               .setTaskId(task.getId())
-              .setContextId(task.getActiveContext().getId())
+              .setContext(ContextInfo.newBuilder()
+                  .setContextId(context.getId())
+                  .setEvaluatorId(context.getEvaluatorId())
+                  .setParentId(context.getParentId().isPresent() ? context.getParentId().get() : "")
+                  .build())
               .build());
     }
   }
@@ -357,13 +366,21 @@ public final class GRPCDriverService implements IDriverService {
   @Override
   public void failedTaskHandler(final FailedTask task) {
     synchronized (this) {
+      if (task.getActiveContext().isPresent() &&
+          !this.activeContextMap.containsKey(task.getActiveContext().get().getId())) {
+        this.activeContextMap.put(task.getActiveContext().get().getId(), task.getActiveContext().get());
+      }
       this.runningTaskMap.remove(task.getId());
       this.clientStub.failedTaskHandler(
           TaskInfo.newBuilder()
               .setTaskId(task.getId())
-              .setContextId(
-                  task.getActiveContext().isPresent() ?
-                      task.getActiveContext().get().getId() : null)
+              .setContext(task.getActiveContext().isPresent() ?
+                      ContextInfo.newBuilder()
+                          .setContextId(task.getActiveContext().get().getId())
+                          .setEvaluatorId(task.getActiveContext().get().getEvaluatorId())
+                          .setParentId(task.getActiveContext().get().getParentId().isPresent() ?
+                              task.getActiveContext().get().getParentId().get() : "")
+                          .build() : null)
               .build());
     }
   }
@@ -371,11 +388,19 @@ public final class GRPCDriverService implements IDriverService {
   @Override
   public void completedTaskHandler(final CompletedTask task) {
     synchronized (this) {
+      if (!this.activeContextMap.containsKey(task.getActiveContext().getId())) {
+        this.activeContextMap.put(task.getActiveContext().getId(), task.getActiveContext());
+      }
       this.runningTaskMap.remove(task.getId());
       this.clientStub.completedTaskHandler(
           TaskInfo.newBuilder()
               .setTaskId(task.getId())
-              .setContextId(task.getActiveContext().getId())
+              .setContext(ContextInfo.newBuilder()
+                  .setContextId(task.getActiveContext().getId())
+                  .setEvaluatorId(task.getActiveContext().getEvaluatorId())
+                  .setParentId(task.getActiveContext().getParentId().isPresent() ?
+                      task.getActiveContext().getParentId().get() : "")
+                  .build())
               .build());
     }
   }
@@ -383,11 +408,19 @@ public final class GRPCDriverService implements IDriverService {
   @Override
   public void suspendedTaskHandler(final SuspendedTask task) {
     synchronized (this) {
+      if (!this.activeContextMap.containsKey(task.getActiveContext().getId())) {
+        this.activeContextMap.put(task.getActiveContext().getId(), task.getActiveContext());
+      }
       this.runningTaskMap.remove(task.getId());
       this.clientStub.suspendedTaskHandler(
           TaskInfo.newBuilder()
               .setTaskId(task.getId())
-              .setContextId(task.getActiveContext().getId())
+              .setContext(ContextInfo.newBuilder()
+                  .setContextId(task.getActiveContext().getId())
+                  .setEvaluatorId(task.getActiveContext().getEvaluatorId())
+                  .setParentId(task.getActiveContext().getParentId().isPresent() ?
+                      task.getActiveContext().getParentId().get() : "")
+                  .build())
               .build());
     }
   }
@@ -446,7 +479,7 @@ public final class GRPCDriverService implements IDriverService {
             .usePlaintext(true)
             .build();
         synchronized (GRPCDriverService.this) {
-          GRPCDriverService.this.clientStub = DriverClientGrpc.newBlockingStub(channel);
+          GRPCDriverService.this.clientStub = DriverClientGrpc.newFutureStub(channel);
           GRPCDriverService.this.notifyAll();
         }
       } finally {
@@ -530,16 +563,19 @@ public final class GRPCDriverService implements IDriverService {
         final StreamObserver<Void> responseObserver) {
       try {
         if (request.getEvaluatorConfiguration() == null) {
-          responseObserver.onError(
-              new IllegalArgumentException("Evaluator configuration required"));
+          responseObserver.onError(Status.INTERNAL
+              .withDescription("Evaluator configuration required")
+              .asRuntimeException());
         } else if (request.getContextConfiguration() == null && request.getTaskConfiguration() == null) {
-          responseObserver.onError(
-              new IllegalArgumentException("Context and/or Task configuration required"));
+          responseObserver.onError(Status.INTERNAL
+              .withDescription("Context and/or Task configuration required")
+              .asRuntimeException());
         } else {
           synchronized (GRPCDriverService.this) {
             if (!GRPCDriverService.this.allocatedEvaluatorMap.containsKey(request.getEvaluatorId())) {
-              responseObserver.onError(
-                  new IllegalArgumentException("Unknown allocated evaluator " + request.getEvaluatorId()));
+              responseObserver.onError(Status.INTERNAL
+                  .withDescription("Unknown allocated evaluator " + request.getEvaluatorId())
+                  .asRuntimeException());
             }
             final AllocatedEvaluator evaluator =
                 GRPCDriverService.this.allocatedEvaluatorMap.get(request.getEvaluatorId());
@@ -646,49 +682,56 @@ public final class GRPCDriverService implements IDriverService {
         final StreamObserver<Void> responseObserver) {
       synchronized (GRPCDriverService.this) {
         if (!GRPCDriverService.this.activeContextMap.containsKey(request.getContextId())) {
-          responseObserver.onError(
-              new IllegalArgumentException("Context does not exist with id " + request.getContextId()));
-        } else if (request.getNewContextRequest() != null && request.getNewTaskRequest() != null) {
-          responseObserver.onError(
-              new IllegalArgumentException("Context request can only contain one of a context or task configuration"));
-
-        }
-        final ActiveContext context = GRPCDriverService.this.activeContextMap.get(request.getContextId());
-        if (request.getOperationCase() == ActiveContextRequest.OperationCase.CLOSE_CONTEXT) {
-          if (request.getCloseContext()) {
+          LOG.log(Level.SEVERE, "Context does not exist with id " + request.getContextId());
+          responseObserver.onError(Status.INTERNAL
+              .withDescription("Context does not exist with id " + request.getContextId())
+              .asRuntimeException());
+        } else {
+          final ActiveContext context = GRPCDriverService.this.activeContextMap.get(request.getContextId());
+          if (request.getOperationCase() == ActiveContextRequest.OperationCase.CLOSE_CONTEXT) {
+            if (request.getCloseContext()) {
+              try {
+                LOG.log(Level.INFO, "closing context " + context.getId());
+                context.close();
+              } finally {
+                responseObserver.onNext(null);
+                responseObserver.onCompleted();
+              }
+            } else {
+              LOG.log(Level.SEVERE, "Close context operation not set to true");
+              responseObserver.onError(Status.INTERNAL
+                  .withDescription("Close context operation not set to true")
+                  .asRuntimeException());
+            }
+          } else if (request.getOperationCase() == ActiveContextRequest.OperationCase.MESSAGE) {
+            if (request.getMessage() != null) {
+              try {
+                LOG.log(Level.INFO, "send message to context " + context.getId());
+                context.sendMessage(request.getMessage().toByteArray());
+              } finally {
+                responseObserver.onNext(null);
+                responseObserver.onCompleted();
+              }
+            } else {
+              responseObserver.onError(Status.INTERNAL
+                  .withDescription("Empty message on operation send message").asRuntimeException());
+            }
+          } else if (request.getOperationCase() == ActiveContextRequest.OperationCase.NEW_CONTEXT_REQUEST) {
             try {
-              context.close();
+              LOG.log(Level.INFO, "submitting child context to context " + context.getId());
+              ((EvaluatorContext) context).submitContext(request.getNewContextRequest());
             } finally {
               responseObserver.onNext(null);
               responseObserver.onCompleted();
             }
-          } else {
-            responseObserver.onError(new IllegalArgumentException("Close context operation not set to true"));
-          }
-        } else if (request.getOperationCase() == ActiveContextRequest.OperationCase.MESSAGE) {
-          if (request.getMessage() != null) {
+          } else if (request.getOperationCase() == ActiveContextRequest.OperationCase.NEW_TASK_REQUEST) {
             try {
-              context.sendMessage(request.getMessage().toByteArray());
+              LOG.log(Level.INFO, "submitting task to context " + context.getId());
+              ((EvaluatorContext) context).submitTask(request.getNewTaskRequest());
             } finally {
               responseObserver.onNext(null);
               responseObserver.onCompleted();
             }
-          } else {
-            responseObserver.onError(new IllegalArgumentException("Empty message on operation send message"));
-          }
-        } else if (request.getOperationCase() == ActiveContextRequest.OperationCase.NEW_CONTEXT_REQUEST) {
-          try {
-            ((EvaluatorContext) context).submitContext(request.getNewContextRequest());
-          } finally {
-            responseObserver.onNext(null);
-            responseObserver.onCompleted();
-          }
-        } else if (request.getOperationCase() == ActiveContextRequest.OperationCase.NEW_TASK_REQUEST) {
-          try {
-            ((EvaluatorContext) context).submitTask(request.getNewTaskRequest());
-          } finally {
-            responseObserver.onNext(null);
-            responseObserver.onCompleted();
           }
         }
       }
@@ -700,8 +743,8 @@ public final class GRPCDriverService implements IDriverService {
         final StreamObserver<Void> responseObserver) {
       synchronized (GRPCDriverService.this) {
         if (!GRPCDriverService.this.runningTaskMap.containsKey(request.getTaskId())) {
-          responseObserver.onError(
-              new IllegalArgumentException("Task does not exist with id " + request.getTaskId()));
+          responseObserver.onError(Status.INTERNAL
+              .withDescription("Task does not exist with id " + request.getTaskId()).asRuntimeException());
         }
         try {
           final RunningTask task = GRPCDriverService.this.runningTaskMap.get(request.getTaskId());

@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.apache.reef.bridge.examples;
+package org.apache.reef.bridge.client;
 
 import org.apache.reef.runtime.common.files.RuntimePathProvider;
 

@@ -25,10 +25,15 @@ import org.apache.reef.driver.evaluator.EvaluatorDescriptor;
 import org.apache.reef.tang.Configuration;
 import org.apache.reef.util.Optional;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Active context bridge.
  */
 public final class ActiveContextBridge implements ActiveContext {
+
+  private static final Logger LOG = Logger.getLogger(ActiveContextBridge.class.getName());
 
   private final IDriverServiceClient driverServiceClient;
 
@@ -55,16 +60,19 @@ public final class ActiveContextBridge implements ActiveContext {
 
   @Override
   public void close() {
+    LOG.log(Level.INFO, "closing context " + this.contextId);
     this.driverServiceClient.onContextClose(this.contextId);
   }
 
   @Override
   public void submitTask(final Configuration taskConf) {
+    LOG.log(Level.INFO, "submitting task via context " + this.contextId);
     this.driverServiceClient.onContextSubmitTask(this.contextId, taskConf);
   }
 
   @Override
   public void submitContext(final Configuration contextConfiguration) {
+    LOG.log(Level.INFO, "submitting child context via context " + this.contextId);
     this.driverServiceClient.onContextSubmitContext(this.contextId, contextConfiguration);
   }
 
@@ -77,6 +85,7 @@ public final class ActiveContextBridge implements ActiveContext {
 
   @Override
   public void sendMessage(final byte[] message) {
+    LOG.log(Level.INFO, "sending message to context " + this.contextId);
     this.driverServiceClient.onContextMessage(this.contextId, message);
   }
 

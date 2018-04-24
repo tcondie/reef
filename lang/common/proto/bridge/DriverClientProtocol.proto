@@ -142,13 +142,19 @@ message ContextMessageInfo {
 }
 
 message TaskInfo {
+  // Task identifier.
   string task_id = 1;
 
-  string context_id = 2;
+  // Task result.
+  bytes result = 2;
 
-  bytes result = 3;
+  /* Carry entire context info since client may not have received it
+   * when submitting task against allocated evalautor.
+   */
+  ContextInfo context = 5;
 
-  ExceptionInfo exception = 5;
+  // Possible exception encountered in task execution.
+  ExceptionInfo exception = 10;
 }
 
 message TaskMessageInfo {

@@ -59,10 +59,6 @@ public final class HelloREEF {
     builder.setLocalRuntime(ClientProtocol.LocalRuntimeParameters.newBuilder()
         .setMaxNumberOfEvaluators(1)
         .build());
-    builder.addHandler(ClientProtocol.DriverClientConfiguration.Handlers.START);
-    builder.addHandler(ClientProtocol.DriverClientConfiguration.Handlers.EVALUATOR_ALLOCATED);
-    builder.addHandler(ClientProtocol.DriverClientConfiguration.Handlers.TASK_COMPLETED);
-    builder.addHandler(ClientProtocol.DriverClientConfiguration.Handlers.TASK_FAILED);
     builder.addGlobalLibraries(EnvironmentUtils.getClassLocation(HelloDriver.class));
 
     DriverServiceLauncher.submit(builder.build(), DRIVER_CONFIG);

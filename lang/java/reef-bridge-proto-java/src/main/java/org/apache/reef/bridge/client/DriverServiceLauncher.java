@@ -26,7 +26,6 @@ import org.apache.reef.bridge.client.runtime.LocalDriverRuntimeConfigurationProv
 import org.apache.reef.bridge.client.runtime.YarnDriverRuntimeConfigurationProvider;
 import org.apache.reef.bridge.client.service.GRPCDriverServiceConfigurationProvider;
 import org.apache.reef.bridge.driver.client.JavaDriverClientLauncher;
-import org.apache.reef.bridge.examples.WindowsRuntimePathProvider;
 import org.apache.reef.bridge.proto.ClientProtocol;
 import org.apache.reef.runtime.common.files.*;
 import org.apache.reef.runtime.common.launch.JavaLaunchCommandBuilder;

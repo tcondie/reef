@@ -50,7 +50,7 @@ public final class DriverServiceClient implements IDriverServiceClient {
 
   private final ConfigurationSerializer configurationSerializer;
 
-  private final DriverServiceGrpc.DriverServiceBlockingStub serviceStub;
+  private final DriverServiceGrpc.DriverServiceFutureStub serviceStub;
 
   @Inject
   private DriverServiceClient(
@@ -63,7 +63,7 @@ public final class DriverServiceClient implements IDriverServiceClient {
         .forAddress("localhost", driverServicePort)
         .usePlaintext(true)
         .build();
-    this.serviceStub = DriverServiceGrpc.newBlockingStub(channel);
+    this.serviceStub = DriverServiceGrpc.newFutureStub(channel);
   }
 
   public void registerDriverClientService(final String host, final int port) {
