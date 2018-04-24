@@ -27,6 +27,8 @@ import org.apache.reef.driver.context.FailedContext;
 import org.apache.reef.driver.evaluator.AllocatedEvaluator;
 import org.apache.reef.driver.evaluator.CompletedEvaluator;
 import org.apache.reef.driver.evaluator.FailedEvaluator;
+import org.apache.reef.driver.restart.DriverRestartCompleted;
+import org.apache.reef.driver.restart.DriverRestarted;
 import org.apache.reef.driver.task.*;
 import org.apache.reef.tang.annotations.Unit;
 import org.apache.reef.wake.EventHandler;
@@ -241,6 +243,56 @@ public final class DriverServiceHandlers {
     public void onNext(final byte[] message) {
       LOG.log(Level.INFO, "JavaBridge: Close event with messages from Client");
       DriverServiceHandlers.this.driverBridgeService.clientCloseWithMessageHandler(message);
+    }
+  }
+
+  /**
+   * Job driver is restarted after previous crash.
+   */
+  public final class DriverRestartHandler implements EventHandler<DriverRestarted> {
+    @Override
+    public void onNext(final DriverRestarted driverRestarted) {
+
+    }
+  }
+
+  /**
+   * Receive notification that an context is active on Evaluator when the driver restarted.
+   */
+  public final class DriverRestartActiveContextHandler implements EventHandler<ActiveContext> {
+    @Override
+    public void onNext(final ActiveContext context) {
+
+    }
+  }
+
+  /**
+   * Receive notification that the Task is running when driver restarted.
+   */
+  public final class DriverRestartRunningTaskHandler implements EventHandler<RunningTask> {
+    @Override
+    public void onNext(final RunningTask task) {
+
+    }
+  }
+
+  /**
+   * Receive notification that driver restart has completed.
+   */
+  public final class DriverRestartCompletedHandler implements EventHandler<DriverRestartCompleted> {
+    @Override
+    public void onNext(final DriverRestartCompleted driverRestartCompleted) {
+
+    }
+  }
+
+  /**
+   * Receive notification that the entire Evaluator had failed on Driver Restart.
+   */
+  public final class DriverRestartFailedEvaluatorHandler implements EventHandler<FailedEvaluator> {
+    @Override
+    public void onNext(final FailedEvaluator eval) {
+
     }
   }
 }

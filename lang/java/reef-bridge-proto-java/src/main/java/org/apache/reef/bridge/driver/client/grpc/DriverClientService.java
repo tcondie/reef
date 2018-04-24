@@ -19,6 +19,7 @@
 
 package org.apache.reef.bridge.driver.client.grpc;
 
+import com.google.common.collect.Lists;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.Status;
@@ -33,6 +34,8 @@ import org.apache.reef.bridge.proto.Void;
 import org.apache.reef.driver.context.ActiveContext;
 import org.apache.reef.driver.context.FailedContext;
 import org.apache.reef.driver.evaluator.EvaluatorDescriptor;
+import org.apache.reef.driver.restart.DriverRestartCompleted;
+import org.apache.reef.driver.restart.DriverRestarted;
 import org.apache.reef.driver.task.FailedTask;
 import org.apache.reef.exception.EvaluatorException;
 import org.apache.reef.runtime.common.driver.evaluator.EvaluatorDescriptorImpl;
@@ -40,15 +43,13 @@ import org.apache.reef.tang.InjectionFuture;
 import org.apache.reef.util.Optional;
 import org.apache.reef.wake.remote.ports.TcpPortProvider;
 import org.apache.reef.wake.time.Clock;
+import org.apache.reef.wake.time.Time;
 import org.apache.reef.wake.time.event.StartTime;
 import org.apache.reef.wake.time.event.StopTime;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -465,6 +466,121 @@ public final class DriverClientService extends DriverClientGrpc.DriverClientImpl
     LOG.log(Level.INFO, "Client close with message");
     try {
       this.clientDriverDispatcher.get().clientCloseWithMessageDispatch(request.getPayload().toByteArray());
+    } finally {
+      responseObserver.onNext(null);
+      responseObserver.onCompleted();
+    }
+  }
+
+  @Override
+  public void driverRestartHandler(final DriverRestartInfo request, final StreamObserver<Void> responseObserver) {
+    LOG.log(Level.INFO, "Driver restarted");
+    try {
+      final DriverRestarted driverRestarted = new DriverRestarted() {
+        @Override
+        public int getResubmissionAttempts() {
+          return request.getResubmissionAttempts();
+        }
+
+        @Override
+        public StartTime getStartTime() {
+          return new StartTime(request.getStartTime().getStartTime());
+        }
+
+        @Override
+        public Set<String> getExpectedEvaluatorIds() {
+          return new HashSet<>(request.getExpectedEvaluatorIdsList());
+        }
+      };
+      this.clientDriverDispatcher.get().dispatchRestart(driverRestarted);
+    } finally {
+      responseObserver.onNext(null);
+      responseObserver.onCompleted();
+    }
+  }
+
+  @Override
+  public void driverRestartActiveContextHandler(
+      final ContextInfo request,
+      final StreamObserver<Void> responseObserver) {
+    try {
+      LOG.log(Level.INFO, "Driver restarted active context " + request.getContextId());
+      if (!this.evaluatorBridgeMap.containsKey(request.getEvaluatorId())) {
+        final AllocatedEvaluatorBridge eval = new AllocatedEvaluatorBridge(
+            request.getEvaluatorId(),
+            toEvaluatorDescriptor(request.getEvaluatorDescriptorInfo()),
+            this.driverServiceClient);
+        this.evaluatorBridgeMap.put(eval.getId(), eval);
+      }
+      final ActiveContextBridge context = toActiveContext(request);
+      this.activeContextBridgeMap.put(context.getId(), context);
+      this.clientDriverDispatcher.get().dispatchRestart(context);
+    } finally {
+      responseObserver.onNext(null);
+      responseObserver.onCompleted();
+    }
+  }
+
+  @Override
+  public void driverRestartRunningTaskHandler(
+      final TaskInfo request,
+      final StreamObserver<Void> responseObserver) {
+    try {
+      LOG.log(Level.INFO, "Driver restarted running task " + request.getTaskId());
+      if (!this.evaluatorBridgeMap.containsKey(request.getContext().getEvaluatorId())) {
+        final AllocatedEvaluatorBridge eval = new AllocatedEvaluatorBridge(
+            request.getContext().getEvaluatorId(),
+            toEvaluatorDescriptor(request.getContext().getEvaluatorDescriptorInfo()),
+            this.driverServiceClient);
+        this.evaluatorBridgeMap.put(eval.getId(), eval);
+      }
+      if (!this.activeContextBridgeMap.containsKey(request.getContext().getContextId())) {
+        final ActiveContextBridge context = toActiveContext(request.getContext());
+        this.activeContextBridgeMap.put(context.getId(), context);
+      }
+      final ActiveContextBridge context = this.activeContextBridgeMap.get(request.getContext().getContextId());
+      this.clientDriverDispatcher.get().dispatchRestart(
+          new RunningTaskBridge(this.driverServiceClient, request.getTaskId(), context));
+    } finally {
+      responseObserver.onNext(null);
+      responseObserver.onCompleted();
+    }
+  }
+
+  @Override
+  public void driverRestartCompletedHandler(
+      final DriverRestartCompletedInfo request,
+      final StreamObserver<Void> responseObserver) {
+    try {
+      this.clientDriverDispatcher.get().dispatchRestart(new DriverRestartCompleted() {
+        @Override
+        public Time getCompletedTime() {
+          return new StopTime(request.getCompletionTime().getStopTime());
+        }
+
+        @Override
+        public boolean isTimedOut() {
+          return request.getIsTimedOut();
+        }
+      });
+    } finally {
+      responseObserver.onNext(null);
+      responseObserver.onCompleted();
+    }
+  }
+
+  @Override
+  public void driverRestartFailedEvaluatorHandler(
+      final EvaluatorInfo request,
+      final StreamObserver<Void> responseObserver) {
+    try {
+      this.clientDriverDispatcher.get().dispatchRestart(new FailedEvaluatorBridge(
+          request.getEvaluatorId(),
+          request.getFailure() != null ?
+              new EvaluatorException(request.getFailure().getMessage()) :
+              new EvaluatorException("restart failed"),
+          Lists.<FailedContext>newArrayList(),
+          Optional.<FailedTask>empty()));
     } finally {
       responseObserver.onNext(null);
       responseObserver.onCompleted();

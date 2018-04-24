@@ -16,7 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+package org.apache.reef.bridge.client;
+
+import org.apache.reef.bridge.proto.ClientProtocol;
+
 /**
- * Client bridge.
+ * Driver service launcher.
  */
-package org.apache.reef.bridge.client.service;
+public interface IDriverServiceRuntimeLauncher {
+
+  void launch(final ClientProtocol.DriverClientConfiguration driverClientConfiguration);
+}

@@ -17,10 +17,10 @@
  * under the License.
  */
 
-package org.apache.reef.bridge.client.service;
+package org.apache.reef.bridge.driver.service.grpc;
 
 import org.apache.reef.bridge.driver.service.DriverServiceConfiguration;
-import org.apache.reef.bridge.driver.service.grpc.GRPCDriverService;
+import org.apache.reef.bridge.driver.service.DriverServiceConfigurationProviderBase;
 import org.apache.reef.bridge.proto.ClientProtocol;
 import org.apache.reef.tang.Configuration;
 import org.apache.reef.tang.Configurations;

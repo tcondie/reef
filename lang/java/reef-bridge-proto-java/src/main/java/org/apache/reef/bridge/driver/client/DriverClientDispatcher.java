@@ -31,6 +31,8 @@ import org.apache.reef.driver.evaluator.AllocatedEvaluator;
 import org.apache.reef.driver.evaluator.CompletedEvaluator;
 import org.apache.reef.driver.evaluator.FailedEvaluator;
 import org.apache.reef.driver.parameters.*;
+import org.apache.reef.driver.restart.DriverRestartCompleted;
+import org.apache.reef.driver.restart.DriverRestarted;
 import org.apache.reef.driver.task.*;
 import org.apache.reef.runtime.common.utils.DispatchingEStage;
 import org.apache.reef.tang.annotations.Parameter;
@@ -71,6 +73,11 @@ public final class DriverClientDispatcher {
    * The alarm dispatcher.
    */
   private final DispatchingEStage alarmDispatcher;
+
+  /**
+   * Driver restart dispatcher.
+   */
+  private final DispatchingEStage driverRestartDispatcher;
 
   @Inject
   private DriverClientDispatcher(
@@ -155,6 +162,114 @@ public final class DriverClientDispatcher {
     this.alarmDispatcher = new DispatchingEStage(this.applicationDispatcher);
     this.alarmDispatcher.register(String.class,
         Sets.newHashSet((EventHandler<String>)alarmDispatchHandler));
+
+    // Driver restart dispatcher
+    this.driverRestartDispatcher = new DispatchingEStage(this.applicationDispatcher);
+  }
+
+  @Inject
+  private DriverClientDispatcher(
+      final DriverClientExceptionHandler driverExceptionHandler,
+      final IAlarmDispatchHandler alarmDispatchHandler,
+      @Parameter(DriverClientDispatchThreadCount.class)
+      final Integer numberOfThreads,
+      // Application-provided start and stop handlers
+      @Parameter(DriverStartHandler.class)
+      final Set<EventHandler<StartTime>> startHandlers,
+      @Parameter(ClientDriverStopHandler.class)
+      final Set<EventHandler<StopTime>> stopHandlers,
+      // Application-provided Context event handlers
+      @Parameter(ContextActiveHandlers.class)
+      final Set<EventHandler<ActiveContext>> contextActiveHandlers,
+      @Parameter(ContextClosedHandlers.class)
+      final Set<EventHandler<ClosedContext>> contextClosedHandlers,
+      @Parameter(ContextFailedHandlers.class)
+      final Set<EventHandler<FailedContext>> contextFailedHandlers,
+      @Parameter(ContextMessageHandlers.class)
+      final Set<EventHandler<ContextMessage>> contextMessageHandlers,
+      // Application-provided Task event handlers
+      @Parameter(TaskRunningHandlers.class)
+      final Set<EventHandler<RunningTask>> taskRunningHandlers,
+      @Parameter(TaskCompletedHandlers.class)
+      final Set<EventHandler<CompletedTask>> taskCompletedHandlers,
+      @Parameter(TaskSuspendedHandlers.class)
+      final Set<EventHandler<SuspendedTask>> taskSuspendedHandlers,
+      @Parameter(TaskMessageHandlers.class)
+      final Set<EventHandler<TaskMessage>> taskMessageEventHandlers,
+      @Parameter(TaskFailedHandlers.class)
+      final Set<EventHandler<FailedTask>> taskExceptionEventHandlers,
+      // Application-provided Evaluator event handlers
+      @Parameter(EvaluatorAllocatedHandlers.class)
+      final Set<EventHandler<AllocatedEvaluator>> evaluatorAllocatedHandlers,
+      @Parameter(EvaluatorFailedHandlers.class)
+      final Set<EventHandler<FailedEvaluator>> evaluatorFailedHandlers,
+      @Parameter(EvaluatorCompletedHandlers.class)
+      final Set<EventHandler<CompletedEvaluator>> evaluatorCompletedHandlers,
+      // Client handlers
+      @Parameter(ClientCloseHandlers.class)
+      final Set<EventHandler<Void>> clientCloseHandlers,
+      @Parameter(ClientCloseWithMessageHandlers.class)
+      final Set<EventHandler<byte[]>> clientCloseWithMessageHandlers,
+      @Parameter(ClientMessageHandlers.class)
+      final Set<EventHandler<byte[]>> clientMessageHandlers,
+      // Driver restart handlers
+      @Parameter(DriverRestartHandler.class)
+      final Set<EventHandler<DriverRestarted>> driverRestartHandlers,
+      @Parameter(DriverRestartTaskRunningHandlers.class)
+      final Set<EventHandler<RunningTask>> driverRestartTaskRunningHandlers,
+      @Parameter(DriverRestartContextActiveHandlers.class)
+      final Set<EventHandler<ActiveContext>> driverRestartActiveContextHandlers,
+      @Parameter(DriverRestartCompletedHandlers.class)
+      final Set<EventHandler<DriverRestartCompleted>> driverRestartCompletedHandlers,
+      @Parameter(DriverRestartFailedEvaluatorHandlers.class)
+      final Set<EventHandler<FailedEvaluator>> driverRestartFailedEvaluatorHandlers) {
+    this(
+        driverExceptionHandler,
+        alarmDispatchHandler,
+        numberOfThreads,
+        startHandlers,
+        stopHandlers,
+        contextActiveHandlers,
+        contextClosedHandlers,
+        contextFailedHandlers,
+        contextMessageHandlers,
+        taskRunningHandlers,
+        taskCompletedHandlers,
+        taskSuspendedHandlers,
+        taskMessageEventHandlers,
+        taskExceptionEventHandlers,
+        evaluatorAllocatedHandlers,
+        evaluatorFailedHandlers,
+        evaluatorCompletedHandlers,
+        clientCloseHandlers,
+        clientCloseWithMessageHandlers,
+        clientMessageHandlers);
+    // Register driver restart handlers.
+    this.driverRestartDispatcher.register(DriverRestarted.class, driverRestartHandlers);
+    this.driverRestartDispatcher.register(RunningTask.class, driverRestartTaskRunningHandlers);
+    this.driverRestartDispatcher.register(ActiveContext.class, driverRestartActiveContextHandlers);
+    this.driverRestartDispatcher.register(DriverRestartCompleted.class, driverRestartCompletedHandlers);
+    this.driverRestartDispatcher.register(FailedEvaluator.class, driverRestartFailedEvaluatorHandlers);
+  }
+
+  public void dispatchRestart(final DriverRestarted driverRestarted) {
+    this.driverRestartDispatcher.onNext(DriverRestarted.class, driverRestarted);
+  }
+
+  public void dispatchRestart(final RunningTask task) {
+    this.driverRestartDispatcher.onNext(RunningTask.class, task);
+  }
+
+  public void dispatchRestart(final ActiveContext context) {
+    this.driverRestartDispatcher.onNext(ActiveContext.class, context);
+  }
+
+  public void dispatchRestart(final DriverRestartCompleted completed) {
+    this.driverRestartDispatcher.onNext(DriverRestartCompleted.class, completed);
+  }
+
+  public void dispatchRestart(final FailedEvaluator evaluator) {
+    this.driverRestartDispatcher.onNext(FailedEvaluator.class, evaluator);
   }
 
   public void dispatch(final StartTime startTime) {

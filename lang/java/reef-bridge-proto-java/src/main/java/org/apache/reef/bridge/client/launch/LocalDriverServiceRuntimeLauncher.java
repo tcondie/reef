@@ -20,8 +20,8 @@
 package org.apache.reef.bridge.client.launch;
 
 import org.apache.reef.bridge.client.IDriverRuntimeConfigurationProvider;
-import org.apache.reef.bridge.client.IDriverServiceConfigurationProvider;
-import org.apache.reef.bridge.client.IDriverServiceLauncher;
+import org.apache.reef.bridge.driver.service.IDriverServiceConfigurationProvider;
+import org.apache.reef.bridge.client.IDriverServiceRuntimeLauncher;
 import org.apache.reef.bridge.proto.ClientProtocol;
 import org.apache.reef.client.DriverLauncher;
 import org.apache.reef.tang.exceptions.InjectionException;
@@ -31,13 +31,13 @@ import javax.inject.Inject;
 /**
  * Local driver service launcher.
  */
-public final class LocalDriverServiceLauncher implements IDriverServiceLauncher {
+public final class LocalDriverServiceRuntimeLauncher implements IDriverServiceRuntimeLauncher {
 
   private final IDriverRuntimeConfigurationProvider driverRuntimeConfigurationProvider;
 
   private final IDriverServiceConfigurationProvider driverServiceConfigurationProvider;
   @Inject
-  private LocalDriverServiceLauncher(
+  private LocalDriverServiceRuntimeLauncher(
       final IDriverRuntimeConfigurationProvider driverRuntimeConfigurationProvider,
       final IDriverServiceConfigurationProvider driverServiceConfigurationProvider) {
     this.driverRuntimeConfigurationProvider = driverRuntimeConfigurationProvider;

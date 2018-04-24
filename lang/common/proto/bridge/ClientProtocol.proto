@@ -66,7 +66,10 @@ message DriverClientConfiguration {
   string driver_client_launch_command = 10;
 
   // Enable driver restart?
-  bool enable_driver_restart = 11;
+  bool driver_restart_enable = 11;
+
+  // Driver restart evaluator recovery seconds (optional)
+  uint32 driver_restart_evaluator_recovery_seconds = 12;
 
   // TCP port range
   uint32 tcp_port_range_begin = 15;

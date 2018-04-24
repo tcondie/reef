@@ -74,6 +74,33 @@ service DriverClient {
   rpc ClientCloseHandler (Void) returns (Void) {}
 
   rpc ClientCloseWithMessageHandler (ClientMessageInfo) returns (Void) {}
+
+  // Driver Restart Handlers
+  rpc DriverRestartHandler (DriverRestartInfo) returns (Void) {}
+
+  rpc DriverRestartActiveContextHandler (ContextInfo) returns (Void) {}
+
+  rpc DriverRestartRunningTaskHandler (TaskInfo) returns (Void) {}
+
+  rpc DriverRestartCompletedHandler (DriverRestartCompletedInfo) returns (Void) {}
+
+  rpc DriverRestartFailedEvaluatorHandler (EvaluatorInfo) returns (Void) {}
+}
+
+// Driver restart information
+message DriverRestartInfo {
+  uint32 resubmission_attempts = 1;
+
+  StartTimeInfo start_time = 2;
+
+  repeated string expected_evaluator_ids = 3;
+}
+
+// Driver restart completed information
+message DriverRestartCompletedInfo {
+  StopTimeInfo completion_time = 1;
+
+  bool is_timed_out = 2;
 }
 
 // IdleStatus response to idleness inquiry
@@ -126,6 +153,9 @@ message ContextInfo {
   string evaluator_id = 2;
 
   string parent_id = 3;
+
+  // Carry this with us for driver restart
+  EvaluatorDescriptorInfo evaluator_descriptor_info = 4;
 
   // Optional exception information
   ExceptionInfo exception = 5;

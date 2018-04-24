@@ -33,6 +33,8 @@ import org.apache.reef.driver.context.ClosedContext;
 import org.apache.reef.driver.context.ContextMessage;
 import org.apache.reef.driver.context.FailedContext;
 import org.apache.reef.driver.evaluator.*;
+import org.apache.reef.driver.restart.DriverRestartCompleted;
+import org.apache.reef.driver.restart.DriverRestarted;
 import org.apache.reef.driver.task.*;
 import org.apache.reef.runtime.common.driver.context.EvaluatorContext;
 import org.apache.reef.runtime.common.driver.evaluator.AllocatedEvaluatorImpl;
@@ -110,7 +112,7 @@ public final class GRPCDriverService implements IDriverService {
     this.tcpPortProvider = tcpPortProvider;
   }
 
-  private void start() throws IOException {
+  private void start() throws IOException, InterruptedException {
     for (final Integer port : this.tcpPortProvider) {
       try {
         this.server = ServerBuilder.forPort(port)
@@ -130,6 +132,25 @@ public final class GRPCDriverService implements IDriverService {
       final String cmdOs = OSUtils.isWindows() ? "cmd.exe /c \"" + cmd + "\"" : cmd;
       final String cmdStd = cmdOs + " 1> driverclient.stdout 2> driverclient.stderr";
       this.driverProcess = Runtime.getRuntime().exec(cmdStd);
+      synchronized (this) {
+        // wait for driver client process to register
+        while (this.clientStub == null && driverProcessIsAlive()) {
+          this.wait(1000); // a second
+        }
+      }
+      if (driverProcessIsAlive()) {
+        Thread closeChildThread = new Thread() {
+          public void run() {
+            synchronized (GRPCDriverService.this) {
+              if (GRPCDriverService.this.driverProcess != null) {
+                GRPCDriverService.this.driverProcess.destroy();
+                GRPCDriverService.this.driverProcess = null;
+              }
+            }
+          }
+        };
+        Runtime.getRuntime().addShutdownHook(closeChildThread);
+      }
     }
   }
 
@@ -225,10 +246,6 @@ public final class GRPCDriverService implements IDriverService {
     try {
       start();
       synchronized (this) {
-        // wait for driver client process to register
-        while (this.clientStub == null && driverProcessIsAlive()) {
-          this.wait(1000); // a second
-        }
         if (this.clientStub != null) {
           this.clientStub.startHandler(
               StartTimeInfo.newBuilder().setStartTime(startTime.getTimestamp()).build());
@@ -237,8 +254,7 @@ public final class GRPCDriverService implements IDriverService {
         }
       }
     } catch (IOException | InterruptedException e) {
-      e.printStackTrace();
-      stop();
+      stop(e);
     }
   }
 
@@ -298,6 +314,8 @@ public final class GRPCDriverService implements IDriverService {
               .setParentId(
                   context.getParentId().isPresent() ?
                       context.getParentId().get() : null)
+              .setEvaluatorDescriptorInfo(toEvaluatorDescriptorInfo(
+                  context.getEvaluatorDescriptor()))
               .build());
     }
   }
@@ -311,6 +329,8 @@ public final class GRPCDriverService implements IDriverService {
               .setContextId(context.getId())
               .setEvaluatorId(context.getEvaluatorId())
               .setParentId(context.getParentContext().getId())
+              .setEvaluatorDescriptorInfo(toEvaluatorDescriptorInfo(
+                  context.getEvaluatorDescriptor()))
               .build());
     }
   }
@@ -326,6 +346,8 @@ public final class GRPCDriverService implements IDriverService {
               .setParentId(
                   context.getParentContext().isPresent() ?
                       context.getParentContext().get().getId() : null)
+              .setEvaluatorDescriptorInfo(toEvaluatorDescriptorInfo(
+                  context.getEvaluatorDescriptor()))
               .build());
     }
   }
@@ -358,6 +380,8 @@ public final class GRPCDriverService implements IDriverService {
                   .setContextId(context.getId())
                   .setEvaluatorId(context.getEvaluatorId())
                   .setParentId(context.getParentId().isPresent() ? context.getParentId().get() : "")
+                  .setEvaluatorDescriptorInfo(toEvaluatorDescriptorInfo(
+                      task.getActiveContext().getEvaluatorDescriptor()))
                   .build())
               .build());
     }
@@ -400,6 +424,8 @@ public final class GRPCDriverService implements IDriverService {
                   .setEvaluatorId(task.getActiveContext().getEvaluatorId())
                   .setParentId(task.getActiveContext().getParentId().isPresent() ?
                       task.getActiveContext().getParentId().get() : "")
+                  .setEvaluatorDescriptorInfo(toEvaluatorDescriptorInfo(
+                      task.getActiveContext().getEvaluatorDescriptor()))
                   .build())
               .build());
     }
@@ -463,6 +489,89 @@ public final class GRPCDriverService implements IDriverService {
           ClientMessageInfo.newBuilder()
               .setPayload(ByteString.copyFrom(message))
               .build());
+    }
+  }
+
+  @Override
+  public void driverRestarted(final DriverRestarted restart) {
+    try {
+      start();
+      synchronized (this) {
+        if (this.clientStub != null) {
+          this.clientStub.driverRestartHandler(DriverRestartInfo.newBuilder()
+              .setResubmissionAttempts(restart.getResubmissionAttempts())
+              .setStartTime(StartTimeInfo.newBuilder()
+                  .setStartTime(restart.getStartTime().getTimestamp()).build())
+              .addAllExpectedEvaluatorIds(restart.getExpectedEvaluatorIds())
+              .build());
+        } else {
+          stop(new DriverClientException("Failed to restart driver client"));
+        }
+      }
+    } catch (InterruptedException | IOException e) {
+      stop(e);
+    }
+  }
+
+  @Override
+  public void restartRunningTask(final RunningTask task) {
+    synchronized (this) {
+      final ActiveContext context = task.getActiveContext();
+      if (!this.activeContextMap.containsKey(context.getId())) {
+        this.activeContextMap.put(context.getId(), context);
+      }
+      this.runningTaskMap.put(task.getId(), task);
+      this.clientStub.driverRestartRunningTaskHandler(
+          TaskInfo.newBuilder()
+              .setTaskId(task.getId())
+              .setContext(ContextInfo.newBuilder()
+                  .setContextId(context.getId())
+                  .setEvaluatorId(context.getEvaluatorId())
+                  .setParentId(context.getParentId().isPresent() ? context.getParentId().get() : "")
+                  .setEvaluatorDescriptorInfo(toEvaluatorDescriptorInfo(context.getEvaluatorDescriptor()))
+                  .build())
+              .build());
+    }
+  }
+
+  @Override
+  public void restartActiveContext(final ActiveContext context) {
+    synchronized (this) {
+      this.activeContextMap.put(context.getId(), context);
+      this.clientStub.driverRestartActiveContextHandler(
+          ContextInfo.newBuilder()
+              .setContextId(context.getId())
+              .setEvaluatorId(context.getEvaluatorId())
+              .setParentId(
+                  context.getParentId().isPresent() ?
+                      context.getParentId().get() : null)
+              .setEvaluatorDescriptorInfo(toEvaluatorDescriptorInfo(
+                  context.getEvaluatorDescriptor()))
+              .build());
+    }
+  }
+
+  @Override
+  public void driverRestartCompleted(final DriverRestartCompleted restartCompleted) {
+    synchronized (this) {
+      this.clientStub.driverRestartCompletedHandler(DriverRestartCompletedInfo.newBuilder()
+          .setCompletionTime(StopTimeInfo.newBuilder()
+              .setStopTime(restartCompleted.getCompletedTime().getTimestamp()).build())
+          .setIsTimedOut(restartCompleted.isTimedOut())
+          .build());
+    }
+  }
+
+  @Override
+  public void restartFailedEvalautor(final FailedEvaluator evaluator) {
+    synchronized (this) {
+      this.clientStub.driverRestartFailedEvaluatorHandler(EvaluatorInfo.newBuilder()
+          .setEvaluatorId(evaluator.getId())
+          .setFailure(EvaluatorInfo.FailureInfo.newBuilder()
+              .setMessage(evaluator.getEvaluatorException() != null ?
+                  evaluator.getEvaluatorException().getMessage() : "unknown failure during restart")
+              .build())
+          .build());
     }
   }
 

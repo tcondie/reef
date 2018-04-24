@@ -25,6 +25,8 @@ import org.apache.reef.driver.context.FailedContext;
 import org.apache.reef.driver.evaluator.AllocatedEvaluator;
 import org.apache.reef.driver.evaluator.CompletedEvaluator;
 import org.apache.reef.driver.evaluator.FailedEvaluator;
+import org.apache.reef.driver.restart.DriverRestartCompleted;
+import org.apache.reef.driver.restart.DriverRestarted;
 import org.apache.reef.driver.task.*;
 import org.apache.reef.runtime.common.driver.idle.DriverIdlenessSource;
 import org.apache.reef.wake.time.event.StartTime;
@@ -34,6 +36,36 @@ import org.apache.reef.wake.time.event.StopTime;
  * Interface implemented by a Driver Service.
  */
 public interface IDriverService extends DriverIdlenessSource {
+
+  /**
+   * Driver restart handler.
+   * @param restart event
+   */
+  void driverRestarted(final DriverRestarted restart);
+
+  /**
+   * Restart running task.
+   * @param task running
+   */
+  void restartRunningTask(final RunningTask task);
+
+  /**
+   * Restart active context.
+   * @param context restart
+   */
+  void restartActiveContext(final ActiveContext context);
+
+  /**
+   * Driver restart completed.
+   * @param restartCompleted event
+   */
+  void driverRestartCompleted(final DriverRestartCompleted restartCompleted);
+
+  /**
+   * Failed to restart evaluator.
+   * @param evaluator that failed.
+   */
+  void restartFailedEvalautor(final FailedEvaluator evaluator);
 
   /**
    * Handle start time event.
