@@ -19,137 +19,35 @@
 
 package org.apache.reef.bridge.client.service;
 
-import org.apache.reef.bridge.client.IDriverServiceConfigurationProvider;
 import org.apache.reef.bridge.driver.service.DriverServiceConfiguration;
-import org.apache.reef.bridge.driver.service.DriverServiceHandlers;
 import org.apache.reef.bridge.driver.service.grpc.GRPCDriverService;
 import org.apache.reef.bridge.proto.ClientProtocol;
-import org.apache.reef.client.DriverConfiguration;
 import org.apache.reef.tang.Configuration;
-import org.apache.reef.tang.formats.ConfigurationModule;
-import org.apache.reef.util.EnvironmentUtils;
+import org.apache.reef.tang.Configurations;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.inject.Inject;
+import java.util.logging.Logger;
 
 /**
  * GRPC driver service configuration provider.
  */
-public class GRPCDriverServiceConfigurationProvider implements IDriverServiceConfigurationProvider {
+public final class GRPCDriverServiceConfigurationProvider extends DriverServiceConfigurationProviderBase {
+
+  private static final Logger LOG = Logger.getLogger(GRPCDriverServiceConfigurationProvider.class.getName());
+
+  @Inject
+  private GRPCDriverServiceConfigurationProvider() {
+  }
 
   @Override
-  public Configuration getConfiguration(
-      final ClientProtocol.DriverClientConfiguration driverConfiguration) {
-    // Set required parameters
-    ConfigurationModule driverServiceConfigurationModule = DriverServiceConfiguration.CONF
+  public Configuration getConfiguration(final ClientProtocol.DriverClientConfiguration driverConfiguration) {
+    Configuration driverServiceConfiguration = DriverServiceConfiguration.CONF
         .set(DriverServiceConfiguration.DRIVER_SERVICE_IMPL, GRPCDriverService.class)
-        .set(DriverServiceConfiguration.DRIVER_CLIENT_COMMAND,
-            driverConfiguration.getDriverClientLaunchCommand())
-        .set(DriverConfiguration.DRIVER_IDENTIFIER, driverConfiguration.getJobid());
-
-    // Set file dependencies
-    final List<String> localLibraries = new ArrayList<>();
-    localLibraries.add(EnvironmentUtils.getClassLocation(GRPCDriverService.class));
-    if (driverConfiguration.getLocalLibrariesCount() > 0) {
-      localLibraries.addAll(driverConfiguration.getLocalLibrariesList());
-    }
-    driverServiceConfigurationModule = driverServiceConfigurationModule
-        .setMultiple(DriverConfiguration.LOCAL_LIBRARIES, localLibraries);
-    if (driverConfiguration.getGlobalLibrariesCount() > 0) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .setMultiple(DriverConfiguration.GLOBAL_LIBRARIES,
-              driverConfiguration.getGlobalLibrariesList());
-    }
-    if (driverConfiguration.getLocalFilesCount() > 0) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .setMultiple(DriverConfiguration.LOCAL_FILES,
-              driverConfiguration.getLocalFilesList());
-    }
-    if (driverConfiguration.getGlobalFilesCount() > 0) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .setMultiple(DriverConfiguration.GLOBAL_FILES,
-              driverConfiguration.getGlobalFilesList());
-    }
-    // Setup driver resources
-    if (driverConfiguration.getCpuCores() > 0) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.DRIVER_CPU_CORES, driverConfiguration.getCpuCores());
-    }
-    if (driverConfiguration.getMemoryMb() > 0) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.DRIVER_MEMORY, driverConfiguration.getMemoryMb());
-    }
-
-    // Setup handlers
-    final Set<ClientProtocol.DriverClientConfiguration.Handlers> handlerLabelSet = new HashSet<>();
-    handlerLabelSet.addAll(driverConfiguration.getHandlerList());
-    if (!handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.START)) {
-      throw new IllegalArgumentException("Start handler required");
-    } else {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.ON_DRIVER_STARTED, DriverServiceHandlers.StartHandler.class)
-          .set(DriverConfiguration.ON_DRIVER_STOP, DriverServiceHandlers.StopHandler.class);
-    }
-    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.EVALUATOR_ALLOCATED)) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.ON_EVALUATOR_ALLOCATED, DriverServiceHandlers.AllocatedEvaluatorHandler.class);
-    }
-    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.EVALUATOR_COMPLETED)) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.ON_EVALUATOR_COMPLETED, DriverServiceHandlers.CompletedEvaluatorHandler.class);
-    }
-    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.EVALUATOR_FAILED)) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.ON_EVALUATOR_FAILED, DriverServiceHandlers.FailedEvaluatorHandler.class);
-    }
-    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.CONTEXT_ACTIVE)) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.ON_CONTEXT_ACTIVE, DriverServiceHandlers.ActiveContextHandler.class);
-    }
-    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.CONTEXT_CLOSED)) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.ON_CONTEXT_CLOSED, DriverServiceHandlers.ClosedContextHandler.class);
-    }
-    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.CONTEXT_FAILED)) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.ON_CONTEXT_FAILED, DriverServiceHandlers.ContextFailedHandler.class);
-    }
-    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.CONTEXT_MESSAGE)) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.ON_CONTEXT_MESSAGE, DriverServiceHandlers.ContextMessageHandler.class);
-    }
-    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.TASK_RUNNING)) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.ON_TASK_RUNNING, DriverServiceHandlers.RunningTaskHandler.class);
-    }
-    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.TASK_COMPLETED)) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.ON_TASK_COMPLETED, DriverServiceHandlers.CompletedTaskHandler.class);
-    }
-    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.TASK_FAILED)) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.ON_TASK_FAILED, DriverServiceHandlers.FailedTaskHandler.class);
-    }
-    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.TASK_MESSAGE)) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.ON_TASK_MESSAGE, DriverServiceHandlers.TaskMessageHandler.class);
-    }
-    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.CLIENT_MESSAGE)) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.ON_CLIENT_MESSAGE, DriverServiceHandlers.ClientMessageHandler.class);
-    }
-    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.CLIENT_CLOSE)) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.ON_CLIENT_CLOSED, DriverServiceHandlers.ClientCloseHandler.class);
-    }
-    if (handlerLabelSet.contains(ClientProtocol.DriverClientConfiguration.Handlers.CLIENT_CLOSE_WITH_MESSAGE)) {
-      driverServiceConfigurationModule = driverServiceConfigurationModule
-          .set(DriverConfiguration.ON_CLIENT_CLOSED_MESSAGE,
-              DriverServiceHandlers.ClientCloseWithMessageHandler.class);
-    }
-
-    return driverServiceConfigurationModule.build();
+        .set(DriverServiceConfiguration.DRIVER_CLIENT_COMMAND, driverConfiguration.getDriverClientLaunchCommand())
+        .build();
+    return Configurations.merge(
+        driverServiceConfiguration,
+        getDriverConfiguration(driverConfiguration),
+        getTcpPortRangeConfiguration(driverConfiguration));
   }
 }

@@ -42,6 +42,8 @@ public final class HelloREEF {
       DriverClientConfiguration.CONF
           .set(DriverClientConfiguration.ON_DRIVER_STARTED, HelloDriver.StartHandler.class)
           .set(DriverClientConfiguration.ON_EVALUATOR_ALLOCATED, HelloDriver.EvaluatorAllocatedHandler.class)
+          .set(DriverClientConfiguration.ON_TASK_COMPLETED, HelloDriver.CompletedTaskHandler.class)
+          .set(DriverClientConfiguration.ON_TASK_FAILED, HelloDriver.FailedTaskHandler.class)
           .build();
 
   /**
@@ -59,6 +61,8 @@ public final class HelloREEF {
         .build());
     builder.addHandler(ClientProtocol.DriverClientConfiguration.Handlers.START);
     builder.addHandler(ClientProtocol.DriverClientConfiguration.Handlers.EVALUATOR_ALLOCATED);
+    builder.addHandler(ClientProtocol.DriverClientConfiguration.Handlers.TASK_COMPLETED);
+    builder.addHandler(ClientProtocol.DriverClientConfiguration.Handlers.TASK_FAILED);
     builder.addGlobalLibraries(EnvironmentUtils.getClassLocation(HelloDriver.class));
 
     DriverServiceLauncher.submit(builder.build(), DRIVER_CONFIG);

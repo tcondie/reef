@@ -19,10 +19,12 @@
 
 package org.apache.reef.bridge.client.runtime;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.reef.bridge.client.IDriverRuntimeConfigurationProvider;
 import org.apache.reef.bridge.proto.ClientProtocol;
 import org.apache.reef.runtime.local.client.LocalRuntimeConfiguration;
 import org.apache.reef.tang.Configuration;
+import org.apache.reef.tang.formats.ConfigurationModule;
 
 import javax.inject.Inject;
 
@@ -33,18 +35,23 @@ public final class LocalDriverRuntimeConfigurationProvider implements IDriverRun
 
   @Inject
   LocalDriverRuntimeConfigurationProvider() {
-
   }
 
   @Override
   public Configuration getConfiguration(final ClientProtocol.DriverClientConfiguration driverConfiguration) {
-    return LocalRuntimeConfiguration.CONF
-        .set(LocalRuntimeConfiguration.MAX_NUMBER_OF_EVALUATORS,
-            driverConfiguration.getLocalRuntime().getMaxNumberOfEvaluators())
-        .set(LocalRuntimeConfiguration.RUNTIME_ROOT_FOLDER,
-            driverConfiguration.getLocalRuntime().getRuntimeRootFolder())
-        .set(LocalRuntimeConfiguration.JVM_HEAP_SLACK,
-            driverConfiguration.getLocalRuntime().getJvmHeapSlack())
-        .build();
+    ConfigurationModule localRuntimeCM = LocalRuntimeConfiguration.CONF;
+    if (driverConfiguration.getLocalRuntime().getMaxNumberOfEvaluators() > 0) {
+      localRuntimeCM = localRuntimeCM.set(LocalRuntimeConfiguration.MAX_NUMBER_OF_EVALUATORS,
+          driverConfiguration.getLocalRuntime().getMaxNumberOfEvaluators());
+    }
+    if (StringUtils.isNotEmpty(driverConfiguration.getLocalRuntime().getRuntimeRootFolder())) {
+      localRuntimeCM = localRuntimeCM.set(LocalRuntimeConfiguration.RUNTIME_ROOT_FOLDER,
+          driverConfiguration.getLocalRuntime().getRuntimeRootFolder());
+    }
+    if (driverConfiguration.getLocalRuntime().getJvmHeapSlack() > 0.0) {
+      localRuntimeCM = localRuntimeCM.set(LocalRuntimeConfiguration.JVM_HEAP_SLACK,
+          driverConfiguration.getLocalRuntime().getJvmHeapSlack());
+    }
+    return localRuntimeCM.build();
   }
 }

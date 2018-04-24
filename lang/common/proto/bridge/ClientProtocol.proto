@@ -28,7 +28,7 @@ package driverbridge;
 message LocalRuntimeParameters {
   uint32 max_number_of_evaluators = 1;
   string runtime_root_folder = 2;
-  string jvm_heap_slack = 3;
+  float jvm_heap_slack = 3;
   repeated string rack_names = 4;
 }
 
