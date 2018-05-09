@@ -17,13 +17,13 @@
 
 using System;
 
-namespace Org.Apache.REEF.Bridge.Client
+namespace Org.Apache.REEF.Bridge.Client.DotNet
 {
-    class Program
+    class DriverClient
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+
         }
     }
 }

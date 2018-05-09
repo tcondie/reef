@@ -41,42 +41,36 @@ namespace Org.Apache.REEF.Bridge.Proto {
             "ChRDbGllbnRQcm90b2NvbC5wcm90bxIMZHJpdmVyYnJpZGdlIoMBChZMb2Nh",
             "bFJ1bnRpbWVQYXJhbWV0ZXJzEiAKGG1heF9udW1iZXJfb2ZfZXZhbHVhdG9y",
             "cxgBIAEoDRIbChNydW50aW1lX3Jvb3RfZm9sZGVyGAIgASgJEhYKDmp2bV9o",
-            "ZWFwX3NsYWNrGAMgASgJEhIKCnJhY2tfbmFtZXMYBCADKAkiTwoVWWFyblJ1",
-            "bnRpbWVQYXJhbWV0ZXJzEg0KBXF1ZXVlGAEgASgJEicKH2pvYl9zdWJtaXNz",
-            "aW9uX2RpcmVjdG9yeV9wcmVmaXgYAiABKAkiHQobQXp1cmVCYXRjaFJ1bnRp",
-            "bWVQYXJhbWV0ZXJzIhgKFk1lc29zUnVudGltZVBhcmFtZXRlcnMiygcKGURy",
-            "aXZlckNsaWVudENvbmZpZ3VyYXRpb24SDQoFam9iaWQYASABKAkSEQoJY3B1",
-            "X2NvcmVzGAIgASgNEhEKCW1lbW9yeV9tYhgDIAEoDRI9Cg1sb2NhbF9ydW50",
-            "aW1lGAQgASgLMiQuZHJpdmVyYnJpZGdlLkxvY2FsUnVudGltZVBhcmFtZXRl",
-            "cnNIABI7Cgx5YXJuX3J1bnRpbWUYBSABKAsyIy5kcml2ZXJicmlkZ2UuWWFy",
-            "blJ1bnRpbWVQYXJhbWV0ZXJzSAASRAoPYXpiYXRjaF9ydW50aW1lGAYgASgL",
-            "MikuZHJpdmVyYnJpZGdlLkF6dXJlQmF0Y2hSdW50aW1lUGFyYW1ldGVyc0gA",
-            "Ej0KDW1lc29zX3J1bnRpbWUYByABKAsyJC5kcml2ZXJicmlkZ2UuTWVzb3NS",
-            "dW50aW1lUGFyYW1ldGVyc0gAEiQKHGRyaXZlcl9jbGllbnRfbGF1bmNoX2Nv",
-            "bW1hbmQYCiABKAkSQQoHaGFuZGxlchgLIAMoDjIwLmRyaXZlcmJyaWRnZS5E",
-            "cml2ZXJDbGllbnRDb25maWd1cmF0aW9uLkhhbmRsZXJzEhwKFHRjcF9wb3J0",
-            "X3JhbmdlX2JlZ2luGA8gASgNEhwKFHRjcF9wb3J0X3JhbmdlX2NvdW50GBAg",
-            "ASgNEiAKGHRjcF9wb3J0X3JhbmdlX3RyeV9jb3VudBgRIAEoDRIUCgxnbG9i",
-            "YWxfZmlsZXMYFCADKAkSEwoLbG9jYWxfZmlsZXMYFSADKAkSGAoQZ2xvYmFs",
-            "X2xpYnJhcmllcxgWIAMoCRIXCg9sb2NhbF9saWJyYXJpZXMYFyADKAkixgIK",
-            "CEhhbmRsZXJzEgkKBVNUQVJUEAASCAoEU1RPUBABEhcKE0VWQUxVQVRPUl9B",
-            "TExPQ0FURUQQBRIXChNFVkFMVUFUT1JfQ09NUExFVEVEEAYSFAoQRVZBTFVB",
-            "VE9SX0ZBSUxFRBAHEhIKDkNPTlRFWFRfQUNUSVZFEAoSEgoOQ09OVEVYVF9D",
-            "TE9TRUQQCxISCg5DT05URVhUX0ZBSUxFRBAMEhMKD0NPTlRFWFRfTUVTU0FH",
-            "RRANEhAKDFRBU0tfUlVOTklORxAPEg8KC1RBU0tfRkFJTEVEEBASEgoOVEFT",
-            "S19DT01QTEVURUQQERIQCgxUQVNLX01FU1NBR0UQEhISCg5DTElFTlRfTUVT",
-            "U0FHRRAUEhAKDENMSUVOVF9DTE9TRRAVEh0KGUNMSUVOVF9DTE9TRV9XSVRI",
-            "X01FU1NBR0UQFkIJCgdydW50aW1lQk0KHG9yZy5hcGFjaGUucmVlZi5icmlk",
-            "Z2UucHJvdG9CDkNsaWVudFByb3RvY29sqgIcT3JnLkFwYWNoZS5SRUVGLkJy",
-            "aWRnZS5Qcm90b2IGcHJvdG8z"));
+            "ZWFwX3NsYWNrGAMgASgCEhIKCnJhY2tfbmFtZXMYBCADKAkieAoVWWFyblJ1",
+            "bnRpbWVQYXJhbWV0ZXJzEg0KBXF1ZXVlGAEgASgJEiAKGGpvYl9zdWJtaXNz",
+            "aW9uX2RpcmVjdG9yeRgCIAEoCRIWCg5maWxlc3lzdGVtX3VybBgDIAEoCRIW",
+            "Cg5zZWN1cml0eV90b2tlbhgEIAEoDCIdChtBenVyZUJhdGNoUnVudGltZVBh",
+            "cmFtZXRlcnMiGAoWTWVzb3NSdW50aW1lUGFyYW1ldGVycyKQBQoZRHJpdmVy",
+            "Q2xpZW50Q29uZmlndXJhdGlvbhINCgVqb2JpZBgBIAEoCRIRCgljcHVfY29y",
+            "ZXMYAiABKA0SEQoJbWVtb3J5X21iGAMgASgNEj0KDWxvY2FsX3J1bnRpbWUY",
+            "BCABKAsyJC5kcml2ZXJicmlkZ2UuTG9jYWxSdW50aW1lUGFyYW1ldGVyc0gA",
+            "EjsKDHlhcm5fcnVudGltZRgFIAEoCzIjLmRyaXZlcmJyaWRnZS5ZYXJuUnVu",
+            "dGltZVBhcmFtZXRlcnNIABJECg9hemJhdGNoX3J1bnRpbWUYBiABKAsyKS5k",
+            "cml2ZXJicmlkZ2UuQXp1cmVCYXRjaFJ1bnRpbWVQYXJhbWV0ZXJzSAASPQoN",
+            "bWVzb3NfcnVudGltZRgHIAEoCzIkLmRyaXZlcmJyaWRnZS5NZXNvc1J1bnRp",
+            "bWVQYXJhbWV0ZXJzSAASJAocZHJpdmVyX2NsaWVudF9sYXVuY2hfY29tbWFu",
+            "ZBgKIAEoCRIdChVkcml2ZXJfcmVzdGFydF9lbmFibGUYCyABKAgSMQopZHJp",
+            "dmVyX3Jlc3RhcnRfZXZhbHVhdG9yX3JlY292ZXJ5X3NlY29uZHMYDCABKA0S",
+            "HAoUdGNwX3BvcnRfcmFuZ2VfYmVnaW4YDyABKA0SHAoUdGNwX3BvcnRfcmFu",
+            "Z2VfY291bnQYECABKA0SIAoYdGNwX3BvcnRfcmFuZ2VfdHJ5X2NvdW50GBEg",
+            "ASgNEhQKDGdsb2JhbF9maWxlcxgUIAMoCRITCgtsb2NhbF9maWxlcxgVIAMo",
+            "CRIYChBnbG9iYWxfbGlicmFyaWVzGBYgAygJEhcKD2xvY2FsX2xpYnJhcmll",
+            "cxgXIAMoCUIJCgdydW50aW1lQk0KHG9yZy5hcGFjaGUucmVlZi5icmlkZ2Uu",
+            "cHJvdG9CDkNsaWVudFByb3RvY29sqgIcT3JnLkFwYWNoZS5SRUVGLkJyaWRn",
+            "ZS5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.LocalRuntimeParameters), global::Org.Apache.REEF.Bridge.Proto.LocalRuntimeParameters.Parser, new[]{ "MaxNumberOfEvaluators", "RuntimeRootFolder", "JvmHeapSlack", "RackNames" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.YarnRuntimeParameters), global::Org.Apache.REEF.Bridge.Proto.YarnRuntimeParameters.Parser, new[]{ "Queue", "JobSubmissionDirectoryPrefix" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.YarnRuntimeParameters), global::Org.Apache.REEF.Bridge.Proto.YarnRuntimeParameters.Parser, new[]{ "Queue", "JobSubmissionDirectory", "FilesystemUrl", "SecurityToken" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.AzureBatchRuntimeParameters), global::Org.Apache.REEF.Bridge.Proto.AzureBatchRuntimeParameters.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.MesosRuntimeParameters), global::Org.Apache.REEF.Bridge.Proto.MesosRuntimeParameters.Parser, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.DriverClientConfiguration), global::Org.Apache.REEF.Bridge.Proto.DriverClientConfiguration.Parser, new[]{ "Jobid", "CpuCores", "MemoryMb", "LocalRuntime", "YarnRuntime", "AzbatchRuntime", "MesosRuntime", "DriverClientLaunchCommand", "Handler", "TcpPortRangeBegin", "TcpPortRangeCount", "TcpPortRangeTryCount", "GlobalFiles", "LocalFiles", "GlobalLibraries", "LocalLibraries" }, new[]{ "Runtime" }, new[]{ typeof(global::Org.Apache.REEF.Bridge.Proto.DriverClientConfiguration.Types.Handlers) }, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.DriverClientConfiguration), global::Org.Apache.REEF.Bridge.Proto.DriverClientConfiguration.Parser, new[]{ "Jobid", "CpuCores", "MemoryMb", "LocalRuntime", "YarnRuntime", "AzbatchRuntime", "MesosRuntime", "DriverClientLaunchCommand", "DriverRestartEnable", "DriverRestartEvaluatorRecoverySeconds", "TcpPortRangeBegin", "TcpPortRangeCount", "TcpPortRangeTryCount", "GlobalFiles", "LocalFiles", "GlobalLibraries", "LocalLibraries" }, new[]{ "Runtime" }, null, null)
           }));
     }
     #endregion
@@ -142,12 +136,12 @@ namespace Org.Apache.REEF.Bridge.Proto {
 
     /// <summary>Field number for the "jvm_heap_slack" field.</summary>
     public const int JvmHeapSlackFieldNumber = 3;
-    private string jvmHeapSlack_ = "";
+    private float jvmHeapSlack_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string JvmHeapSlack {
+    public float JvmHeapSlack {
       get { return jvmHeapSlack_; }
       set {
-        jvmHeapSlack_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        jvmHeapSlack_ = value;
       }
     }
 
@@ -186,7 +180,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
       int hash = 1;
       if (MaxNumberOfEvaluators != 0) hash ^= MaxNumberOfEvaluators.GetHashCode();
       if (RuntimeRootFolder.Length != 0) hash ^= RuntimeRootFolder.GetHashCode();
-      if (JvmHeapSlack.Length != 0) hash ^= JvmHeapSlack.GetHashCode();
+      if (JvmHeapSlack != 0F) hash ^= JvmHeapSlack.GetHashCode();
       hash ^= rackNames_.GetHashCode();
       return hash;
     }
@@ -206,9 +200,9 @@ namespace Org.Apache.REEF.Bridge.Proto {
         output.WriteRawTag(18);
         output.WriteString(RuntimeRootFolder);
       }
-      if (JvmHeapSlack.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(JvmHeapSlack);
+      if (JvmHeapSlack != 0F) {
+        output.WriteRawTag(29);
+        output.WriteFloat(JvmHeapSlack);
       }
       rackNames_.WriteTo(output, _repeated_rackNames_codec);
     }
@@ -222,8 +216,8 @@ namespace Org.Apache.REEF.Bridge.Proto {
       if (RuntimeRootFolder.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(RuntimeRootFolder);
       }
-      if (JvmHeapSlack.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(JvmHeapSlack);
+      if (JvmHeapSlack != 0F) {
+        size += 1 + 4;
       }
       size += rackNames_.CalculateSize(_repeated_rackNames_codec);
       return size;
@@ -240,7 +234,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
       if (other.RuntimeRootFolder.Length != 0) {
         RuntimeRootFolder = other.RuntimeRootFolder;
       }
-      if (other.JvmHeapSlack.Length != 0) {
+      if (other.JvmHeapSlack != 0F) {
         JvmHeapSlack = other.JvmHeapSlack;
       }
       rackNames_.Add(other.rackNames_);
@@ -262,8 +256,8 @@ namespace Org.Apache.REEF.Bridge.Proto {
             RuntimeRootFolder = input.ReadString();
             break;
           }
-          case 26: {
-            JvmHeapSlack = input.ReadString();
+          case 29: {
+            JvmHeapSlack = input.ReadFloat();
             break;
           }
           case 34: {
@@ -301,7 +295,9 @@ namespace Org.Apache.REEF.Bridge.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public YarnRuntimeParameters(YarnRuntimeParameters other) : this() {
       queue_ = other.queue_;
-      jobSubmissionDirectoryPrefix_ = other.jobSubmissionDirectoryPrefix_;
+      jobSubmissionDirectory_ = other.jobSubmissionDirectory_;
+      filesystemUrl_ = other.filesystemUrl_;
+      securityToken_ = other.securityToken_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -320,14 +316,36 @@ namespace Org.Apache.REEF.Bridge.Proto {
       }
     }
 
-    /// <summary>Field number for the "job_submission_directory_prefix" field.</summary>
-    public const int JobSubmissionDirectoryPrefixFieldNumber = 2;
-    private string jobSubmissionDirectoryPrefix_ = "";
+    /// <summary>Field number for the "job_submission_directory" field.</summary>
+    public const int JobSubmissionDirectoryFieldNumber = 2;
+    private string jobSubmissionDirectory_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string JobSubmissionDirectoryPrefix {
-      get { return jobSubmissionDirectoryPrefix_; }
+    public string JobSubmissionDirectory {
+      get { return jobSubmissionDirectory_; }
       set {
-        jobSubmissionDirectoryPrefix_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        jobSubmissionDirectory_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "filesystem_url" field.</summary>
+    public const int FilesystemUrlFieldNumber = 3;
+    private string filesystemUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string FilesystemUrl {
+      get { return filesystemUrl_; }
+      set {
+        filesystemUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "security_token" field.</summary>
+    public const int SecurityTokenFieldNumber = 4;
+    private pb::ByteString securityToken_ = pb::ByteString.Empty;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pb::ByteString SecurityToken {
+      get { return securityToken_; }
+      set {
+        securityToken_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -345,7 +363,9 @@ namespace Org.Apache.REEF.Bridge.Proto {
         return true;
       }
       if (Queue != other.Queue) return false;
-      if (JobSubmissionDirectoryPrefix != other.JobSubmissionDirectoryPrefix) return false;
+      if (JobSubmissionDirectory != other.JobSubmissionDirectory) return false;
+      if (FilesystemUrl != other.FilesystemUrl) return false;
+      if (SecurityToken != other.SecurityToken) return false;
       return true;
     }
 
@@ -353,7 +373,9 @@ namespace Org.Apache.REEF.Bridge.Proto {
     public override int GetHashCode() {
       int hash = 1;
       if (Queue.Length != 0) hash ^= Queue.GetHashCode();
-      if (JobSubmissionDirectoryPrefix.Length != 0) hash ^= JobSubmissionDirectoryPrefix.GetHashCode();
+      if (JobSubmissionDirectory.Length != 0) hash ^= JobSubmissionDirectory.GetHashCode();
+      if (FilesystemUrl.Length != 0) hash ^= FilesystemUrl.GetHashCode();
+      if (SecurityToken.Length != 0) hash ^= SecurityToken.GetHashCode();
       return hash;
     }
 
@@ -368,9 +390,17 @@ namespace Org.Apache.REEF.Bridge.Proto {
         output.WriteRawTag(10);
         output.WriteString(Queue);
       }
-      if (JobSubmissionDirectoryPrefix.Length != 0) {
+      if (JobSubmissionDirectory.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteString(JobSubmissionDirectoryPrefix);
+        output.WriteString(JobSubmissionDirectory);
+      }
+      if (FilesystemUrl.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(FilesystemUrl);
+      }
+      if (SecurityToken.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteBytes(SecurityToken);
       }
     }
 
@@ -380,8 +410,14 @@ namespace Org.Apache.REEF.Bridge.Proto {
       if (Queue.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Queue);
       }
-      if (JobSubmissionDirectoryPrefix.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(JobSubmissionDirectoryPrefix);
+      if (JobSubmissionDirectory.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(JobSubmissionDirectory);
+      }
+      if (FilesystemUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(FilesystemUrl);
+      }
+      if (SecurityToken.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(SecurityToken);
       }
       return size;
     }
@@ -394,8 +430,14 @@ namespace Org.Apache.REEF.Bridge.Proto {
       if (other.Queue.Length != 0) {
         Queue = other.Queue;
       }
-      if (other.JobSubmissionDirectoryPrefix.Length != 0) {
-        JobSubmissionDirectoryPrefix = other.JobSubmissionDirectoryPrefix;
+      if (other.JobSubmissionDirectory.Length != 0) {
+        JobSubmissionDirectory = other.JobSubmissionDirectory;
+      }
+      if (other.FilesystemUrl.Length != 0) {
+        FilesystemUrl = other.FilesystemUrl;
+      }
+      if (other.SecurityToken.Length != 0) {
+        SecurityToken = other.SecurityToken;
       }
     }
 
@@ -412,7 +454,15 @@ namespace Org.Apache.REEF.Bridge.Proto {
             break;
           }
           case 18: {
-            JobSubmissionDirectoryPrefix = input.ReadString();
+            JobSubmissionDirectory = input.ReadString();
+            break;
+          }
+          case 26: {
+            FilesystemUrl = input.ReadString();
+            break;
+          }
+          case 34: {
+            SecurityToken = input.ReadBytes();
             break;
           }
         }
@@ -627,7 +677,8 @@ namespace Org.Apache.REEF.Bridge.Proto {
       cpuCores_ = other.cpuCores_;
       memoryMb_ = other.memoryMb_;
       driverClientLaunchCommand_ = other.driverClientLaunchCommand_;
-      handler_ = other.handler_.Clone();
+      driverRestartEnable_ = other.driverRestartEnable_;
+      driverRestartEvaluatorRecoverySeconds_ = other.driverRestartEvaluatorRecoverySeconds_;
       tcpPortRangeBegin_ = other.tcpPortRangeBegin_;
       tcpPortRangeCount_ = other.tcpPortRangeCount_;
       tcpPortRangeTryCount_ = other.tcpPortRangeTryCount_;
@@ -751,14 +802,32 @@ namespace Org.Apache.REEF.Bridge.Proto {
       }
     }
 
-    /// <summary>Field number for the "handler" field.</summary>
-    public const int HandlerFieldNumber = 11;
-    private static readonly pb::FieldCodec<global::Org.Apache.REEF.Bridge.Proto.DriverClientConfiguration.Types.Handlers> _repeated_handler_codec
-        = pb::FieldCodec.ForEnum(90, x => (int) x, x => (global::Org.Apache.REEF.Bridge.Proto.DriverClientConfiguration.Types.Handlers) x);
-    private readonly pbc::RepeatedField<global::Org.Apache.REEF.Bridge.Proto.DriverClientConfiguration.Types.Handlers> handler_ = new pbc::RepeatedField<global::Org.Apache.REEF.Bridge.Proto.DriverClientConfiguration.Types.Handlers>();
+    /// <summary>Field number for the "driver_restart_enable" field.</summary>
+    public const int DriverRestartEnableFieldNumber = 11;
+    private bool driverRestartEnable_;
+    /// <summary>
+    /// Enable driver restart?
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::Org.Apache.REEF.Bridge.Proto.DriverClientConfiguration.Types.Handlers> Handler {
-      get { return handler_; }
+    public bool DriverRestartEnable {
+      get { return driverRestartEnable_; }
+      set {
+        driverRestartEnable_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "driver_restart_evaluator_recovery_seconds" field.</summary>
+    public const int DriverRestartEvaluatorRecoverySecondsFieldNumber = 12;
+    private uint driverRestartEvaluatorRecoverySeconds_;
+    /// <summary>
+    /// Driver restart evaluator recovery seconds (optional)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint DriverRestartEvaluatorRecoverySeconds {
+      get { return driverRestartEvaluatorRecoverySeconds_; }
+      set {
+        driverRestartEvaluatorRecoverySeconds_ = value;
+      }
     }
 
     /// <summary>Field number for the "tcp_port_range_begin" field.</summary>
@@ -882,7 +951,8 @@ namespace Org.Apache.REEF.Bridge.Proto {
       if (!object.Equals(AzbatchRuntime, other.AzbatchRuntime)) return false;
       if (!object.Equals(MesosRuntime, other.MesosRuntime)) return false;
       if (DriverClientLaunchCommand != other.DriverClientLaunchCommand) return false;
-      if(!handler_.Equals(other.handler_)) return false;
+      if (DriverRestartEnable != other.DriverRestartEnable) return false;
+      if (DriverRestartEvaluatorRecoverySeconds != other.DriverRestartEvaluatorRecoverySeconds) return false;
       if (TcpPortRangeBegin != other.TcpPortRangeBegin) return false;
       if (TcpPortRangeCount != other.TcpPortRangeCount) return false;
       if (TcpPortRangeTryCount != other.TcpPortRangeTryCount) return false;
@@ -905,7 +975,8 @@ namespace Org.Apache.REEF.Bridge.Proto {
       if (runtimeCase_ == RuntimeOneofCase.AzbatchRuntime) hash ^= AzbatchRuntime.GetHashCode();
       if (runtimeCase_ == RuntimeOneofCase.MesosRuntime) hash ^= MesosRuntime.GetHashCode();
       if (DriverClientLaunchCommand.Length != 0) hash ^= DriverClientLaunchCommand.GetHashCode();
-      hash ^= handler_.GetHashCode();
+      if (DriverRestartEnable != false) hash ^= DriverRestartEnable.GetHashCode();
+      if (DriverRestartEvaluatorRecoverySeconds != 0) hash ^= DriverRestartEvaluatorRecoverySeconds.GetHashCode();
       if (TcpPortRangeBegin != 0) hash ^= TcpPortRangeBegin.GetHashCode();
       if (TcpPortRangeCount != 0) hash ^= TcpPortRangeCount.GetHashCode();
       if (TcpPortRangeTryCount != 0) hash ^= TcpPortRangeTryCount.GetHashCode();
@@ -956,7 +1027,14 @@ namespace Org.Apache.REEF.Bridge.Proto {
         output.WriteRawTag(82);
         output.WriteString(DriverClientLaunchCommand);
       }
-      handler_.WriteTo(output, _repeated_handler_codec);
+      if (DriverRestartEnable != false) {
+        output.WriteRawTag(88);
+        output.WriteBool(DriverRestartEnable);
+      }
+      if (DriverRestartEvaluatorRecoverySeconds != 0) {
+        output.WriteRawTag(96);
+        output.WriteUInt32(DriverRestartEvaluatorRecoverySeconds);
+      }
       if (TcpPortRangeBegin != 0) {
         output.WriteRawTag(120);
         output.WriteUInt32(TcpPortRangeBegin);
@@ -1002,7 +1080,12 @@ namespace Org.Apache.REEF.Bridge.Proto {
       if (DriverClientLaunchCommand.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(DriverClientLaunchCommand);
       }
-      size += handler_.CalculateSize(_repeated_handler_codec);
+      if (DriverRestartEnable != false) {
+        size += 1 + 1;
+      }
+      if (DriverRestartEvaluatorRecoverySeconds != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(DriverRestartEvaluatorRecoverySeconds);
+      }
       if (TcpPortRangeBegin != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(TcpPortRangeBegin);
       }
@@ -1036,7 +1119,12 @@ namespace Org.Apache.REEF.Bridge.Proto {
       if (other.DriverClientLaunchCommand.Length != 0) {
         DriverClientLaunchCommand = other.DriverClientLaunchCommand;
       }
-      handler_.Add(other.handler_);
+      if (other.DriverRestartEnable != false) {
+        DriverRestartEnable = other.DriverRestartEnable;
+      }
+      if (other.DriverRestartEvaluatorRecoverySeconds != 0) {
+        DriverRestartEvaluatorRecoverySeconds = other.DriverRestartEvaluatorRecoverySeconds;
+      }
       if (other.TcpPortRangeBegin != 0) {
         TcpPortRangeBegin = other.TcpPortRangeBegin;
       }
@@ -1139,9 +1227,12 @@ namespace Org.Apache.REEF.Bridge.Proto {
             DriverClientLaunchCommand = input.ReadString();
             break;
           }
-          case 90:
           case 88: {
-            handler_.AddEntriesFrom(input, _repeated_handler_codec);
+            DriverRestartEnable = input.ReadBool();
+            break;
+          }
+          case 96: {
+            DriverRestartEvaluatorRecoverySeconds = input.ReadUInt32();
             break;
           }
           case 120: {
@@ -1175,47 +1266,6 @@ namespace Org.Apache.REEF.Bridge.Proto {
         }
       }
     }
-
-    #region Nested types
-    /// <summary>Container for nested types declared in the DriverClientConfiguration message type.</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static partial class Types {
-      public enum Handlers {
-        /// <summary>
-        /// control events
-        /// </summary>
-        [pbr::OriginalName("START")] Start = 0,
-        [pbr::OriginalName("STOP")] Stop = 1,
-        /// <summary>
-        /// evaluator events
-        /// </summary>
-        [pbr::OriginalName("EVALUATOR_ALLOCATED")] EvaluatorAllocated = 5,
-        [pbr::OriginalName("EVALUATOR_COMPLETED")] EvaluatorCompleted = 6,
-        [pbr::OriginalName("EVALUATOR_FAILED")] EvaluatorFailed = 7,
-        /// <summary>
-        /// context events
-        /// </summary>
-        [pbr::OriginalName("CONTEXT_ACTIVE")] ContextActive = 10,
-        [pbr::OriginalName("CONTEXT_CLOSED")] ContextClosed = 11,
-        [pbr::OriginalName("CONTEXT_FAILED")] ContextFailed = 12,
-        [pbr::OriginalName("CONTEXT_MESSAGE")] ContextMessage = 13,
-        /// <summary>
-        /// task events
-        /// </summary>
-        [pbr::OriginalName("TASK_RUNNING")] TaskRunning = 15,
-        [pbr::OriginalName("TASK_FAILED")] TaskFailed = 16,
-        [pbr::OriginalName("TASK_COMPLETED")] TaskCompleted = 17,
-        [pbr::OriginalName("TASK_MESSAGE")] TaskMessage = 18,
-        /// <summary>
-        /// client events
-        /// </summary>
-        [pbr::OriginalName("CLIENT_MESSAGE")] ClientMessage = 20,
-        [pbr::OriginalName("CLIENT_CLOSE")] ClientClose = 21,
-        [pbr::OriginalName("CLIENT_CLOSE_WITH_MESSAGE")] ClientCloseWithMessage = 22,
-      }
-
-    }
-    #endregion
 
   }
 

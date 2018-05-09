@@ -16,20 +16,10 @@
 // under the License.
 
 using System;
-using System.IO;
 
-namespace Org.Apache.REEF.Examples.HelloREEF
+namespace Org.Apache.REEF.Bridge.Client
 {
-    public sealed class Run
+    class LauncherStatus
     {
-        /// <summary>
-        /// Program that runs hello reef
-        /// </summary>
-        /// <param name="args"></param>
-        public static void Main(string[] args)
-        {
-            //HelloREEF.MainSimple(args);
-            HelloREEFClientServerBridge.MainClientServerBridge(args);
-        }
     }
 }

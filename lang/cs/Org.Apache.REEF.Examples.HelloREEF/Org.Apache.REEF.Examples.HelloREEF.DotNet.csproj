@@ -22,8 +22,17 @@ under the License.
     <Description>Hello World Example for REEF.NET</Description>
     <PackageTags>REEF Examples</PackageTags>
   </PropertyGroup>
+  <PropertyGroup>
+    <BridgeServerDirectory>$(SolutionDir)\..\java\reef-bridge-proto-java\target\</BridgeServerDirectory>
+  </PropertyGroup>
   <Import Project="..\build.DotNetApp.props" />
   <ItemGroup>
+    <PackageReference Include="Grpc" Version="1.11.0-pre2" />
+    <PackageReference Include="Grpc.Tools" Version="1.11.0-pre2" />
+    <PackageReference Include="Google.Protobuf" Version="3.5.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Org.Apache.REEF.Bridge.Client\Org.Apache.REEF.Bridge.Client.DotNet.csproj" />
     <ProjectReference Include="..\Org.Apache.REEF.Client\Org.Apache.REEF.Client.DotNet.csproj" />
     <ProjectReference Include="..\Org.Apache.REEF.Common\Org.Apache.REEF.Common.DotNet.csproj" />
     <ProjectReference Include="..\Org.Apache.REEF.Driver\Org.Apache.REEF.Driver.DotNet.csproj" />
@@ -34,4 +43,11 @@ under the License.
     <ProjectReference Include="..\Org.Apache.REEF.IO\Org.Apache.REEF.IO.DotNet.csproj" />
   </ItemGroup>
   <Import Project="..\build.DotNet.targets" />
+  <Target Name="CopyBridgeClientDependencies" BeforeTargets="BeforeBuild">
+    <Message Text="Copying bridge client dependencies to $(OutDir)...[$(FrameworkVersion)]" Importance="High" />
+    <Copy SourceFiles="$(BridgeServerDirectory)\reef-bridge-proto-java-0.17.0-SNAPSHOT-jar-with-dependencies.jar" DestinationFolder="$(OutDir)" SkipUnchangedFiles="false" />
+  <!--
+    <Copy SourceFiles="$(OutDir)\..\..\Org.Apache.REEF.Bridge.Client\$(TargetFramework)\Org.Apache.REEF.Bridge.Client.exe" DestinationFolder="$(OutDir)" SkipUnchangedFiles="false" />
+-->
+  </Target>
 </Project>

@@ -61,6 +61,8 @@ namespace Org.Apache.REEF.Bridge.Proto {
     static readonly grpc::Marshaller<global::Org.Apache.REEF.Bridge.Proto.TaskInfo> __Marshaller_TaskInfo = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Org.Apache.REEF.Bridge.Proto.TaskInfo.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Org.Apache.REEF.Bridge.Proto.TaskMessageInfo> __Marshaller_TaskMessageInfo = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Org.Apache.REEF.Bridge.Proto.TaskMessageInfo.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Org.Apache.REEF.Bridge.Proto.ClientMessageInfo> __Marshaller_ClientMessageInfo = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Org.Apache.REEF.Bridge.Proto.ClientMessageInfo.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Org.Apache.REEF.Bridge.Proto.DriverRestartInfo> __Marshaller_DriverRestartInfo = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Org.Apache.REEF.Bridge.Proto.DriverRestartInfo.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Org.Apache.REEF.Bridge.Proto.DriverRestartCompletedInfo> __Marshaller_DriverRestartCompletedInfo = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Org.Apache.REEF.Bridge.Proto.DriverRestartCompletedInfo.Parser.ParseFrom);
 
     static readonly grpc::Method<global::Org.Apache.REEF.Bridge.Proto.Void, global::Org.Apache.REEF.Bridge.Proto.IdleStatus> __Method_IdlenessCheckHandler = new grpc::Method<global::Org.Apache.REEF.Bridge.Proto.Void, global::Org.Apache.REEF.Bridge.Proto.IdleStatus>(
         grpc::MethodType.Unary,
@@ -193,6 +195,41 @@ namespace Org.Apache.REEF.Bridge.Proto {
         __ServiceName,
         "ClientCloseWithMessageHandler",
         __Marshaller_ClientMessageInfo,
+        __Marshaller_Void);
+
+    static readonly grpc::Method<global::Org.Apache.REEF.Bridge.Proto.DriverRestartInfo, global::Org.Apache.REEF.Bridge.Proto.Void> __Method_DriverRestartHandler = new grpc::Method<global::Org.Apache.REEF.Bridge.Proto.DriverRestartInfo, global::Org.Apache.REEF.Bridge.Proto.Void>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "DriverRestartHandler",
+        __Marshaller_DriverRestartInfo,
+        __Marshaller_Void);
+
+    static readonly grpc::Method<global::Org.Apache.REEF.Bridge.Proto.ContextInfo, global::Org.Apache.REEF.Bridge.Proto.Void> __Method_DriverRestartActiveContextHandler = new grpc::Method<global::Org.Apache.REEF.Bridge.Proto.ContextInfo, global::Org.Apache.REEF.Bridge.Proto.Void>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "DriverRestartActiveContextHandler",
+        __Marshaller_ContextInfo,
+        __Marshaller_Void);
+
+    static readonly grpc::Method<global::Org.Apache.REEF.Bridge.Proto.TaskInfo, global::Org.Apache.REEF.Bridge.Proto.Void> __Method_DriverRestartRunningTaskHandler = new grpc::Method<global::Org.Apache.REEF.Bridge.Proto.TaskInfo, global::Org.Apache.REEF.Bridge.Proto.Void>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "DriverRestartRunningTaskHandler",
+        __Marshaller_TaskInfo,
+        __Marshaller_Void);
+
+    static readonly grpc::Method<global::Org.Apache.REEF.Bridge.Proto.DriverRestartCompletedInfo, global::Org.Apache.REEF.Bridge.Proto.Void> __Method_DriverRestartCompletedHandler = new grpc::Method<global::Org.Apache.REEF.Bridge.Proto.DriverRestartCompletedInfo, global::Org.Apache.REEF.Bridge.Proto.Void>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "DriverRestartCompletedHandler",
+        __Marshaller_DriverRestartCompletedInfo,
+        __Marshaller_Void);
+
+    static readonly grpc::Method<global::Org.Apache.REEF.Bridge.Proto.EvaluatorInfo, global::Org.Apache.REEF.Bridge.Proto.Void> __Method_DriverRestartFailedEvaluatorHandler = new grpc::Method<global::Org.Apache.REEF.Bridge.Proto.EvaluatorInfo, global::Org.Apache.REEF.Bridge.Proto.Void>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "DriverRestartFailedEvaluatorHandler",
+        __Marshaller_EvaluatorInfo,
         __Marshaller_Void);
 
     /// <summary>Service descriptor</summary>
@@ -331,6 +368,37 @@ namespace Org.Apache.REEF.Bridge.Proto {
       }
 
       public virtual global::System.Threading.Tasks.Task<global::Org.Apache.REEF.Bridge.Proto.Void> ClientCloseWithMessageHandler(global::Org.Apache.REEF.Bridge.Proto.ClientMessageInfo request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      /// <summary>
+      /// Driver Restart Handlers
+      /// </summary>
+      /// <param name="request">The request received from the client.</param>
+      /// <param name="context">The context of the server-side call handler being invoked.</param>
+      /// <returns>The response to send back to the client (wrapped by a task).</returns>
+      public virtual global::System.Threading.Tasks.Task<global::Org.Apache.REEF.Bridge.Proto.Void> DriverRestartHandler(global::Org.Apache.REEF.Bridge.Proto.DriverRestartInfo request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::Org.Apache.REEF.Bridge.Proto.Void> DriverRestartActiveContextHandler(global::Org.Apache.REEF.Bridge.Proto.ContextInfo request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::Org.Apache.REEF.Bridge.Proto.Void> DriverRestartRunningTaskHandler(global::Org.Apache.REEF.Bridge.Proto.TaskInfo request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::Org.Apache.REEF.Bridge.Proto.Void> DriverRestartCompletedHandler(global::Org.Apache.REEF.Bridge.Proto.DriverRestartCompletedInfo request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::Org.Apache.REEF.Bridge.Proto.Void> DriverRestartFailedEvaluatorHandler(global::Org.Apache.REEF.Bridge.Proto.EvaluatorInfo request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -832,6 +900,114 @@ namespace Org.Apache.REEF.Bridge.Proto {
       {
         return CallInvoker.AsyncUnaryCall(__Method_ClientCloseWithMessageHandler, null, options, request);
       }
+      /// <summary>
+      /// Driver Restart Handlers
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The response received from the server.</returns>
+      public virtual global::Org.Apache.REEF.Bridge.Proto.Void DriverRestartHandler(global::Org.Apache.REEF.Bridge.Proto.DriverRestartInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DriverRestartHandler(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Driver Restart Handlers
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The response received from the server.</returns>
+      public virtual global::Org.Apache.REEF.Bridge.Proto.Void DriverRestartHandler(global::Org.Apache.REEF.Bridge.Proto.DriverRestartInfo request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_DriverRestartHandler, null, options, request);
+      }
+      /// <summary>
+      /// Driver Restart Handlers
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="headers">The initial metadata to send with the call. This parameter is optional.</param>
+      /// <param name="deadline">An optional deadline for the call. The call will be cancelled if deadline is hit.</param>
+      /// <param name="cancellationToken">An optional token for canceling the call.</param>
+      /// <returns>The call object.</returns>
+      public virtual grpc::AsyncUnaryCall<global::Org.Apache.REEF.Bridge.Proto.Void> DriverRestartHandlerAsync(global::Org.Apache.REEF.Bridge.Proto.DriverRestartInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DriverRestartHandlerAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      /// <summary>
+      /// Driver Restart Handlers
+      /// </summary>
+      /// <param name="request">The request to send to the server.</param>
+      /// <param name="options">The options for the call.</param>
+      /// <returns>The call object.</returns>
+      public virtual grpc::AsyncUnaryCall<global::Org.Apache.REEF.Bridge.Proto.Void> DriverRestartHandlerAsync(global::Org.Apache.REEF.Bridge.Proto.DriverRestartInfo request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_DriverRestartHandler, null, options, request);
+      }
+      public virtual global::Org.Apache.REEF.Bridge.Proto.Void DriverRestartActiveContextHandler(global::Org.Apache.REEF.Bridge.Proto.ContextInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DriverRestartActiveContextHandler(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::Org.Apache.REEF.Bridge.Proto.Void DriverRestartActiveContextHandler(global::Org.Apache.REEF.Bridge.Proto.ContextInfo request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_DriverRestartActiveContextHandler, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::Org.Apache.REEF.Bridge.Proto.Void> DriverRestartActiveContextHandlerAsync(global::Org.Apache.REEF.Bridge.Proto.ContextInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DriverRestartActiveContextHandlerAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::Org.Apache.REEF.Bridge.Proto.Void> DriverRestartActiveContextHandlerAsync(global::Org.Apache.REEF.Bridge.Proto.ContextInfo request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_DriverRestartActiveContextHandler, null, options, request);
+      }
+      public virtual global::Org.Apache.REEF.Bridge.Proto.Void DriverRestartRunningTaskHandler(global::Org.Apache.REEF.Bridge.Proto.TaskInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DriverRestartRunningTaskHandler(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::Org.Apache.REEF.Bridge.Proto.Void DriverRestartRunningTaskHandler(global::Org.Apache.REEF.Bridge.Proto.TaskInfo request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_DriverRestartRunningTaskHandler, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::Org.Apache.REEF.Bridge.Proto.Void> DriverRestartRunningTaskHandlerAsync(global::Org.Apache.REEF.Bridge.Proto.TaskInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DriverRestartRunningTaskHandlerAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::Org.Apache.REEF.Bridge.Proto.Void> DriverRestartRunningTaskHandlerAsync(global::Org.Apache.REEF.Bridge.Proto.TaskInfo request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_DriverRestartRunningTaskHandler, null, options, request);
+      }
+      public virtual global::Org.Apache.REEF.Bridge.Proto.Void DriverRestartCompletedHandler(global::Org.Apache.REEF.Bridge.Proto.DriverRestartCompletedInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DriverRestartCompletedHandler(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::Org.Apache.REEF.Bridge.Proto.Void DriverRestartCompletedHandler(global::Org.Apache.REEF.Bridge.Proto.DriverRestartCompletedInfo request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_DriverRestartCompletedHandler, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::Org.Apache.REEF.Bridge.Proto.Void> DriverRestartCompletedHandlerAsync(global::Org.Apache.REEF.Bridge.Proto.DriverRestartCompletedInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DriverRestartCompletedHandlerAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::Org.Apache.REEF.Bridge.Proto.Void> DriverRestartCompletedHandlerAsync(global::Org.Apache.REEF.Bridge.Proto.DriverRestartCompletedInfo request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_DriverRestartCompletedHandler, null, options, request);
+      }
+      public virtual global::Org.Apache.REEF.Bridge.Proto.Void DriverRestartFailedEvaluatorHandler(global::Org.Apache.REEF.Bridge.Proto.EvaluatorInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DriverRestartFailedEvaluatorHandler(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::Org.Apache.REEF.Bridge.Proto.Void DriverRestartFailedEvaluatorHandler(global::Org.Apache.REEF.Bridge.Proto.EvaluatorInfo request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_DriverRestartFailedEvaluatorHandler, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::Org.Apache.REEF.Bridge.Proto.Void> DriverRestartFailedEvaluatorHandlerAsync(global::Org.Apache.REEF.Bridge.Proto.EvaluatorInfo request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return DriverRestartFailedEvaluatorHandlerAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::Org.Apache.REEF.Bridge.Proto.Void> DriverRestartFailedEvaluatorHandlerAsync(global::Org.Apache.REEF.Bridge.Proto.EvaluatorInfo request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_DriverRestartFailedEvaluatorHandler, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override DriverClientClient NewInstance(ClientBaseConfiguration configuration)
       {
@@ -862,7 +1038,12 @@ namespace Org.Apache.REEF.Bridge.Proto {
           .AddMethod(__Method_TaskMessageHandler, serviceImpl.TaskMessageHandler)
           .AddMethod(__Method_ClientMessageHandler, serviceImpl.ClientMessageHandler)
           .AddMethod(__Method_ClientCloseHandler, serviceImpl.ClientCloseHandler)
-          .AddMethod(__Method_ClientCloseWithMessageHandler, serviceImpl.ClientCloseWithMessageHandler).Build();
+          .AddMethod(__Method_ClientCloseWithMessageHandler, serviceImpl.ClientCloseWithMessageHandler)
+          .AddMethod(__Method_DriverRestartHandler, serviceImpl.DriverRestartHandler)
+          .AddMethod(__Method_DriverRestartActiveContextHandler, serviceImpl.DriverRestartActiveContextHandler)
+          .AddMethod(__Method_DriverRestartRunningTaskHandler, serviceImpl.DriverRestartRunningTaskHandler)
+          .AddMethod(__Method_DriverRestartCompletedHandler, serviceImpl.DriverRestartCompletedHandler)
+          .AddMethod(__Method_DriverRestartFailedEvaluatorHandler, serviceImpl.DriverRestartFailedEvaluatorHandler).Build();
     }
 
   }

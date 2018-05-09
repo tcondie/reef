@@ -58,6 +58,6 @@ under the License.
   <Import Project="$(SolutionDir)\GrpcCodeGeneration.Targets" Condition="Exists('$(SolutionDir)\GrpcCodeGeneration.Targets')" />
   <Target Name="CodeGeneration" DependsOnTargets="Restore" BeforeTargets="BeforeBuild">
     <Message Text="Generating C# classes from gRPC proto files @(Compile)..." Importance="High" />
-    <GrpcToCSharp OUtputDirectory="$(ProjectDir)\GrpcGeneratedCode" SourceFileList="ClientProtocol.proto;DriverCommonProtocol.proto;DriverClientProtocol.proto" GrpcSchemaDirectory="$(GrpcSchemaDirectory)" GrpcBinaryDirectory="$(GrpcToolsDirectory)" />
+    <GrpcToCSharp OUtputDirectory="$(ProjectDir)\GrpcGeneratedCode" SourceFileList="ClientProtocol.proto;DriverCommonProtocol.proto;DriverClientProtocol.proto;DriverServiceProtocol.proto" GrpcSchemaDirectory="$(GrpcSchemaDirectory)" GrpcBinaryDirectory="$(GrpcToolsDirectory)" />
   </Target>
 </Project>

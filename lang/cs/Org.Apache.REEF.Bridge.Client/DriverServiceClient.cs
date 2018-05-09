@@ -1,4 +1,4 @@
-﻿// Licensed to the Apache Software Foundation (ASF) under one
+// Licensed to the Apache Software Foundation (ASF) under one
 // or more contributor license agreements.  See the NOTICE file
 // distributed with this work for additional information
 // regarding copyright ownership.  The ASF licenses this file
@@ -16,20 +16,30 @@
 // under the License.
 
 using System;
-using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Org.Apache.REEF.Examples.HelloREEF
+namespace Org.Apache.REEF.Bridge.Client
 {
-    public sealed class Run
+    public class DriverServiceClient : IDriverServiceClient
     {
-        /// <summary>
-        /// Program that runs hello reef
-        /// </summary>
-        /// <param name="args"></param>
-        public static void Main(string[] args)
+        private readonly DriverServiceClient client;
+
+        public void OnShutdown()
         {
-            //HelloREEF.MainSimple(args);
-            HelloREEFClientServerBridge.MainClientServerBridge(args);
+
+        }
+
+        public void OnSuhtdown(Exception ex)
+        {
+
+        }
+
+        public void OnSetAlarm()
+        {
+
         }
     }
 }

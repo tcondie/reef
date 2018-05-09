@@ -16,20 +16,22 @@
 // under the License.
 
 using System;
-using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Org.Apache.REEF.Examples.HelloREEF
+namespace Org.Apache.REEF.Bridge.Client
 {
-    public sealed class Run
+    /// <summary>
+    /// Forwards application request to driver server.
+    /// </summary>
+    public interface IDriverServiceClient
     {
-        /// <summary>
-        /// Program that runs hello reef
-        /// </summary>
-        /// <param name="args"></param>
-        public static void Main(string[] args)
-        {
-            //HelloREEF.MainSimple(args);
-            HelloREEFClientServerBridge.MainClientServerBridge(args);
-        }
+        void OnShutdown();
+
+        void OnSuhtdown(Exception ex);
+
+        void OnSetAlarm();
     }
 }

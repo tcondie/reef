@@ -19,41 +19,54 @@ using System;
 using Org.Apache.REEF.Common.Tasks;
 using Org.Apache.REEF.Driver;
 using Org.Apache.REEF.Driver.Evaluator;
+using Org.Apache.REEF.Driver.Task;
 using Org.Apache.REEF.Tang.Annotations;
 using Org.Apache.REEF.Tang.Util;
 using Org.Apache.REEF.Utilities.Logging;
 
+
 namespace Org.Apache.REEF.Examples.HelloREEF
 {
-    /// <summary>
-    /// The Driver for HelloREEF: It requests a single Evaluator and then submits the HelloTask to it.
-    /// </summary>
-    public sealed class HelloDriver : IObserver<IAllocatedEvaluator>, IObserver<IDriverStarted>
+    public sealed class HelloDriver :
+        IObserver<IDriverStarted>,
+        IObserver<IAllocatedEvaluator>,
+        IObserver<ICompletedTask>
     {
-        private static readonly Logger _Logger = Logger.GetLogger(typeof(HelloDriver));
+        private static readonly Logger Logger = Logger.GetLogger(typeof(HelloDriver));
         private readonly IEvaluatorRequestor _evaluatorRequestor;
 
+        /// <summary>
+        /// Job driver constructed by Tang.
+        /// </summary>
+        /// <param name="evaluatorRequestor"></param>
         [Inject]
         private HelloDriver(IEvaluatorRequestor evaluatorRequestor)
         {
             _evaluatorRequestor = evaluatorRequestor;
         }
 
-        /// <summary>
-        /// Submits the HelloTask to the Evaluator.
-        /// </summary>
-        /// <param name="allocatedEvaluator">Newly allocated evaluator's proxy object.</param>
+        public void OnNext(IDriverStarted driverStarted)
+        {
+            Logger.Log(Level.Info, "HelloDriver started at {0}", driverStarted.StartTime);
+            _evaluatorRequestor.Submit(_evaluatorRequestor.NewBuilder().SetMegabytes(64).Build());
+        }
+
         public void OnNext(IAllocatedEvaluator allocatedEvaluator)
         {
-            _Logger.Log(Level.Info, "Evaluator allocated: {0}", allocatedEvaluator);
+             Logger.Log(Level.Info, "Evaluator allocated: {0}", allocatedEvaluator);
 
             var taskConfiguration = TaskConfiguration.ConfigurationModule
                 .Set(TaskConfiguration.Identifier, "HelloTask")
                 .Set(TaskConfiguration.Task, GenericType<HelloTask>.Class)
                 .Build();
 
-            _Logger.Log(Level.Verbose, "Submit task: {0}", taskConfiguration);
+            Logger.Log(Level.Verbose, "Submit task: {0}", taskConfiguration);
             allocatedEvaluator.SubmitTask(taskConfiguration);
+        }
+
+        public void OnNext(ICompletedTask completedTask)
+        {
+            Logger.Log(Level.Info, "HelloREEF task completed {0}", completedTask);
         }
 
         public void OnError(Exception error)
@@ -63,16 +76,6 @@ namespace Org.Apache.REEF.Examples.HelloREEF
 
         public void OnCompleted()
         {
-        }
-
-        /// <summary>
-        /// Called to start the user mode driver.
-        /// </summary>
-        /// <param name="driverStarted">Notification that the Driver is up and running.</param>
-        public void OnNext(IDriverStarted driverStarted)
-        {
-            _Logger.Log(Level.Info, "HelloDriver started at {0}", driverStarted.StartTime);
-            _evaluatorRequestor.Submit(_evaluatorRequestor.NewBuilder().SetMegabytes(64).Build());
         }
     }
 }
