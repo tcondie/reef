@@ -28,7 +28,7 @@ namespace Org.Apache.REEF.Examples.HelloREEF
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
-            //HelloREEF.MainSimple(args);
+            ///HelloREEF.MainSimple(args);
             HelloREEFClientServerBridge.MainClientServerBridge(args);
         }
     }

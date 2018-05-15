@@ -99,6 +99,7 @@ public class PreparedDriverFolderLauncher {
         .setConfigurationFilePaths(Collections.singletonList(this.fileNames.getDriverConfigurationPath()))
         .setClassPath(this.classpath.getDriverClasspath())
         .setMemory(DRIVER_MEMORY)
+        .addOption("-agentlib:jdwp=transport=dt_socket,server=y,address=9000,suspend=y")
         .build();
 
     if (LOG.isLoggable(Level.FINEST)) {

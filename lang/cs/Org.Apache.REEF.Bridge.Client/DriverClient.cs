@@ -21,9 +21,8 @@ namespace Org.Apache.REEF.Bridge.Client.DotNet
 {
     class DriverClient
     {
-        public static void Main(string[] args)
-        {
-
-        }
+        //public static void Main(string[] args)
+        //{
+        //}
     }
 }

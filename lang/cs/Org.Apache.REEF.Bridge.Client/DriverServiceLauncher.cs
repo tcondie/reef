@@ -24,6 +24,7 @@ using Google.Protobuf;
 
 using Org.Apache.REEF.Utilities.Logging;
 using Org.Apache.REEF.Bridge.Proto;
+using System.Collections.Generic;
 
 namespace Org.Apache.REEF.Bridge.Client
 {
@@ -62,12 +63,20 @@ namespace Org.Apache.REEF.Bridge.Client
         /// <summary>
         /// Collects libraries in the applications start directory tree.
         /// </summary>
-        static void AddLibraryFiles(DriverClientConfiguration config)
+        static void AddFiles(DriverClientConfiguration config)
         {
-            string searchDirectory = ".";
-            string nameTemplate = "*.dll";
-            string[] files = Directory.GetFiles(searchDirectory, nameTemplate, SearchOption.AllDirectories);
-            if (files != null && files.Length > 0)
+            string[] exeFiles = Directory.GetFiles(".", "*.exe", SearchOption.AllDirectories);
+            string[] dllFiles = Directory.GetFiles(".", "*.dll", SearchOption.AllDirectories);
+            List<string> files = new List<string>();
+            if (exeFiles != null && exeFiles.Length > 0)
+            { 
+                files.AddRange(exeFiles);
+            }
+            if (dllFiles != null && dllFiles.Length > 0)
+            {
+                files.AddRange(dllFiles);
+            }
+            if (files.Count > 0)
             {
                 foreach(string name in files)
                 {
@@ -83,13 +92,25 @@ namespace Org.Apache.REEF.Bridge.Client
         }
 
         /// <summary>
+        /// Create a temporary directory for the job submission on the local runtime.
+        /// </summary>
+        /// <returns>A string which contains the submission directory name.</returns>
+        static string GetSubmissionDirectory()
+        {
+            string submissionDirectory = Path.GetFullPath(Path.Combine(Path.GetTempPath(), "REEF_LOCAL_RUNTIME"));
+            Directory.CreateDirectory(submissionDirectory);
+            return submissionDirectory;
+        }
+
+        /// <summary>
         /// Launch the the bridge service with the given driver client configuration.
         /// </summary>
         /// <param name="config">Configuration for launching the driver client from the driver server</param>
         public static void Submit(DriverClientConfiguration config)
         {
-            AddLibraryFiles(config);
+            AddFiles(config);
             string jarfile = FindBridgeServerJarFile();
+            config.DriverJobSubmissionDirectory = GetSubmissionDirectory();
 
             // Write the driver service launcher configuration to a file.
             using (StreamWriter writer = new StreamWriter(configName))

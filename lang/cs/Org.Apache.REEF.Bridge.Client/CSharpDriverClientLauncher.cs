@@ -16,13 +16,14 @@
 // under the License.
 
 using System;
+using System.Threading;
 using Org.Apache.REEF.Utilities.Logging;
 
 namespace Org.Apache.REEF.Bridge.Client
 {
-    class CShapDriverClientLauncher
+    class CSharpDriverClientLauncher
     {
-        private static readonly Logger Logger = Logger.GetLogger(typeof(CShapDriverClientLauncher));
+        private static readonly Logger Logger = Logger.GetLogger(typeof(CSharpDriverClientLauncher));
         private static readonly bool AreAssertionsEnabled =
             #if DEBUG
                true
@@ -35,12 +36,18 @@ namespace Org.Apache.REEF.Bridge.Client
         /// Launches a REEF client process (Driver or Evaluator)
         /// </summary>
         /// <param name="args">Command-line arguments</param>
-        //static void Main(string[] args)
-        //{
-        //    Logger.Log(Level.Info, "Entering CSharpDriverClientLauncher.main()");
-        //    Logger.Log(Level.Verbose, "CSharpDriverClientLauncher started with user name [{0}]", Environment.UserName);
-        //    Logger.Log(Level.Verbose, "CSharpDriverClientLauncher started. Assertions are {0} in this process.",
-        //        AreAssertionsEnabled ? "ENABLED" : "DISABLED");
-        //}
+        static void Main(string[] args)
+        {
+            bool doDebug = true;
+            while (doDebug)
+            {
+                Thread.Sleep(1000);
+            }
+            Console.WriteLine("C# CLIENT IS RUNNING");
+            Logger.Log(Level.Info, "Entering CSharpDriverClientLauncher.main()");
+            Logger.Log(Level.Verbose, "CSharpDriverClientLauncher started with user name [{0}]", Environment.UserName);
+            Logger.Log(Level.Verbose, "CSharpDriverClientLauncher started. Assertions are {0} in this process.",
+                AreAssertionsEnabled ? "ENABLED" : "DISABLED");
+        }
     }
 }

@@ -16,22 +16,20 @@
 // under the License.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Org.Apache.REEF.Bridge.Proto;
 
 namespace Org.Apache.REEF.Bridge.Client
 {
-    /// <summary>
-    /// Forwards application request to driver server.
-    /// </summary>
-    public interface IDriverServiceClient
+    class DriverClientService : DriverClient.DriverClientClient, IDriverClientService
     {
-        void OnShutdown();
+        public void Start()
+        {
 
-        void OnShutdown(Exception ex);
+        }
 
-        void OnSetAlarm();
+        public void AwaitTermination()
+        {
+
+        }
     }
 }

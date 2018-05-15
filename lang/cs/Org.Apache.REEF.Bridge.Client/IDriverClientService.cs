@@ -23,15 +23,10 @@ using System.Threading.Tasks;
 
 namespace Org.Apache.REEF.Bridge.Client
 {
-    /// <summary>
-    /// Forwards application request to driver server.
-    /// </summary>
-    public interface IDriverServiceClient
+    interface IDriverClientService
     {
-        void OnShutdown();
+        void Start();
 
-        void OnShutdown(Exception ex);
-
-        void OnSetAlarm();
+        void AwaitTermination();
     }
 }

@@ -15,26 +15,54 @@
 // specific language governing permissions and limitations
 // under the License.
 
+using Org.Apache.REEF.Bridge.Proto;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Grpc.Core;
 using System.Threading.Tasks;
 
 namespace Org.Apache.REEF.Bridge.Client
 {
     public class DriverServiceClient : IDriverServiceClient
     {
-        private readonly DriverServiceClient client;
+        private readonly DriverService.DriverServiceClient serviceStub;
+
+        DriverServiceClient(Int32 driverServicePort)
+        {
+            Channel channel = new Channel("localhost", driverServicePort, ChannelCredentials.Insecure);
+            serviceStub = new DriverService.DriverServiceClient(channel);
+        }
+
+        void RegisterDriverClientsService(string host, int port)
+        {
+            DriverClientRegistration registration = new DriverClientRegistration
+            {
+                Host = host,
+                Port = port
+            };
+            serviceStub.RegisterDriverClient(registration);
+        }
 
         public void OnShutdown()
         {
-
+            ShutdownRequest request = new ShutdownRequest();
+            serviceStub.Shutdown(request);
         }
 
-        public void OnSuhtdown(Exception ex)
+        public void OnShutdown(Exception ex)
         {
+            ExceptionInfo info = new ExceptionInfo
+            {
+                Name = ex.GetType().Name,
+                Message = ex.Message,
+            };
+            info.StackTrace.Add(ex.StackTrace);
 
+            ShutdownRequest request = new ShutdownRequest
+            {
+                Exception = info
+            };
+
+            serviceStub.Shutdown(request);
         }
 
         public void OnSetAlarm()

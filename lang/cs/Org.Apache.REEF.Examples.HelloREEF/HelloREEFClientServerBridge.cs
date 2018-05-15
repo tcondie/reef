@@ -49,14 +49,11 @@ namespace Org.Apache.REEF.Examples.HelloREEF
         {
             Logger.AddTraceListener(listener);
 
-            DriverClientConfiguration config = new DriverClientConfiguration
-            {
-                Jobid = "HelloREEF",
-                LocalRuntime = new LocalRuntimeParameters(),
-
-            };
+            DriverClientConfiguration config = new DriverClientConfiguration();
+            config.Jobid = "HelloREEF";
+            config.LocalRuntime = new LocalRuntimeParameters();
             config.LocalRuntime.MaxNumberOfEvaluators = 1;
-            //config.GlobalLibraries.Add(typeof(HelloREEF).Assembly.FullName);
+            config.EnableHttpDriver = false;
             config.DriverClientLaunchCommand = "Org.Apache.REEF.Bridge.Client.exe";
 
             try

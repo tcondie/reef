@@ -54,6 +54,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
@@ -70,6 +71,8 @@ public final class GRPCDriverService implements IDriverService {
   private Server server;
 
   private Process driverProcess;
+  private ProcessBuilder driverProcessBuilder = new ProcessBuilder();
+  private enum StreamType { STDOUT, STDERR };
 
   private DriverClientGrpc.DriverClientFutureStub clientStub;
 
@@ -132,7 +135,17 @@ public final class GRPCDriverService implements IDriverService {
       final String cmd = this.driverClientCommand + " " + this.server.getPort();
       final String cmdOs = OSUtils.isWindows() ? "cmd.exe /c \"" + cmd + "\"" : cmd;
       LOG.log(Level.INFO, "CMD: " + cmdOs);
-      this.driverProcess = Runtime.getRuntime().exec(cmdOs);
+
+      //this.driverProcess = Runtime.getRuntime().exec(cmdOs);
+
+      setEnvironment();
+      String workingDir = System.getProperty("user.dir");
+      LOG.log(Level.INFO, "Working Directory = " + workingDir);
+      Map<String, String> env = driverProcessBuilder.environment();
+      LOG.log(Level.INFO, "Environment = " + env.toString());
+
+      this.driverProcessBuilder.command(cmdOs);
+      this.driverProcess = this.driverProcessBuilder.start();
       synchronized (this) {
         // wait for driver client process to register
         while (this.clientStub == null && driverProcessIsAlive()) {
@@ -153,6 +166,34 @@ public final class GRPCDriverService implements IDriverService {
         };
         Runtime.getRuntime().addShutdownHook(closeChildThread);
       }
+    }
+  }
+
+  void setEnvironment() {
+    String slash = OSUtils.isWindows() ? "\\" : "/";
+    String separator = OSUtils.isWindows() ? ";" : ":";
+
+    // Get the process builder environment.
+    Map<String, String> env = driverProcessBuilder.environment();
+    // Find the path variable which may use a combination of upper and lower case characters.
+    Iterator<Map.Entry<String, String>> iter = env.entrySet().iterator();
+    boolean found = false;
+    while (iter.hasNext()) {
+      Map.Entry<String, String> entry = iter.next();
+
+      if (entry.getKey().toLowerCase().equals("path")) {
+        // Found the path variable in the environment.
+        String workingDir = System.getProperty("user.dir");
+        // Add the reef global and local directories.
+        String path = workingDir + slash + "reef" + slash + "global" + separator
+            + workingDir + slash + "reef" + slash + "local" + separator + entry.getValue();
+        env.put(entry.getKey(), path);
+        //LOG.log(Level.INFO, "Updated path = " + path);
+        found = true;
+      }
+    }
+    if (!found){
+      LOG.log(Level.SEVERE, "Unable to update path");
     }
   }
 
@@ -191,20 +232,40 @@ public final class GRPCDriverService implements IDriverService {
     if (!driverProcessIsAlive()) {
       LOG.log(Level.INFO, "Exit code: " + this.driverProcess.exitValue());
     }
-    LOG.log(Level.INFO, "capturing driver process stderr");
-    StringBuffer errBuffer = new StringBuffer();
-    InputStream errStream = this.driverProcess.getErrorStream();
+    dumpStream(StreamType.STDOUT);
+    dumpStream(StreamType.STDERR);
+  }
+
+  private void dumpStream(final StreamType type) {
+    StringBuffer buffer = new StringBuffer();
+
+    String name = "";
+    InputStream stream = null;
+    switch(type) {
+    case STDOUT:
+      name = "stdout";
+      stream = this.driverProcess.getInputStream();
+      break;
+    case STDERR:
+      name = "stderr";
+      stream = this.driverProcess.getErrorStream();
+      break;
+    default:
+      LOG.log(Level.WARNING, "Invalid stream type value");
+    }
+
+    LOG.log(Level.INFO, "capturing driver process " + name);
     try {
       int nextChar;
-      errBuffer.append("\n==============================================\n");
-      while ((nextChar = errStream.read()) != -1) {
-        errBuffer.append((char) nextChar);
+      buffer.append("\n==============================================\n");
+      while ((nextChar = stream.read()) != -1) {
+        buffer.append((char) nextChar);
       }
-      errBuffer.append("\n==============================================\n");
+      buffer.append("\n==============================================\n");
     } catch (IOException e) {
       LOG.log(Level.WARNING, "Error while capturing output stream: " + e.getMessage());
     }
-    LOG.log(Level.INFO, errBuffer.toString());
+    LOG.log(Level.INFO, buffer.toString());
   }
 
   /**
