@@ -15,24 +15,25 @@
 // specific language governing permissions and limitations
 // under the License.
 
-using Org.Apache.REEF.Bridge.Proto;
 using System;
 using Grpc.Core;
-using System.Threading.Tasks;
+using Org.Apache.REEF.Utilities.Logging;
+using Org.Apache.REEF.Bridge.Proto;
 
 namespace Org.Apache.REEF.Bridge.Client
 {
     public class DriverServiceClient : IDriverServiceClient
     {
+        private static readonly Logger Logger = Logger.GetLogger(typeof(DriverServiceClient));
         private readonly DriverService.DriverServiceClient serviceStub;
 
-        DriverServiceClient(Int32 driverServicePort)
+        public DriverServiceClient(Int32 driverServicePort)
         {
             Channel channel = new Channel("localhost", driverServicePort, ChannelCredentials.Insecure);
             serviceStub = new DriverService.DriverServiceClient(channel);
         }
 
-        void RegisterDriverClientsService(string host, int port)
+        public void RegisterDriverClientsService(string host, int port)
         {
             DriverClientRegistration registration = new DriverClientRegistration
             {

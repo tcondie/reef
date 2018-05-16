@@ -144,7 +144,7 @@ public final class GRPCDriverService implements IDriverService {
       Map<String, String> env = driverProcessBuilder.environment();
       LOG.log(Level.INFO, "Environment = " + env.toString());
 
-      this.driverProcessBuilder.command(cmdOs);
+      this.driverProcessBuilder.command(cmd);
       this.driverProcess = this.driverProcessBuilder.start();
       synchronized (this) {
         // wait for driver client process to register

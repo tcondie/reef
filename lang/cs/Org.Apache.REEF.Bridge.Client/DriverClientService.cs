@@ -16,12 +16,21 @@
 // under the License.
 
 using System;
+using Grpc.Core;
 using Org.Apache.REEF.Bridge.Proto;
+using Org.Apache.REEF.Utilities.Logging;
 
 namespace Org.Apache.REEF.Bridge.Client
 {
-    class DriverClientService : DriverClient.DriverClientClient, IDriverClientService
+    class DriverClientService : DriverClient.DriverClientBase, IDriverClientService
     {
+        private static readonly Logger Logger = Logger.GetLogger(typeof(DriverClientService));
+        Server server;
+
+        public DriverClientService()
+        {
+        }
+
         public void Start()
         {
 

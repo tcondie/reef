@@ -16,14 +16,26 @@
 // under the License.
 
 using System;
+using System.Diagnostics;
 using System.Threading;
+using Grpc.Core;
+using Org.Apache.REEF.Bridge.Proto;
 using Org.Apache.REEF.Utilities.Logging;
+using Org.Apache.REEF.Tang.Implementations.Tang;
+using Org.Apache.REEF.Tang.Interface;
+using Org.Apache.REEF.Wake.Remote;
+using Org.Apache.REEF.Wake.Remote.Impl;
+using Org.Apache.REEF.Wake.Remote.Parameters;
 
 namespace Org.Apache.REEF.Bridge.Client
 {
     class CSharpDriverClientLauncher
     {
+        private static readonly ITcpPortProvider tcpPortProvider= GetTcpProvider(9900, 9940);
         private static readonly Logger Logger = Logger.GetLogger(typeof(CSharpDriverClientLauncher));
+        private static TextWriterTraceListener listener = new TextWriterTraceListener("Client.log");
+        private static DriverServiceClient client;
+
         private static readonly bool AreAssertionsEnabled =
             #if DEBUG
                true
@@ -31,6 +43,16 @@ namespace Org.Apache.REEF.Bridge.Client
                false
             #endif
             ;
+
+        private static ITcpPortProvider GetTcpProvider(int portRangeStart, int portRangeEnd)
+        {
+            var configuration = TangFactory.GetTang().NewConfigurationBuilder()
+                .BindImplementation<ITcpPortProvider, TcpPortProvider>()
+                .BindIntNamedParam<TcpPortRangeStart>(portRangeStart.ToString())
+                .BindIntNamedParam<TcpPortRangeCount>((portRangeEnd - portRangeStart + 1).ToString())
+                .Build();
+            return TangFactory.GetTang().NewInjector(configuration).GetInstance<ITcpPortProvider>();
+        }
 
         /// <summary>
         /// Launches a REEF client process (Driver or Evaluator)
@@ -48,6 +70,36 @@ namespace Org.Apache.REEF.Bridge.Client
             Logger.Log(Level.Verbose, "CSharpDriverClientLauncher started with user name [{0}]", Environment.UserName);
             Logger.Log(Level.Verbose, "CSharpDriverClientLauncher started. Assertions are {0} in this process.",
                 AreAssertionsEnabled ? "ENABLED" : "DISABLED");
+
+            ITcpPortProvider tcpPortProvider = GetTcpProvider(9900, 9940);
+            Server server = null;
+
+            int localServerPort = 0;
+            foreach(int port in tcpPortProvider)
+            {
+                try
+                {
+                    server = new Server
+                    {
+                        Services = { DriverClient.BindService(new DriverClientService()) },
+                        Ports = { new ServerPort("localhost", port, ServerCredentials.Insecure) }
+                    };
+                    localServerPort = port;
+                    Logger.Log(Level.Info, "Driver client started on port {0}", localServerPort);
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Logger.Log(Level.Info, "Unable to connect to bind to port {0}", port);
+                }
+            }
+
+            Int32 driverPort = 0;
+            driverPort = Int32.Parse(args[0]);
+            client = new DriverServiceClient(driverPort);
+            client.RegisterDriverClientsService("localhost", localServerPort);
+
+            listener.Flush();
         }
     }
 }
