@@ -121,6 +121,7 @@ message StopTimeInfo {
 // Information associated with an alarm that was set.
 message AlarmTriggerInfo {
   string alarm_id = 1;
+  int64 timestamp = 2;
 }
 
 message EvaluatorDescriptorInfo {
@@ -132,6 +133,13 @@ message EvaluatorDescriptorInfo {
 
   // name of the runtime
   string runtime_name = 3;
+
+  message NodeDescriptor {
+    string ip_address = 1;
+    string hostname = 2;
+    uint32 port = 3;
+  }
+  NodeDescriptor node_descriptor = 5;
 }
 
 message EvaluatorInfo {

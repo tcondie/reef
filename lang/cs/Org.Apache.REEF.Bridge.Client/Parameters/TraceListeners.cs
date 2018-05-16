@@ -15,14 +15,18 @@
 // specific language governing permissions and limitations
 // under the License.
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Org.Apache.REEF.Driver.Defaults;
+using Org.Apache.REEF.Tang.Annotations;
 
-namespace Org.Apache.REEF.Bridge.Client
+namespace Org.Apache.REEF.Bridge.Client.DotNet.Parameters
 {
-    class Program
+    [NamedParameter("Additional trace listeners supplied by client", "TraceListeners", null, defaultClasses: new[] { typeof(DefaultCustomTraceListener) })]
+    internal sealed class TraceListeners : Name<ISet<TraceListener>>
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
     }
 }

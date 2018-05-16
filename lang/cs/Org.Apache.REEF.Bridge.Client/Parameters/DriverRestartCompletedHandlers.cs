@@ -15,14 +15,18 @@
 // specific language governing permissions and limitations
 // under the License.
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Org.Apache.REEF.Driver;
+using Org.Apache.REEF.Driver.Defaults;
+using Org.Apache.REEF.Tang.Annotations;
 
-namespace Org.Apache.REEF.Bridge.Client
+namespace Org.Apache.REEF.Bridge.Client.DotNet.Parameters
 {
-    class Program
+    [NamedParameter(documentation: "Called when driver restart is completed.", defaultClasses: new[] { typeof(DefaultDriverRestartCompletedHandler) })]
+    public sealed class DriverRestartCompletedHandlers : Name<ISet<IObserver<IDriverRestartCompleted>>>
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
     }
 }

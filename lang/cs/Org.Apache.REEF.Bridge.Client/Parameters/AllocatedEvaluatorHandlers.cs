@@ -15,14 +15,19 @@
 // specific language governing permissions and limitations
 // under the License.
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Org.Apache.REEF.Driver.Defaults;
+using Org.Apache.REEF.Driver.Evaluator;
+using Org.Apache.REEF.Tang.Annotations;
 
-namespace Org.Apache.REEF.Bridge.Client
+namespace Org.Apache.REEF.Bridge.Client.DotNet.Parameters
 {
-    class Program
+    [NamedParameter(documentation: "Called when an allocated evaluator is given to the client.",
+        defaultClasses: new[] {typeof(DefaultEvaluatorAllocationHandler)})]
+    public sealed class AllocatedEvaluatorHandlers : Name<ISet<IObserver<IAllocatedEvaluator>>>
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
     }
 }

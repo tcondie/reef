@@ -39,74 +39,94 @@ namespace Org.Apache.REEF.Bridge.Proto {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChpEcml2ZXJDbGllbnRQcm90b2NvbC5wcm90bxIMZHJpdmVyYnJpZGdlGhpE",
-            "cml2ZXJDb21tb25Qcm90b2NvbC5wcm90byItCgpJZGxlU3RhdHVzEg8KB2lz",
-            "X2lkbGUYASABKAgSDgoGcmVhc29uGAIgASgJIiMKDVN0YXJ0VGltZUluZm8S",
-            "EgoKc3RhcnRfdGltZRgBIAEoAyIhCgxTdG9wVGltZUluZm8SEQoJc3RvcF90",
-            "aW1lGAEgASgDIiQKEEFsYXJtVHJpZ2dlckluZm8SEAoIYWxhcm1faWQYASAB",
-            "KAkiTgoXRXZhbHVhdG9yRGVzY3JpcHRvckluZm8SDgoGbWVtb3J5GAEgASgF",
-            "Eg0KBWNvcmVzGAIgASgFEhQKDHJ1bnRpbWVfbmFtZRgDIAEoCSLtAQoNRXZh",
-            "bHVhdG9ySW5mbxIUCgxldmFsdWF0b3JfaWQYASABKAkSOAoHZmFpbHVyZRgC",
-            "IAEoCzInLmRyaXZlcmJyaWRnZS5FdmFsdWF0b3JJbmZvLkZhaWx1cmVJbmZv",
-            "Ej4KD2Rlc2NyaXB0b3JfaW5mbxgDIAEoCzIlLmRyaXZlcmJyaWRnZS5FdmFs",
-            "dWF0b3JEZXNjcmlwdG9ySW5mbxpMCgtGYWlsdXJlSW5mbxIPCgdtZXNzYWdl",
-            "GAEgASgJEhYKDmZhaWxlZENvbnRleHRzGAIgAygJEhQKDGZhaWxlZFRhc2tJ",
-            "ZBgDIAEoCSJ6CgtDb250ZXh0SW5mbxISCgpjb250ZXh0X2lkGAEgASgJEhQK",
-            "DGV2YWx1YXRvcl9pZBgCIAEoCRIRCglwYXJlbnRfaWQYAyABKAkSLgoJZXhj",
-            "ZXB0aW9uGAUgASgLMhsuZHJpdmVyYnJpZGdlLkV4Y2VwdGlvbkluZm8ibQoS",
-            "Q29udGV4dE1lc3NhZ2VJbmZvEhIKCmNvbnRleHRfaWQYASABKAkSDwoHcGF5",
-            "bG9hZBgCIAEoDBIXCg9zZXF1ZW5jZV9udW1iZXIYAyABKAMSGQoRbWVzc2Fn",
-            "ZV9zb3VyY2VfaWQYBCABKAkibwoIVGFza0luZm8SDwoHdGFza19pZBgBIAEo",
-            "CRISCgpjb250ZXh0X2lkGAIgASgJEg4KBnJlc3VsdBgDIAEoDBIuCglleGNl",
-            "cHRpb24YBSABKAsyGy5kcml2ZXJicmlkZ2UuRXhjZXB0aW9uSW5mbyJ7Cg9U",
-            "YXNrTWVzc2FnZUluZm8SDwoHdGFza19pZBgBIAEoCRIPCgdwYXlsb2FkGAIg",
-            "ASgMEhcKD3NlcXVlbmNlX251bWJlchgDIAEoAxISCgpjb250ZXh0X2lkGAQg",
-            "ASgJEhkKEW1lc3NhZ2Vfc291cmNlX2lkGAUgASgJIiQKEUNsaWVudE1lc3Nh",
-            "Z2VJbmZvEg8KB3BheWxvYWQYASABKAwy/goKDERyaXZlckNsaWVudBJGChRJ",
-            "ZGxlbmVzc0NoZWNrSGFuZGxlchISLmRyaXZlcmJyaWRnZS5Wb2lkGhguZHJp",
-            "dmVyYnJpZGdlLklkbGVTdGF0dXMiABJBCgxTdGFydEhhbmRsZXISGy5kcml2",
-            "ZXJicmlkZ2UuU3RhcnRUaW1lSW5mbxoSLmRyaXZlcmJyaWRnZS5Wb2lkIgAS",
-            "PwoLU3RvcEhhbmRsZXISGi5kcml2ZXJicmlkZ2UuU3RvcFRpbWVJbmZvGhIu",
-            "ZHJpdmVyYnJpZGdlLlZvaWQiABJECgxBbGFybVRyaWdnZXISHi5kcml2ZXJi",
-            "cmlkZ2UuQWxhcm1UcmlnZ2VySW5mbxoSLmRyaXZlcmJyaWRnZS5Wb2lkIgAS",
-            "TgoZQWxsb2NhdGVkRXZhbHVhdG9ySGFuZGxlchIbLmRyaXZlcmJyaWRnZS5F",
-            "dmFsdWF0b3JJbmZvGhIuZHJpdmVyYnJpZGdlLlZvaWQiABJOChlDb21wbGV0",
-            "ZWRFdmFsdWF0b3JIYW5kbGVyEhsuZHJpdmVyYnJpZGdlLkV2YWx1YXRvcklu",
-            "Zm8aEi5kcml2ZXJicmlkZ2UuVm9pZCIAEksKFkZhaWxlZEV2YWx1YXRvckhh",
-            "bmRsZXISGy5kcml2ZXJicmlkZ2UuRXZhbHVhdG9ySW5mbxoSLmRyaXZlcmJy",
-            "aWRnZS5Wb2lkIgASRwoUQWN0aXZlQ29udGV4dEhhbmRsZXISGS5kcml2ZXJi",
-            "cmlkZ2UuQ29udGV4dEluZm8aEi5kcml2ZXJicmlkZ2UuVm9pZCIAEkcKFENs",
-            "b3NlZENvbnRleHRIYW5kbGVyEhkuZHJpdmVyYnJpZGdlLkNvbnRleHRJbmZv",
-            "GhIuZHJpdmVyYnJpZGdlLlZvaWQiABJHChRGYWlsZWRDb250ZXh0SGFuZGxl",
-            "chIZLmRyaXZlcmJyaWRnZS5Db250ZXh0SW5mbxoSLmRyaXZlcmJyaWRnZS5W",
-            "b2lkIgASTwoVQ29udGV4dE1lc3NhZ2VIYW5kbGVyEiAuZHJpdmVyYnJpZGdl",
-            "LkNvbnRleHRNZXNzYWdlSW5mbxoSLmRyaXZlcmJyaWRnZS5Wb2lkIgASQgoS",
-            "UnVubmluZ1Rhc2tIYW5kbGVyEhYuZHJpdmVyYnJpZGdlLlRhc2tJbmZvGhIu",
-            "ZHJpdmVyYnJpZGdlLlZvaWQiABJBChFGYWlsZWRUYXNrSGFuZGxlchIWLmRy",
-            "aXZlcmJyaWRnZS5UYXNrSW5mbxoSLmRyaXZlcmJyaWRnZS5Wb2lkIgASRAoU",
-            "Q29tcGxldGVkVGFza0hhbmRsZXISFi5kcml2ZXJicmlkZ2UuVGFza0luZm8a",
-            "Ei5kcml2ZXJicmlkZ2UuVm9pZCIAEkQKFFN1c3BlbmRlZFRhc2tIYW5kbGVy",
-            "EhYuZHJpdmVyYnJpZGdlLlRhc2tJbmZvGhIuZHJpdmVyYnJpZGdlLlZvaWQi",
-            "ABJJChJUYXNrTWVzc2FnZUhhbmRsZXISHS5kcml2ZXJicmlkZ2UuVGFza01l",
-            "c3NhZ2VJbmZvGhIuZHJpdmVyYnJpZGdlLlZvaWQiABJNChRDbGllbnRNZXNz",
-            "YWdlSGFuZGxlchIfLmRyaXZlcmJyaWRnZS5DbGllbnRNZXNzYWdlSW5mbxoS",
-            "LmRyaXZlcmJyaWRnZS5Wb2lkIgASPgoSQ2xpZW50Q2xvc2VIYW5kbGVyEhIu",
-            "ZHJpdmVyYnJpZGdlLlZvaWQaEi5kcml2ZXJicmlkZ2UuVm9pZCIAElYKHUNs",
-            "aWVudENsb3NlV2l0aE1lc3NhZ2VIYW5kbGVyEh8uZHJpdmVyYnJpZGdlLkNs",
-            "aWVudE1lc3NhZ2VJbmZvGhIuZHJpdmVyYnJpZGdlLlZvaWQiAEJVChxvcmcu",
-            "YXBhY2hlLnJlZWYuYnJpZGdlLnByb3RvQhREcml2ZXJDbGllbnRQcm90b2Nv",
-            "bFABqgIcT3JnLkFwYWNoZS5SRUVGLkJyaWRnZS5Qcm90b2IGcHJvdG8z"));
+            "cml2ZXJDb21tb25Qcm90b2NvbC5wcm90byKDAQoRRHJpdmVyUmVzdGFydElu",
+            "Zm8SHQoVcmVzdWJtaXNzaW9uX2F0dGVtcHRzGAEgASgNEi8KCnN0YXJ0X3Rp",
+            "bWUYAiABKAsyGy5kcml2ZXJicmlkZ2UuU3RhcnRUaW1lSW5mbxIeChZleHBl",
+            "Y3RlZF9ldmFsdWF0b3JfaWRzGAMgAygJImcKGkRyaXZlclJlc3RhcnRDb21w",
+            "bGV0ZWRJbmZvEjMKD2NvbXBsZXRpb25fdGltZRgBIAEoCzIaLmRyaXZlcmJy",
+            "aWRnZS5TdG9wVGltZUluZm8SFAoMaXNfdGltZWRfb3V0GAIgASgIIi0KCklk",
+            "bGVTdGF0dXMSDwoHaXNfaWRsZRgBIAEoCBIOCgZyZWFzb24YAiABKAkiIwoN",
+            "U3RhcnRUaW1lSW5mbxISCgpzdGFydF90aW1lGAEgASgDIiEKDFN0b3BUaW1l",
+            "SW5mbxIRCglzdG9wX3RpbWUYASABKAMiNwoQQWxhcm1UcmlnZ2VySW5mbxIQ",
+            "CghhbGFybV9pZBgBIAEoCRIRCgl0aW1lc3RhbXAYAiABKAMiTgoXRXZhbHVh",
+            "dG9yRGVzY3JpcHRvckluZm8SDgoGbWVtb3J5GAEgASgFEg0KBWNvcmVzGAIg",
+            "ASgFEhQKDHJ1bnRpbWVfbmFtZRgDIAEoCSLtAQoNRXZhbHVhdG9ySW5mbxIU",
+            "CgxldmFsdWF0b3JfaWQYASABKAkSOAoHZmFpbHVyZRgCIAEoCzInLmRyaXZl",
+            "cmJyaWRnZS5FdmFsdWF0b3JJbmZvLkZhaWx1cmVJbmZvEj4KD2Rlc2NyaXB0",
+            "b3JfaW5mbxgDIAEoCzIlLmRyaXZlcmJyaWRnZS5FdmFsdWF0b3JEZXNjcmlw",
+            "dG9ySW5mbxpMCgtGYWlsdXJlSW5mbxIPCgdtZXNzYWdlGAEgASgJEhYKDmZh",
+            "aWxlZENvbnRleHRzGAIgAygJEhQKDGZhaWxlZFRhc2tJZBgDIAEoCSLEAQoL",
+            "Q29udGV4dEluZm8SEgoKY29udGV4dF9pZBgBIAEoCRIUCgxldmFsdWF0b3Jf",
+            "aWQYAiABKAkSEQoJcGFyZW50X2lkGAMgASgJEkgKGWV2YWx1YXRvcl9kZXNj",
+            "cmlwdG9yX2luZm8YBCABKAsyJS5kcml2ZXJicmlkZ2UuRXZhbHVhdG9yRGVz",
+            "Y3JpcHRvckluZm8SLgoJZXhjZXB0aW9uGAUgASgLMhsuZHJpdmVyYnJpZGdl",
+            "LkV4Y2VwdGlvbkluZm8ibQoSQ29udGV4dE1lc3NhZ2VJbmZvEhIKCmNvbnRl",
+            "eHRfaWQYASABKAkSDwoHcGF5bG9hZBgCIAEoDBIXCg9zZXF1ZW5jZV9udW1i",
+            "ZXIYAyABKAMSGQoRbWVzc2FnZV9zb3VyY2VfaWQYBCABKAkihwEKCFRhc2tJ",
+            "bmZvEg8KB3Rhc2tfaWQYASABKAkSDgoGcmVzdWx0GAIgASgMEioKB2NvbnRl",
+            "eHQYBSABKAsyGS5kcml2ZXJicmlkZ2UuQ29udGV4dEluZm8SLgoJZXhjZXB0",
+            "aW9uGAogASgLMhsuZHJpdmVyYnJpZGdlLkV4Y2VwdGlvbkluZm8iewoPVGFz",
+            "a01lc3NhZ2VJbmZvEg8KB3Rhc2tfaWQYASABKAkSDwoHcGF5bG9hZBgCIAEo",
+            "DBIXCg9zZXF1ZW5jZV9udW1iZXIYAyABKAMSEgoKY29udGV4dF9pZBgEIAEo",
+            "CRIZChFtZXNzYWdlX3NvdXJjZV9pZBgFIAEoCSIkChFDbGllbnRNZXNzYWdl",
+            "SW5mbxIPCgdwYXlsb2FkGAEgASgMMq8OCgxEcml2ZXJDbGllbnQSRgoUSWRs",
+            "ZW5lc3NDaGVja0hhbmRsZXISEi5kcml2ZXJicmlkZ2UuVm9pZBoYLmRyaXZl",
+            "cmJyaWRnZS5JZGxlU3RhdHVzIgASQQoMU3RhcnRIYW5kbGVyEhsuZHJpdmVy",
+            "YnJpZGdlLlN0YXJ0VGltZUluZm8aEi5kcml2ZXJicmlkZ2UuVm9pZCIAEj8K",
+            "C1N0b3BIYW5kbGVyEhouZHJpdmVyYnJpZGdlLlN0b3BUaW1lSW5mbxoSLmRy",
+            "aXZlcmJyaWRnZS5Wb2lkIgASRAoMQWxhcm1UcmlnZ2VyEh4uZHJpdmVyYnJp",
+            "ZGdlLkFsYXJtVHJpZ2dlckluZm8aEi5kcml2ZXJicmlkZ2UuVm9pZCIAEk4K",
+            "GUFsbG9jYXRlZEV2YWx1YXRvckhhbmRsZXISGy5kcml2ZXJicmlkZ2UuRXZh",
+            "bHVhdG9ySW5mbxoSLmRyaXZlcmJyaWRnZS5Wb2lkIgASTgoZQ29tcGxldGVk",
+            "RXZhbHVhdG9ySGFuZGxlchIbLmRyaXZlcmJyaWRnZS5FdmFsdWF0b3JJbmZv",
+            "GhIuZHJpdmVyYnJpZGdlLlZvaWQiABJLChZGYWlsZWRFdmFsdWF0b3JIYW5k",
+            "bGVyEhsuZHJpdmVyYnJpZGdlLkV2YWx1YXRvckluZm8aEi5kcml2ZXJicmlk",
+            "Z2UuVm9pZCIAEkcKFEFjdGl2ZUNvbnRleHRIYW5kbGVyEhkuZHJpdmVyYnJp",
+            "ZGdlLkNvbnRleHRJbmZvGhIuZHJpdmVyYnJpZGdlLlZvaWQiABJHChRDbG9z",
+            "ZWRDb250ZXh0SGFuZGxlchIZLmRyaXZlcmJyaWRnZS5Db250ZXh0SW5mbxoS",
+            "LmRyaXZlcmJyaWRnZS5Wb2lkIgASRwoURmFpbGVkQ29udGV4dEhhbmRsZXIS",
+            "GS5kcml2ZXJicmlkZ2UuQ29udGV4dEluZm8aEi5kcml2ZXJicmlkZ2UuVm9p",
+            "ZCIAEk8KFUNvbnRleHRNZXNzYWdlSGFuZGxlchIgLmRyaXZlcmJyaWRnZS5D",
+            "b250ZXh0TWVzc2FnZUluZm8aEi5kcml2ZXJicmlkZ2UuVm9pZCIAEkIKElJ1",
+            "bm5pbmdUYXNrSGFuZGxlchIWLmRyaXZlcmJyaWRnZS5UYXNrSW5mbxoSLmRy",
+            "aXZlcmJyaWRnZS5Wb2lkIgASQQoRRmFpbGVkVGFza0hhbmRsZXISFi5kcml2",
+            "ZXJicmlkZ2UuVGFza0luZm8aEi5kcml2ZXJicmlkZ2UuVm9pZCIAEkQKFENv",
+            "bXBsZXRlZFRhc2tIYW5kbGVyEhYuZHJpdmVyYnJpZGdlLlRhc2tJbmZvGhIu",
+            "ZHJpdmVyYnJpZGdlLlZvaWQiABJEChRTdXNwZW5kZWRUYXNrSGFuZGxlchIW",
+            "LmRyaXZlcmJyaWRnZS5UYXNrSW5mbxoSLmRyaXZlcmJyaWRnZS5Wb2lkIgAS",
+            "SQoSVGFza01lc3NhZ2VIYW5kbGVyEh0uZHJpdmVyYnJpZGdlLlRhc2tNZXNz",
+            "YWdlSW5mbxoSLmRyaXZlcmJyaWRnZS5Wb2lkIgASTQoUQ2xpZW50TWVzc2Fn",
+            "ZUhhbmRsZXISHy5kcml2ZXJicmlkZ2UuQ2xpZW50TWVzc2FnZUluZm8aEi5k",
+            "cml2ZXJicmlkZ2UuVm9pZCIAEj4KEkNsaWVudENsb3NlSGFuZGxlchISLmRy",
+            "aXZlcmJyaWRnZS5Wb2lkGhIuZHJpdmVyYnJpZGdlLlZvaWQiABJWCh1DbGll",
+            "bnRDbG9zZVdpdGhNZXNzYWdlSGFuZGxlchIfLmRyaXZlcmJyaWRnZS5DbGll",
+            "bnRNZXNzYWdlSW5mbxoSLmRyaXZlcmJyaWRnZS5Wb2lkIgASTQoURHJpdmVy",
+            "UmVzdGFydEhhbmRsZXISHy5kcml2ZXJicmlkZ2UuRHJpdmVyUmVzdGFydElu",
+            "Zm8aEi5kcml2ZXJicmlkZ2UuVm9pZCIAElQKIURyaXZlclJlc3RhcnRBY3Rp",
+            "dmVDb250ZXh0SGFuZGxlchIZLmRyaXZlcmJyaWRnZS5Db250ZXh0SW5mbxoS",
+            "LmRyaXZlcmJyaWRnZS5Wb2lkIgASTwofRHJpdmVyUmVzdGFydFJ1bm5pbmdU",
+            "YXNrSGFuZGxlchIWLmRyaXZlcmJyaWRnZS5UYXNrSW5mbxoSLmRyaXZlcmJy",
+            "aWRnZS5Wb2lkIgASXwodRHJpdmVyUmVzdGFydENvbXBsZXRlZEhhbmRsZXIS",
+            "KC5kcml2ZXJicmlkZ2UuRHJpdmVyUmVzdGFydENvbXBsZXRlZEluZm8aEi5k",
+            "cml2ZXJicmlkZ2UuVm9pZCIAElgKI0RyaXZlclJlc3RhcnRGYWlsZWRFdmFs",
+            "dWF0b3JIYW5kbGVyEhsuZHJpdmVyYnJpZGdlLkV2YWx1YXRvckluZm8aEi5k",
+            "cml2ZXJicmlkZ2UuVm9pZCIAQlUKHG9yZy5hcGFjaGUucmVlZi5icmlkZ2Uu",
+            "cHJvdG9CFERyaXZlckNsaWVudFByb3RvY29sUAGqAhxPcmcuQXBhY2hlLlJF",
+            "RUYuQnJpZGdlLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Org.Apache.REEF.Bridge.Proto.DriverCommonProtocolReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.DriverRestartInfo), global::Org.Apache.REEF.Bridge.Proto.DriverRestartInfo.Parser, new[]{ "ResubmissionAttempts", "StartTime", "ExpectedEvaluatorIds" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.DriverRestartCompletedInfo), global::Org.Apache.REEF.Bridge.Proto.DriverRestartCompletedInfo.Parser, new[]{ "CompletionTime", "IsTimedOut" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.IdleStatus), global::Org.Apache.REEF.Bridge.Proto.IdleStatus.Parser, new[]{ "IsIdle", "Reason" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.StartTimeInfo), global::Org.Apache.REEF.Bridge.Proto.StartTimeInfo.Parser, new[]{ "StartTime" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.StopTimeInfo), global::Org.Apache.REEF.Bridge.Proto.StopTimeInfo.Parser, new[]{ "StopTime" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.AlarmTriggerInfo), global::Org.Apache.REEF.Bridge.Proto.AlarmTriggerInfo.Parser, new[]{ "AlarmId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.AlarmTriggerInfo), global::Org.Apache.REEF.Bridge.Proto.AlarmTriggerInfo.Parser, new[]{ "AlarmId", "Timestamp" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.EvaluatorDescriptorInfo), global::Org.Apache.REEF.Bridge.Proto.EvaluatorDescriptorInfo.Parser, new[]{ "Memory", "Cores", "RuntimeName" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.EvaluatorInfo), global::Org.Apache.REEF.Bridge.Proto.EvaluatorInfo.Parser, new[]{ "EvaluatorId", "Failure", "DescriptorInfo" }, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.EvaluatorInfo.Types.FailureInfo), global::Org.Apache.REEF.Bridge.Proto.EvaluatorInfo.Types.FailureInfo.Parser, new[]{ "Message", "FailedContexts", "FailedTaskId" }, null, null, null)}),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.ContextInfo), global::Org.Apache.REEF.Bridge.Proto.ContextInfo.Parser, new[]{ "ContextId", "EvaluatorId", "ParentId", "Exception" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.ContextInfo), global::Org.Apache.REEF.Bridge.Proto.ContextInfo.Parser, new[]{ "ContextId", "EvaluatorId", "ParentId", "EvaluatorDescriptorInfo", "Exception" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.ContextMessageInfo), global::Org.Apache.REEF.Bridge.Proto.ContextMessageInfo.Parser, new[]{ "ContextId", "Payload", "SequenceNumber", "MessageSourceId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.TaskInfo), global::Org.Apache.REEF.Bridge.Proto.TaskInfo.Parser, new[]{ "TaskId", "ContextId", "Result", "Exception" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.TaskInfo), global::Org.Apache.REEF.Bridge.Proto.TaskInfo.Parser, new[]{ "TaskId", "Result", "Context", "Exception" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.TaskMessageInfo), global::Org.Apache.REEF.Bridge.Proto.TaskMessageInfo.Parser, new[]{ "TaskId", "Payload", "SequenceNumber", "ContextId", "MessageSourceId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Org.Apache.REEF.Bridge.Proto.ClientMessageInfo), global::Org.Apache.REEF.Bridge.Proto.ClientMessageInfo.Parser, new[]{ "Payload" }, null, null, null)
           }));
@@ -115,6 +135,334 @@ namespace Org.Apache.REEF.Bridge.Proto {
 
   }
   #region Messages
+  /// <summary>
+  /// Driver restart information
+  /// </summary>
+  public sealed partial class DriverRestartInfo : pb::IMessage<DriverRestartInfo> {
+    private static readonly pb::MessageParser<DriverRestartInfo> _parser = new pb::MessageParser<DriverRestartInfo>(() => new DriverRestartInfo());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<DriverRestartInfo> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[0]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DriverRestartInfo() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DriverRestartInfo(DriverRestartInfo other) : this() {
+      resubmissionAttempts_ = other.resubmissionAttempts_;
+      StartTime = other.startTime_ != null ? other.StartTime.Clone() : null;
+      expectedEvaluatorIds_ = other.expectedEvaluatorIds_.Clone();
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DriverRestartInfo Clone() {
+      return new DriverRestartInfo(this);
+    }
+
+    /// <summary>Field number for the "resubmission_attempts" field.</summary>
+    public const int ResubmissionAttemptsFieldNumber = 1;
+    private uint resubmissionAttempts_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public uint ResubmissionAttempts {
+      get { return resubmissionAttempts_; }
+      set {
+        resubmissionAttempts_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "start_time" field.</summary>
+    public const int StartTimeFieldNumber = 2;
+    private global::Org.Apache.REEF.Bridge.Proto.StartTimeInfo startTime_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Org.Apache.REEF.Bridge.Proto.StartTimeInfo StartTime {
+      get { return startTime_; }
+      set {
+        startTime_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "expected_evaluator_ids" field.</summary>
+    public const int ExpectedEvaluatorIdsFieldNumber = 3;
+    private static readonly pb::FieldCodec<string> _repeated_expectedEvaluatorIds_codec
+        = pb::FieldCodec.ForString(26);
+    private readonly pbc::RepeatedField<string> expectedEvaluatorIds_ = new pbc::RepeatedField<string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<string> ExpectedEvaluatorIds {
+      get { return expectedEvaluatorIds_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as DriverRestartInfo);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DriverRestartInfo other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ResubmissionAttempts != other.ResubmissionAttempts) return false;
+      if (!object.Equals(StartTime, other.StartTime)) return false;
+      if(!expectedEvaluatorIds_.Equals(other.expectedEvaluatorIds_)) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ResubmissionAttempts != 0) hash ^= ResubmissionAttempts.GetHashCode();
+      if (startTime_ != null) hash ^= StartTime.GetHashCode();
+      hash ^= expectedEvaluatorIds_.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ResubmissionAttempts != 0) {
+        output.WriteRawTag(8);
+        output.WriteUInt32(ResubmissionAttempts);
+      }
+      if (startTime_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(StartTime);
+      }
+      expectedEvaluatorIds_.WriteTo(output, _repeated_expectedEvaluatorIds_codec);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (ResubmissionAttempts != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(ResubmissionAttempts);
+      }
+      if (startTime_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(StartTime);
+      }
+      size += expectedEvaluatorIds_.CalculateSize(_repeated_expectedEvaluatorIds_codec);
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(DriverRestartInfo other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ResubmissionAttempts != 0) {
+        ResubmissionAttempts = other.ResubmissionAttempts;
+      }
+      if (other.startTime_ != null) {
+        if (startTime_ == null) {
+          startTime_ = new global::Org.Apache.REEF.Bridge.Proto.StartTimeInfo();
+        }
+        StartTime.MergeFrom(other.StartTime);
+      }
+      expectedEvaluatorIds_.Add(other.expectedEvaluatorIds_);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            ResubmissionAttempts = input.ReadUInt32();
+            break;
+          }
+          case 18: {
+            if (startTime_ == null) {
+              startTime_ = new global::Org.Apache.REEF.Bridge.Proto.StartTimeInfo();
+            }
+            input.ReadMessage(startTime_);
+            break;
+          }
+          case 26: {
+            expectedEvaluatorIds_.AddEntriesFrom(input, _repeated_expectedEvaluatorIds_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  /// Driver restart completed information
+  /// </summary>
+  public sealed partial class DriverRestartCompletedInfo : pb::IMessage<DriverRestartCompletedInfo> {
+    private static readonly pb::MessageParser<DriverRestartCompletedInfo> _parser = new pb::MessageParser<DriverRestartCompletedInfo>(() => new DriverRestartCompletedInfo());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<DriverRestartCompletedInfo> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DriverRestartCompletedInfo() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DriverRestartCompletedInfo(DriverRestartCompletedInfo other) : this() {
+      CompletionTime = other.completionTime_ != null ? other.CompletionTime.Clone() : null;
+      isTimedOut_ = other.isTimedOut_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DriverRestartCompletedInfo Clone() {
+      return new DriverRestartCompletedInfo(this);
+    }
+
+    /// <summary>Field number for the "completion_time" field.</summary>
+    public const int CompletionTimeFieldNumber = 1;
+    private global::Org.Apache.REEF.Bridge.Proto.StopTimeInfo completionTime_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Org.Apache.REEF.Bridge.Proto.StopTimeInfo CompletionTime {
+      get { return completionTime_; }
+      set {
+        completionTime_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "is_timed_out" field.</summary>
+    public const int IsTimedOutFieldNumber = 2;
+    private bool isTimedOut_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool IsTimedOut {
+      get { return isTimedOut_; }
+      set {
+        isTimedOut_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as DriverRestartCompletedInfo);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DriverRestartCompletedInfo other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(CompletionTime, other.CompletionTime)) return false;
+      if (IsTimedOut != other.IsTimedOut) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (completionTime_ != null) hash ^= CompletionTime.GetHashCode();
+      if (IsTimedOut != false) hash ^= IsTimedOut.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (completionTime_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(CompletionTime);
+      }
+      if (IsTimedOut != false) {
+        output.WriteRawTag(16);
+        output.WriteBool(IsTimedOut);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (completionTime_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CompletionTime);
+      }
+      if (IsTimedOut != false) {
+        size += 1 + 1;
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(DriverRestartCompletedInfo other) {
+      if (other == null) {
+        return;
+      }
+      if (other.completionTime_ != null) {
+        if (completionTime_ == null) {
+          completionTime_ = new global::Org.Apache.REEF.Bridge.Proto.StopTimeInfo();
+        }
+        CompletionTime.MergeFrom(other.CompletionTime);
+      }
+      if (other.IsTimedOut != false) {
+        IsTimedOut = other.IsTimedOut;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            if (completionTime_ == null) {
+              completionTime_ = new global::Org.Apache.REEF.Bridge.Proto.StopTimeInfo();
+            }
+            input.ReadMessage(completionTime_);
+            break;
+          }
+          case 16: {
+            IsTimedOut = input.ReadBool();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   /// <summary>
   /// IdleStatus response to idleness inquiry
   /// </summary>
@@ -125,7 +473,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -273,7 +621,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -390,7 +738,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -510,7 +858,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -528,6 +876,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public AlarmTriggerInfo(AlarmTriggerInfo other) : this() {
       alarmId_ = other.alarmId_;
+      timestamp_ = other.timestamp_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -546,6 +895,17 @@ namespace Org.Apache.REEF.Bridge.Proto {
       }
     }
 
+    /// <summary>Field number for the "timestamp" field.</summary>
+    public const int TimestampFieldNumber = 2;
+    private long timestamp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long Timestamp {
+      get { return timestamp_; }
+      set {
+        timestamp_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as AlarmTriggerInfo);
@@ -560,6 +920,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
         return true;
       }
       if (AlarmId != other.AlarmId) return false;
+      if (Timestamp != other.Timestamp) return false;
       return true;
     }
 
@@ -567,6 +928,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
     public override int GetHashCode() {
       int hash = 1;
       if (AlarmId.Length != 0) hash ^= AlarmId.GetHashCode();
+      if (Timestamp != 0L) hash ^= Timestamp.GetHashCode();
       return hash;
     }
 
@@ -581,6 +943,10 @@ namespace Org.Apache.REEF.Bridge.Proto {
         output.WriteRawTag(10);
         output.WriteString(AlarmId);
       }
+      if (Timestamp != 0L) {
+        output.WriteRawTag(16);
+        output.WriteInt64(Timestamp);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -588,6 +954,9 @@ namespace Org.Apache.REEF.Bridge.Proto {
       int size = 0;
       if (AlarmId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(AlarmId);
+      }
+      if (Timestamp != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Timestamp);
       }
       return size;
     }
@@ -599,6 +968,9 @@ namespace Org.Apache.REEF.Bridge.Proto {
       }
       if (other.AlarmId.Length != 0) {
         AlarmId = other.AlarmId;
+      }
+      if (other.Timestamp != 0L) {
+        Timestamp = other.Timestamp;
       }
     }
 
@@ -614,6 +986,10 @@ namespace Org.Apache.REEF.Bridge.Proto {
             AlarmId = input.ReadString();
             break;
           }
+          case 16: {
+            Timestamp = input.ReadInt64();
+            break;
+          }
         }
       }
     }
@@ -627,7 +1003,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -809,7 +1185,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[5]; }
+      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1166,7 +1542,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1186,6 +1562,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
       contextId_ = other.contextId_;
       evaluatorId_ = other.evaluatorId_;
       parentId_ = other.parentId_;
+      EvaluatorDescriptorInfo = other.evaluatorDescriptorInfo_ != null ? other.EvaluatorDescriptorInfo.Clone() : null;
       Exception = other.exception_ != null ? other.Exception.Clone() : null;
     }
 
@@ -1227,6 +1604,20 @@ namespace Org.Apache.REEF.Bridge.Proto {
       }
     }
 
+    /// <summary>Field number for the "evaluator_descriptor_info" field.</summary>
+    public const int EvaluatorDescriptorInfoFieldNumber = 4;
+    private global::Org.Apache.REEF.Bridge.Proto.EvaluatorDescriptorInfo evaluatorDescriptorInfo_;
+    /// <summary>
+    /// Carry this with us for driver restart
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Org.Apache.REEF.Bridge.Proto.EvaluatorDescriptorInfo EvaluatorDescriptorInfo {
+      get { return evaluatorDescriptorInfo_; }
+      set {
+        evaluatorDescriptorInfo_ = value;
+      }
+    }
+
     /// <summary>Field number for the "exception" field.</summary>
     public const int ExceptionFieldNumber = 5;
     private global::Org.Apache.REEF.Bridge.Proto.ExceptionInfo exception_;
@@ -1257,6 +1648,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
       if (ContextId != other.ContextId) return false;
       if (EvaluatorId != other.EvaluatorId) return false;
       if (ParentId != other.ParentId) return false;
+      if (!object.Equals(EvaluatorDescriptorInfo, other.EvaluatorDescriptorInfo)) return false;
       if (!object.Equals(Exception, other.Exception)) return false;
       return true;
     }
@@ -1267,6 +1659,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
       if (ContextId.Length != 0) hash ^= ContextId.GetHashCode();
       if (EvaluatorId.Length != 0) hash ^= EvaluatorId.GetHashCode();
       if (ParentId.Length != 0) hash ^= ParentId.GetHashCode();
+      if (evaluatorDescriptorInfo_ != null) hash ^= EvaluatorDescriptorInfo.GetHashCode();
       if (exception_ != null) hash ^= Exception.GetHashCode();
       return hash;
     }
@@ -1290,6 +1683,10 @@ namespace Org.Apache.REEF.Bridge.Proto {
         output.WriteRawTag(26);
         output.WriteString(ParentId);
       }
+      if (evaluatorDescriptorInfo_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(EvaluatorDescriptorInfo);
+      }
       if (exception_ != null) {
         output.WriteRawTag(42);
         output.WriteMessage(Exception);
@@ -1307,6 +1704,9 @@ namespace Org.Apache.REEF.Bridge.Proto {
       }
       if (ParentId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ParentId);
+      }
+      if (evaluatorDescriptorInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EvaluatorDescriptorInfo);
       }
       if (exception_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Exception);
@@ -1327,6 +1727,12 @@ namespace Org.Apache.REEF.Bridge.Proto {
       }
       if (other.ParentId.Length != 0) {
         ParentId = other.ParentId;
+      }
+      if (other.evaluatorDescriptorInfo_ != null) {
+        if (evaluatorDescriptorInfo_ == null) {
+          evaluatorDescriptorInfo_ = new global::Org.Apache.REEF.Bridge.Proto.EvaluatorDescriptorInfo();
+        }
+        EvaluatorDescriptorInfo.MergeFrom(other.EvaluatorDescriptorInfo);
       }
       if (other.exception_ != null) {
         if (exception_ == null) {
@@ -1356,6 +1762,13 @@ namespace Org.Apache.REEF.Bridge.Proto {
             ParentId = input.ReadString();
             break;
           }
+          case 34: {
+            if (evaluatorDescriptorInfo_ == null) {
+              evaluatorDescriptorInfo_ = new global::Org.Apache.REEF.Bridge.Proto.EvaluatorDescriptorInfo();
+            }
+            input.ReadMessage(evaluatorDescriptorInfo_);
+            break;
+          }
           case 42: {
             if (exception_ == null) {
               exception_ = new global::Org.Apache.REEF.Bridge.Proto.ExceptionInfo();
@@ -1376,7 +1789,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[7]; }
+      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1577,7 +1990,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[8]; }
+      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1595,8 +2008,8 @@ namespace Org.Apache.REEF.Bridge.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public TaskInfo(TaskInfo other) : this() {
       taskId_ = other.taskId_;
-      contextId_ = other.contextId_;
       result_ = other.result_;
+      Context = other.context_ != null ? other.Context.Clone() : null;
       Exception = other.exception_ != null ? other.Exception.Clone() : null;
     }
 
@@ -1608,6 +2021,9 @@ namespace Org.Apache.REEF.Bridge.Proto {
     /// <summary>Field number for the "task_id" field.</summary>
     public const int TaskIdFieldNumber = 1;
     private string taskId_ = "";
+    /// <summary>
+    /// Task identifier.
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string TaskId {
       get { return taskId_; }
@@ -1616,20 +2032,12 @@ namespace Org.Apache.REEF.Bridge.Proto {
       }
     }
 
-    /// <summary>Field number for the "context_id" field.</summary>
-    public const int ContextIdFieldNumber = 2;
-    private string contextId_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string ContextId {
-      get { return contextId_; }
-      set {
-        contextId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
     /// <summary>Field number for the "result" field.</summary>
-    public const int ResultFieldNumber = 3;
+    public const int ResultFieldNumber = 2;
     private pb::ByteString result_ = pb::ByteString.Empty;
+    /// <summary>
+    /// Task result.
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pb::ByteString Result {
       get { return result_; }
@@ -1638,9 +2046,27 @@ namespace Org.Apache.REEF.Bridge.Proto {
       }
     }
 
+    /// <summary>Field number for the "context" field.</summary>
+    public const int ContextFieldNumber = 5;
+    private global::Org.Apache.REEF.Bridge.Proto.ContextInfo context_;
+    /// <summary>
+    /// Carry entire context info since client may not have received it
+    /// when submitting task against allocated evalautor.
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::Org.Apache.REEF.Bridge.Proto.ContextInfo Context {
+      get { return context_; }
+      set {
+        context_ = value;
+      }
+    }
+
     /// <summary>Field number for the "exception" field.</summary>
-    public const int ExceptionFieldNumber = 5;
+    public const int ExceptionFieldNumber = 10;
     private global::Org.Apache.REEF.Bridge.Proto.ExceptionInfo exception_;
+    /// <summary>
+    /// Possible exception encountered in task execution.
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::Org.Apache.REEF.Bridge.Proto.ExceptionInfo Exception {
       get { return exception_; }
@@ -1663,8 +2089,8 @@ namespace Org.Apache.REEF.Bridge.Proto {
         return true;
       }
       if (TaskId != other.TaskId) return false;
-      if (ContextId != other.ContextId) return false;
       if (Result != other.Result) return false;
+      if (!object.Equals(Context, other.Context)) return false;
       if (!object.Equals(Exception, other.Exception)) return false;
       return true;
     }
@@ -1673,8 +2099,8 @@ namespace Org.Apache.REEF.Bridge.Proto {
     public override int GetHashCode() {
       int hash = 1;
       if (TaskId.Length != 0) hash ^= TaskId.GetHashCode();
-      if (ContextId.Length != 0) hash ^= ContextId.GetHashCode();
       if (Result.Length != 0) hash ^= Result.GetHashCode();
+      if (context_ != null) hash ^= Context.GetHashCode();
       if (exception_ != null) hash ^= Exception.GetHashCode();
       return hash;
     }
@@ -1690,16 +2116,16 @@ namespace Org.Apache.REEF.Bridge.Proto {
         output.WriteRawTag(10);
         output.WriteString(TaskId);
       }
-      if (ContextId.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(ContextId);
-      }
       if (Result.Length != 0) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(18);
         output.WriteBytes(Result);
       }
-      if (exception_ != null) {
+      if (context_ != null) {
         output.WriteRawTag(42);
+        output.WriteMessage(Context);
+      }
+      if (exception_ != null) {
+        output.WriteRawTag(82);
         output.WriteMessage(Exception);
       }
     }
@@ -1710,11 +2136,11 @@ namespace Org.Apache.REEF.Bridge.Proto {
       if (TaskId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(TaskId);
       }
-      if (ContextId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(ContextId);
-      }
       if (Result.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeBytesSize(Result);
+      }
+      if (context_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Context);
       }
       if (exception_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Exception);
@@ -1730,11 +2156,14 @@ namespace Org.Apache.REEF.Bridge.Proto {
       if (other.TaskId.Length != 0) {
         TaskId = other.TaskId;
       }
-      if (other.ContextId.Length != 0) {
-        ContextId = other.ContextId;
-      }
       if (other.Result.Length != 0) {
         Result = other.Result;
+      }
+      if (other.context_ != null) {
+        if (context_ == null) {
+          context_ = new global::Org.Apache.REEF.Bridge.Proto.ContextInfo();
+        }
+        Context.MergeFrom(other.Context);
       }
       if (other.exception_ != null) {
         if (exception_ == null) {
@@ -1757,14 +2186,17 @@ namespace Org.Apache.REEF.Bridge.Proto {
             break;
           }
           case 18: {
-            ContextId = input.ReadString();
-            break;
-          }
-          case 26: {
             Result = input.ReadBytes();
             break;
           }
           case 42: {
+            if (context_ == null) {
+              context_ = new global::Org.Apache.REEF.Bridge.Proto.ContextInfo();
+            }
+            input.ReadMessage(context_);
+            break;
+          }
+          case 82: {
             if (exception_ == null) {
               exception_ = new global::Org.Apache.REEF.Bridge.Proto.ExceptionInfo();
             }
@@ -1784,7 +2216,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[9]; }
+      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2013,7 +2445,7 @@ namespace Org.Apache.REEF.Bridge.Proto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[10]; }
+      get { return global::Org.Apache.REEF.Bridge.Proto.DriverClientProtocolReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

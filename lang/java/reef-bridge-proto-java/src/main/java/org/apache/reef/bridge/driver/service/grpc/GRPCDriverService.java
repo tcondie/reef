@@ -214,15 +214,6 @@ public final class GRPCDriverService implements IDriverService {
   }
 
   /**
-   * Await termination on the main thread since the grpc library uses daemon threads.
-   */
-  private void blockUntilShutdown() throws InterruptedException {
-    if (server != null) {
-      server.awaitTermination();
-    }
-  }
-
-  /**
    * Determines if the driver process is still alive by
    * testing for its exit value, which throws {@link IllegalThreadStateException}
    * if process is still running.
@@ -682,7 +673,7 @@ public final class GRPCDriverService implements IDriverService {
         final StreamObserver<Void> responseObserver) {
       try {
         synchronized (GRPCDriverService.this) {
-          GRPCDriverService.this.clock.scheduleAlarm(request.getTimeoutMs(), new EventHandler<Alarm>() {
+          GRPCDriverService.this.clock.scheduleAlarm((int) request.getTimeoutMs(), new EventHandler<Alarm>() {
             @Override
             public void onNext(final Alarm value) {
               synchronized (GRPCDriverService.this) {

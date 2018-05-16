@@ -15,14 +15,24 @@
 // specific language governing permissions and limitations
 // under the License.
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Org.Apache.REEF.Bridge.Client
+namespace Org.Apache.REEF.Bridge.Client.DotNet
 {
-    class Program
+    interface IDriverClientService
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
+        /// <summary>
+        /// Start the driver client service.
+        /// </summary>
+        void start();
+
+
+        /// <summary>
+        /// Await for termination.
+        /// </summary>
+        void awaitTermination();
     }
 }

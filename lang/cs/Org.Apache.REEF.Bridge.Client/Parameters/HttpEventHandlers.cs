@@ -15,14 +15,19 @@
 // specific language governing permissions and limitations
 // under the License.
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Org.Apache.REEF.Driver.Bridge;
+using Org.Apache.REEF.Driver.Defaults;
+using Org.Apache.REEF.Tang.Annotations;
 
-namespace Org.Apache.REEF.Bridge.Client
+namespace Org.Apache.REEF.Bridge.Client.DotNet.Parameters
 {
-    class Program
+
+    [NamedParameter(documentation: "Http Event Handlers.", defaultClasses: new[] { typeof(DefaultHttpHandler) })]
+    internal sealed class HttpEventHandlers : Name<ISet<IHttpHandler>>
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
     }
 }

@@ -15,14 +15,18 @@
 // specific language governing permissions and limitations
 // under the License.
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Org.Apache.REEF.Driver.Context;
+using Org.Apache.REEF.Driver.Defaults;
+using Org.Apache.REEF.Tang.Annotations;
 
-namespace Org.Apache.REEF.Bridge.Client
+namespace Org.Apache.REEF.Bridge.Client.DotNet.Parameters
 {
-    class Program
+    [NamedParameter(documentation: "Handler for IActiveContext.", defaultClasses: new[] { typeof(DefaultContextActiveHandler) })]
+    internal sealed class ActiveContextHandlers : Name<ISet<IObserver<IActiveContext>>>
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
     }
 }

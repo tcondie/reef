@@ -86,7 +86,7 @@ message AlarmRequest {
   string alarm_id = 1;
 
   // timeout in milliseconds
-  int32 timeout_ms = 2;
+  int64 timeout_ms = 2;
 }
 
 message ShutdownRequest {

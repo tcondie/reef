@@ -15,14 +15,19 @@
 // specific language governing permissions and limitations
 // under the License.
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Org.Apache.REEF.Driver.Defaults;
+using Org.Apache.REEF.Driver.Task;
+using Org.Apache.REEF.Tang.Annotations;
 
-namespace Org.Apache.REEF.Bridge.Client
+namespace Org.Apache.REEF.Bridge.Client.DotNet.Parameters
 {
-    class Program
+    [NamedParameter(documentation: "Completed task handler.",
+        defaultClasses: new[] {typeof(DefaultTaskCompletionHandler)})]
+    internal sealed class CompletedTaskHandlers : Name<ISet<IObserver<ICompletedTask>>>
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
     }
 }

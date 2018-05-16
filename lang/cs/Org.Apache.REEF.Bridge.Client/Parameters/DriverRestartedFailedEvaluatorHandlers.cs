@@ -15,14 +15,15 @@
 // specific language governing permissions and limitations
 // under the License.
 using System;
+using System.Collections.Generic;
+using Org.Apache.REEF.Driver.Defaults;
+using Org.Apache.REEF.Driver.Evaluator;
+using Org.Apache.REEF.Tang.Annotations;
 
-namespace Org.Apache.REEF.Bridge.Client
+namespace Org.Apache.REEF.Bridge.Client.DotNet.Parameters
 {
-    class Program
+    [NamedParameter(documentation: "Called when an evaluator has failed in the Driver Restart process.", defaultClasses: new[] { typeof(DefaultEvaluatorFailureHandler) })]
+    public sealed class DriverRestartFailedEvaluatorHandlers : Name<ISet<IObserver<IFailedEvaluator>>>
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
     }
 }

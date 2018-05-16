@@ -15,14 +15,16 @@
 // specific language governing permissions and limitations
 // under the License.
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Org.Apache.REEF.Tang.Annotations;
 
-namespace Org.Apache.REEF.Bridge.Client
+namespace Org.Apache.REEF.Bridge.Client.DotNet.Parameters
 {
-    class Program
+    [NamedParameter("Evaluator recovery timeout for driver restart in seconds. > 0 => restart is enabled.", "DriverRestartEvaluatorRecoverySeconds", "-1")]
+    internal sealed class DriverRestartEvaluatorRecoverySeconds : Name<int>
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
     }
 }
