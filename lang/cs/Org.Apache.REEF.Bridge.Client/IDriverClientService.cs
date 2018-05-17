@@ -27,12 +27,12 @@ namespace Org.Apache.REEF.Bridge.Client.DotNet
         /// <summary>
         /// Start the driver client service.
         /// </summary>
-        void start();
+        void Start();
 
 
         /// <summary>
         /// Await for termination.
         /// </summary>
-        void awaitTermination();
+        void AwaitTermination();
     }
 }

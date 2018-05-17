@@ -238,6 +238,11 @@ public final class GRPCDriverService implements IDriverService {
           .setCores(descriptor.getNumberOfCores())
           .setMemory(descriptor.getMemory())
           .setRuntimeName(descriptor.getRuntimeName())
+          .setNodeDescriptor(EvaluatorDescriptorInfo.NodeDescriptor.newBuilder()
+              .setIpAddress(descriptor.getNodeDescriptor().getInetSocketAddress().toString())
+              .setHostname(descriptor.getNodeDescriptor().getInetSocketAddress().getHostName())
+              .setPort(descriptor.getNodeDescriptor().getInetSocketAddress().getPort())
+              .build())
           .build();
     }
   }

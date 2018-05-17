@@ -94,12 +94,12 @@ namespace Org.Apache.REEF.Bridge.Client.DotNet.Grpc
 
 #pragma IDriverClientService
 
-        public void start()
+        public void Start()
         {
             _driverServiceClient.RegisterDriverClientService("localhost", _serverPort);
         }
 
-        public void awaitTermination()
+        public void AwaitTermination()
         {
             _server.ShutdownTask.GetAwaiter().GetResult();
         }
