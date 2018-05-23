@@ -16,7 +16,41 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+package org.apache.reef.bridge.driver.client.events;
+
+import org.apache.reef.driver.context.ActiveContext;
+import org.apache.reef.driver.task.SuspendedTask;
+
 /**
- * Driver launchers for the bridge service on various runtimes.
+ * Suspended task bridge.
  */
-package org.apache.reef.bridge.driver.launch;
+public final class SuspendedTaskBridge implements SuspendedTask {
+
+  private final String taskId;
+
+  private final ActiveContext context;
+
+  private final byte[] result;
+
+  public SuspendedTaskBridge(final String taskId, final ActiveContext context, final byte[] result) {
+    this.taskId = taskId;
+    this.context = context;
+    this.result = result;
+  }
+
+  @Override
+  public ActiveContext getActiveContext() {
+    return this.context;
+  }
+
+  @Override
+  public byte[] get() {
+    return this.result;
+  }
+
+  @Override
+  public String getId() {
+    return this.taskId;
+  }
+}

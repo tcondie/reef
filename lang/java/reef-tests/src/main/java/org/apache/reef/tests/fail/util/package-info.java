@@ -17,6 +17,6 @@
  * under the License.
  */
 /**
- * Driver launchers for the bridge service on various runtimes.
+ * Utility classes for fail tests.
  */
-package org.apache.reef.bridge.driver.launch;
+package org.apache.reef.tests.fail.util;
