@@ -82,7 +82,7 @@ public final class FailBridgeClientUtils {
         .setJavaPath("java")
         .setClassPath(driverClientConfigurationProto.getOperatingSystem() ==
             ClientProtocol.DriverClientConfiguration.OS.WINDOWS ?
-            "\"" + StringUtils.join(classpathProvider.getDriverClasspath(), ";") + "\"" :
+            StringUtils.join(classpathProvider.getDriverClasspath(), ";") :
             StringUtils.join(classpathProvider.getDriverClasspath(), ":"))
         .build();
     final String cmd = StringUtils.join(launchCommand, ' ');
