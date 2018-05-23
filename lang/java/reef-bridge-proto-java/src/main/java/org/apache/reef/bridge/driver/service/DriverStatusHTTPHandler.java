@@ -30,7 +30,6 @@ import org.apache.reef.webserver.HttpHandler;
 import org.apache.reef.webserver.ParsedHttpRequest;
 
 import javax.inject.Inject;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -118,7 +117,7 @@ public final class DriverStatusHTTPHandler implements HttpHandler, JobStatusHand
 
   @Override
   public void onHttpRequest(final ParsedHttpRequest parsedHttpRequest, final HttpServletResponse response)
-      throws IOException, ServletException {
+      throws IOException {
     try (final PrintWriter writer = response.getWriter()) {
       writer.write(waitAndGetMessage());
       this.wasCalledViaHTTP = true;
