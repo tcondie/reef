@@ -40,8 +40,9 @@ under the License.
 
         <!-- library versions -->
         <maven.assembly>3.1.0</maven.assembly>
-        <grpc.version>1.10.0</grpc.version><!-- CURRENT_GRPC_VERSION -->
-        <netty.version>4.1.17.Final</netty.version>
+        <grpc.version>1.12.0</grpc.version><!-- CURRENT_GRPC_VERSION -->
+        <guava.version>20.0</guava.version>
+        <netty.version>4.1.25.Final</netty.version>
         <build-helper-maven-plugin.version>1.9.1</build-helper-maven-plugin.version>
         <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
         <maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
@@ -100,14 +101,16 @@ under the License.
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>20.0</version>
+            <version>${guava.version}</version>
+            <!-- declare the exclusion here
             <scope>compile</scope>
             <exclusions>
-                <exclusion>  <!-- declare the exclusion here -->
+                <exclusion>
                     <groupId>com.google.guava</groupId>
                     <artifactId>guava</artifactId>
                 </exclusion>
             </exclusions>
+            -->
         </dependency>
         <dependency>
             <groupId>org.apache.reef</groupId>
