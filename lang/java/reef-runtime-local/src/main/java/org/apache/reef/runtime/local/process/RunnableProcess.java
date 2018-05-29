@@ -188,6 +188,7 @@ public final class RunnableProcess implements Runnable {
             "Launching process \"{0}\"\nSTDERR can be found in {1}\nSTDOUT can be found in {2}",
             new Object[] {this.id, errFile.getAbsolutePath(), outFile.getAbsolutePath()});
 
+        LOG.log(Level.FINEST, "Process command: {0}", this.command);
         this.process = new ProcessBuilder()
             .command(this.command)
             .directory(this.folder)
